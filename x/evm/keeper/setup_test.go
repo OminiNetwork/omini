@@ -9,12 +9,12 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/ethereum/go-ethereum/params"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
-	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
+	"github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	"github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
+	feemarkettypes "github.com/omini/omini/v20/x/feemarket/types"
 	"github.com/stretchr/testify/suite"
 )
 

@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package utils
 
@@ -10,9 +10,9 @@ import (
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	erc20types "github.com/evmos/evmos/v20/x/erc20/types"
+	"github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	erc20types "github.com/omini/omini/v20/x/erc20/types"
 )
 
 // ERC20RegistrationData is the necessary data to provide in order to register an ERC20 token.

@@ -3,13 +3,13 @@ import re
 import pytest
 
 from .ibc_utils import (
-    EVMOS_IBC_DENOM,
+    omini_IBC_DENOM,
     assert_ready,
     get_balance,
     get_balances,
     prepare_network,
 )
-from .network import Evmos
+from .network import omini
 from .utils import (
     ADDRS,
     CONTRACTS,
@@ -23,15 +23,15 @@ from .utils import (
 )
 
 
-@pytest.fixture(scope="module", params=["evmos", "evmos-6dec", "evmos-rocksdb"])
+@pytest.fixture(scope="module", params=["omini", "omini-6dec", "omini-rocksdb"])
 def ibc(request, tmp_path_factory):
     """
     Prepares the network.
     """
     name = "ibc-precompile"
-    evmos_build = request.param
+    omini_build = request.param
     path = tmp_path_factory.mktemp(name)
-    network = prepare_network(path, name, [evmos_build, "chainmain"])
+    network = prepare_network(path, name, [omini_build, "chainmain"])
     yield from network
 
 
@@ -44,15 +44,15 @@ def test_ibc_transfer(ibc):
     dst_addr = ibc.chains["chainmain"].cosmos_cli().address("signer2")
     amt = 1000000
 
-    cli = ibc.chains["evmos"].cosmos_cli()
+    cli = ibc.chains["omini"].cosmos_cli()
     src_addr = cli.address("signer2")
-    src_denom = "aevmos"
+    src_denom = "aomini"
 
-    old_src_balances = get_balances(ibc.chains["evmos"], src_addr)
+    old_src_balances = get_balances(ibc.chains["omini"], src_addr)
     old_dst_balances = get_balances(ibc.chains["chainmain"], dst_addr)
 
-    pc = get_precompile_contract(ibc.chains["evmos"].w3, "ICS20I")
-    evmos_gas_price = ibc.chains["evmos"].w3.eth.gas_price
+    pc = get_precompile_contract(ibc.chains["omini"].w3, "ICS20I")
+    omini_gas_price = ibc.chains["omini"].w3.eth.gas_price
 
     tx = pc.functions.transfer(
         "transfer",
@@ -67,11 +67,11 @@ def test_ibc_transfer(ibc):
     ).build_transaction(
         {
             "from": ADDRS["signer2"],
-            "gasPrice": evmos_gas_price,
+            "gasPrice": omini_gas_price,
         }
     )
-    gas_estimation = ibc.chains["evmos"].w3.eth.estimate_gas(tx)
-    receipt = send_transaction(ibc.chains["evmos"].w3, tx, KEYS["signer2"])
+    gas_estimation = ibc.chains["omini"].w3.eth.estimate_gas(tx)
+    receipt = send_transaction(ibc.chains["omini"].w3, tx, KEYS["signer2"])
 
     assert receipt.status == 1
 
@@ -94,7 +94,7 @@ def test_ibc_transfer(ibc):
     # check gas estimation is accurate
     assert receipt.gasUsed == gas_estimation
 
-    fee = get_fee(cli, evmos_gas_price, gas_estimation, receipt.gasUsed)
+    fee = get_fee(cli, omini_gas_price, gas_estimation, receipt.gasUsed)
     fee_denom = cli.evm_denom()
 
     new_dst_balances = []
@@ -102,15 +102,15 @@ def test_ibc_transfer(ibc):
     def check_balance_change():
         nonlocal new_dst_balances
         new_dst_balances = get_balances(ibc.chains["chainmain"], dst_addr)
-        return amount_of(old_dst_balances, EVMOS_IBC_DENOM) != amount_of(
-            new_dst_balances, EVMOS_IBC_DENOM
+        return amount_of(old_dst_balances, omini_IBC_DENOM) != amount_of(
+            new_dst_balances, omini_IBC_DENOM
         )
 
     wait_for_fn("balance change", check_balance_change)
-    assert amount_of(old_dst_balances, EVMOS_IBC_DENOM) + amt == amount_of(
-        new_dst_balances, EVMOS_IBC_DENOM
+    assert amount_of(old_dst_balances, omini_IBC_DENOM) + amt == amount_of(
+        new_dst_balances, omini_IBC_DENOM
     )
-    new_src_balances = get_balances(ibc.chains["evmos"], src_addr)
+    new_src_balances = get_balances(ibc.chains["omini"], src_addr)
     old_src_denom_amt = amount_of(old_src_balances, src_denom)
     new_src_denom_amt = amount_of(new_src_balances, src_denom)
     if fee_denom == src_denom:
@@ -139,14 +139,14 @@ def test_ibc_transfer_invalid_packet(ibc):
     dst_addr = ibc.chains["chainmain"].cosmos_cli().address("signer2")
     amt = 1000000
 
-    cli = ibc.chains["evmos"].cosmos_cli()
+    cli = ibc.chains["omini"].cosmos_cli()
     src_addr = cli.address("signer2")
-    src_denom = "aevmos"
+    src_denom = "aomini"
 
-    old_src_balance = get_balance(ibc.chains["evmos"], src_addr, src_denom)
+    old_src_balance = get_balance(ibc.chains["omini"], src_addr, src_denom)
 
-    pc = get_precompile_contract(ibc.chains["evmos"].w3, "ICS20I")
-    evmos_gas_price = ibc.chains["evmos"].w3.eth.gas_price
+    pc = get_precompile_contract(ibc.chains["omini"].w3, "ICS20I")
+    omini_gas_price = ibc.chains["omini"].w3.eth.gas_price
 
     try:
         tx = pc.functions.transfer(
@@ -159,12 +159,12 @@ def test_ibc_transfer_invalid_packet(ibc):
             [0, 0],
             0,
             "",
-        ).build_transaction({"from": ADDRS["signer2"], "gasPrice": evmos_gas_price})
-        send_transaction(ibc.chains["evmos"].w3, tx, KEYS["signer2"])
+        ).build_transaction({"from": ADDRS["signer2"], "gasPrice": omini_gas_price})
+        send_transaction(ibc.chains["omini"].w3, tx, KEYS["signer2"])
     except Exception as error:
         assert error.args[0]["message"] == f"rpc error: code = Unknown desc = {exp_err}"
 
-        new_src_balance = get_balance(ibc.chains["evmos"], src_addr, src_denom)
+        new_src_balance = get_balance(ibc.chains["omini"], src_addr, src_denom)
         assert old_src_balance == new_src_balance
 
 
@@ -183,14 +183,14 @@ def test_ibc_transfer_timeout(ibc):
     dst_addr = ibc.chains["chainmain"].cosmos_cli().address("signer2")
     amt = 1000000
 
-    cli = ibc.chains["evmos"].cosmos_cli()
+    cli = ibc.chains["omini"].cosmos_cli()
     src_addr = cli.address("signer2")
-    src_denom = "aevmos"
+    src_denom = "aomini"
 
-    old_src_balance = get_balance(ibc.chains["evmos"], src_addr, src_denom)
+    old_src_balance = get_balance(ibc.chains["omini"], src_addr, src_denom)
 
-    pc = get_precompile_contract(ibc.chains["evmos"].w3, "ICS20I")
-    evmos_gas_price = ibc.chains["evmos"].w3.eth.gas_price
+    pc = get_precompile_contract(ibc.chains["omini"].w3, "ICS20I")
+    omini_gas_price = ibc.chains["omini"].w3.eth.gas_price
 
     try:
         tx = pc.functions.transfer(
@@ -203,35 +203,35 @@ def test_ibc_transfer_timeout(ibc):
             [0, 0],
             1000,
             "",
-        ).build_transaction({"from": ADDRS["signer2"], "gasPrice": evmos_gas_price})
-        send_transaction(ibc.chains["evmos"].w3, tx, KEYS["signer2"])
+        ).build_transaction({"from": ADDRS["signer2"], "gasPrice": omini_gas_price})
+        send_transaction(ibc.chains["omini"].w3, tx, KEYS["signer2"])
     except Exception as error:
         assert re.search(exp_err, error.args[0]["message"]) is not None
 
-        new_src_balance = get_balance(ibc.chains["evmos"], src_addr, src_denom)
+        new_src_balance = get_balance(ibc.chains["omini"], src_addr, src_denom)
         assert old_src_balance == new_src_balance
 
 
 def test_staking(ibc):
     assert_ready(ibc)
 
-    evmos: Evmos = ibc.chains["evmos"]
-    w3 = evmos.w3
+    omini: omini = ibc.chains["omini"]
+    w3 = omini.w3
     amt = 1000000
-    cli = evmos.cosmos_cli()
+    cli = omini.cosmos_cli()
     del_addr = cli.address("signer2")
-    src_denom = "aevmos"
+    src_denom = "aomini"
     validator_addr = cli.validators()[0]["operator_address"]
 
-    old_src_balances = get_balances(evmos, del_addr)
+    old_src_balances = get_balances(omini, del_addr)
 
     pc = get_precompile_contract(w3, "StakingI")
-    evmos_gas_price = w3.eth.gas_price
+    omini_gas_price = w3.eth.gas_price
 
     tx = pc.functions.delegate(ADDRS["signer2"], validator_addr, amt).build_transaction(
-        {"from": ADDRS["signer2"], "gasPrice": evmos_gas_price}
+        {"from": ADDRS["signer2"], "gasPrice": omini_gas_price}
     )
-    gas_estimation = evmos.w3.eth.estimate_gas(tx)
+    gas_estimation = omini.w3.eth.estimate_gas(tx)
     receipt = send_transaction(w3, tx, KEYS["signer2"])
 
     assert receipt.status == 1
@@ -239,14 +239,14 @@ def test_staking(ibc):
     assert receipt.gasUsed == gas_estimation
 
     fee_denom = cli.evm_denom()
-    fee = get_fee(cli, evmos_gas_price, gas_estimation, receipt.gasUsed)
+    fee = get_fee(cli, omini_gas_price, gas_estimation, receipt.gasUsed)
 
     delegations = cli.get_delegated_amount(del_addr)["delegation_responses"]
     assert len(delegations) == 1
     assert delegations[0]["delegation"]["validator_address"] == validator_addr
     assert int(delegations[0]["balance"]["amount"]) == amt
 
-    new_src_balances = get_balances(evmos, del_addr)
+    new_src_balances = get_balances(omini, del_addr)
 
     old_src_denom_amt = amount_of(old_src_balances, src_denom)
     new_src_denom_amt = amount_of(new_src_balances, src_denom)
@@ -264,29 +264,29 @@ def test_staking(ibc):
 def test_staking_via_sc(ibc):
     assert_ready(ibc)
 
-    evmos: Evmos = ibc.chains["evmos"]
-    w3 = evmos.w3
+    omini: omini = ibc.chains["omini"]
+    w3 = omini.w3
     amt = 1000000
-    cli = evmos.cosmos_cli()
+    cli = omini.cosmos_cli()
     del_addr = cli.address("signer1")
-    src_denom = "aevmos"
+    src_denom = "aomini"
     validator_addr = cli.validators()[0]["operator_address"]
     fee_denom = cli.evm_denom()
 
-    old_src_balances = get_balances(evmos, del_addr)
+    old_src_balances = get_balances(omini, del_addr)
 
     contract, receipt = deploy_contract(w3, CONTRACTS["StakingCaller"])
-    evmos_gas_price = w3.eth.gas_price
+    omini_gas_price = w3.eth.gas_price
 
     # create grant - need to specify gas otherwise will fail with out of gas
     gas_wanted = 60000
     approve_tx = contract.functions.testApprove(
         receipt.contractAddress, ["/cosmos.staking.v1beta1.MsgDelegate"], amt
     ).build_transaction(
-        {"from": ADDRS["signer1"], "gasPrice": evmos_gas_price, "gas": gas_wanted}
+        {"from": ADDRS["signer1"], "gasPrice": omini_gas_price, "gas": gas_wanted}
     )
 
-    gas_estimation = evmos.w3.eth.estimate_gas(approve_tx)
+    gas_estimation = omini.w3.eth.estimate_gas(approve_tx)
     receipt = send_transaction(w3, approve_tx, KEYS["signer1"])
 
     assert receipt.status == 1
@@ -296,16 +296,16 @@ def test_staking_via_sc(ibc):
     # FIXME gas estimation > than gasUsed. Should be equal
     # assert receipt.gasUsed == gas_estimation
 
-    fee1 = get_fee(cli, evmos_gas_price, gas_wanted, receipt.gasUsed)
+    fee1 = get_fee(cli, omini_gas_price, gas_wanted, receipt.gasUsed)
 
     # delegate - need to specify gas otherwise will fail with out of gas
     gas_wanted = 180000
     delegate_tx = contract.functions.testDelegate(
         ADDRS["signer1"], validator_addr, amt
     ).build_transaction(
-        {"from": ADDRS["signer1"], "gasPrice": evmos_gas_price, "gas": gas_wanted}
+        {"from": ADDRS["signer1"], "gasPrice": omini_gas_price, "gas": gas_wanted}
     )
-    gas_estimation = evmos.w3.eth.estimate_gas(delegate_tx)
+    gas_estimation = omini.w3.eth.estimate_gas(delegate_tx)
     receipt = send_transaction(w3, delegate_tx, KEYS["signer1"])
 
     assert receipt.status == 1
@@ -315,7 +315,7 @@ def test_staking_via_sc(ibc):
     # FIXME gas estimation > than gasUsed. Should be equal
     # assert receipt.gasUsed == gas_estimation
 
-    fee2 = get_fee(cli, evmos_gas_price, gas_wanted, receipt.gasUsed)
+    fee2 = get_fee(cli, omini_gas_price, gas_wanted, receipt.gasUsed)
 
     fees = fee1 + fee2
 
@@ -324,7 +324,7 @@ def test_staking_via_sc(ibc):
     assert delegations[0]["delegation"]["validator_address"] == validator_addr
     assert int(delegations[0]["balance"]["amount"]) == amt
 
-    new_src_balances = get_balances(evmos, del_addr)
+    new_src_balances = get_balances(omini, del_addr)
 
     old_src_denom_amt = amount_of(old_src_balances, src_denom)
     new_src_denom_amt = amount_of(new_src_balances, src_denom)

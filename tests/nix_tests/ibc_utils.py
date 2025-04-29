@@ -8,51 +8,51 @@ from pystarport import ports
 from .network import (
     CosmosChain,
     Hermes,
-    build_patched_evmosd,
+    build_patched_ominid,
     create_snapshots_dir,
-    setup_custom_evmos,
+    setup_custom_omini,
 )
 from .utils import (
     ADDRS,
-    EVMOS_6DEC_CHAIN_ID,
+    omini_6DEC_CHAIN_ID,
     eth_to_bech32,
     evm6dec_ibc_config,
     memiavl_config,
     setup_stride,
-    update_evmos_bin,
-    update_evmosd_and_setup_stride,
+    update_omini_bin,
+    update_ominid_and_setup_stride,
     wait_for_fn,
     wait_for_port,
 )
 
-# aevmos IBC representation on another chain connected via channel-0.
-EVMOS_IBC_DENOM = "ibc/8EAC8061F4499F03D2D1419A3E73D346289AE9DB89CAB1486B72539572B1915E"
-# uosmo IBC representation on the Evmos chain.
+# aomini IBC representation on another chain connected via channel-0.
+omini_IBC_DENOM = "ibc/8EAC8061F4499F03D2D1419A3E73D346289AE9DB89CAB1486B72539572B1915E"
+# uosmo IBC representation on the omini chain.
 OSMO_IBC_DENOM = "ibc/ED07A3391A112B175915CD8FAF43A2DA8E4790EDE12566649D0C2F97716B8518"
 # cro IBC representation on another chain connected via channel-0.
 BASECRO_IBC_DENOM = (
     "ibc/6411AE2ADA1E73DB59DB151A8988F9B7D5E7E233D8414DB6817F8F1A01611F86"
 )
-# uatom from cosmoshub-1 IBC representation on the Evmos chain and on Cosmos Hub 2 chain.
+# uatom from cosmoshub-1 IBC representation on the omini chain and on Cosmos Hub 2 chain.
 ATOM_IBC_DENOM = "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2"
 
 RATIO = 10**10
 # IBC_CHAINS_META metadata of cosmos chains to setup these for IBC tests
 IBC_CHAINS_META = {
-    "evmos": {
-        "chain_name": "evmos_9002-1",
-        "bin": "evmosd",
-        "denom": "aevmos",
+    "omini": {
+        "chain_name": "omini_9002-1",
+        "bin": "ominid",
+        "denom": "aomini",
     },
-    "evmos-6dec": {
-        "chain_name": "evmosics_9000-1",
-        "bin": "evmosd",
+    "omini-6dec": {
+        "chain_name": "ominiics_9000-1",
+        "bin": "ominid",
         "denom": "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2",
     },
-    "evmos-rocksdb": {
-        "chain_name": "evmos_9002-1",
-        "bin": "evmosd-rocksdb",
-        "denom": "aevmos",
+    "omini-rocksdb": {
+        "chain_name": "omini_9002-1",
+        "bin": "ominid-rocksdb",
+        "denom": "aomini",
     },
     "chainmain": {
         "chain_name": "chainmain-1",
@@ -80,7 +80,7 @@ IBC_CHAINS_META = {
         "denom": "uatom",
     },
 }
-EVM_CHAINS = ["evmos_9002", "evmosics_9000", "chainmain-1"]
+EVM_CHAINS = ["omini_9002", "ominiics_9000", "chainmain-1"]
 
 
 class IBCNetwork(NamedTuple):
@@ -88,7 +88,7 @@ class IBCNetwork(NamedTuple):
     hermes: Hermes
 
 
-def get_evmos_generator(
+def get_omini_generator(
     tmp_path: Path,
     file: str,
     is_rocksdb: bool = False,
@@ -97,33 +97,33 @@ def get_evmos_generator(
     custom_scenario: str | None = None,
 ):
     """
-    setup evmos with custom config
+    setup omini with custom config
     depending on the build
     """
     post_init_func = None
     if is_rocksdb:
         file = memiavl_config(tmp_path, file)
-        gen = setup_custom_evmos(
+        gen = setup_custom_omini(
             tmp_path,
             26710,
             Path(__file__).parent / file,
-            chain_binary="evmosd-rocksdb",
+            chain_binary="ominid-rocksdb",
             post_init=create_snapshots_dir,
         )
     elif is_6dec:
         file = evm6dec_ibc_config(tmp_path, file)
-        gen = setup_custom_evmos(
-            tmp_path, 56710, Path(__file__).parent / file, chain_id=EVMOS_6DEC_CHAIN_ID
+        gen = setup_custom_omini(
+            tmp_path, 56710, Path(__file__).parent / file, chain_id=omini_6DEC_CHAIN_ID
         )
     else:
         file = f"configs/{file}.jsonnet"
         if custom_scenario:
             # build the binary modified for a custom scenario
-            modified_bin = build_patched_evmosd(custom_scenario)
-            post_init_func = update_evmos_bin(modified_bin)
+            modified_bin = build_patched_ominid(custom_scenario)
+            post_init_func = update_omini_bin(modified_bin)
             if stride_included:
-                post_init_func = update_evmosd_and_setup_stride(modified_bin)
-            gen = setup_custom_evmos(
+                post_init_func = update_ominid_and_setup_stride(modified_bin)
+            gen = setup_custom_omini(
                 tmp_path,
                 26700,
                 Path(__file__).parent / file,
@@ -133,7 +133,7 @@ def get_evmos_generator(
         else:
             if stride_included:
                 post_init_func = setup_stride()
-            gen = setup_custom_evmos(
+            gen = setup_custom_omini(
                 tmp_path,
                 28700,
                 Path(__file__).parent / file,
@@ -161,12 +161,12 @@ def prepare_network(
         chain_name = meta["chain_name"]
         chains_to_connect.append(chain_name)
 
-        # evmos is the first chain
+        # omini is the first chain
         # set it up and the relayer
-        if "evmos" in chain_name:
-            # setup evmos with the custom config
+        if "omini" in chain_name:
+            # setup omini with the custom config
             # depending on the build
-            gen = get_evmos_generator(
+            gen = get_omini_generator(
                 tmp_path,
                 file,
                 "-rocksdb" in chain,
@@ -174,14 +174,14 @@ def prepare_network(
                 "stride" in chain_names,
                 custom_scenario,
             )
-            evmos = next(gen)  # pylint: disable=stop-iteration-return
+            omini = next(gen)  # pylint: disable=stop-iteration-return
 
             # setup relayer
             hermes = Hermes(tmp_path / "relayer.toml")
 
             # wait for grpc ready
-            wait_for_port(ports.grpc_port(evmos.base_port(0)))  # evmos grpc
-            chains["evmos"] = evmos
+            wait_for_port(ports.grpc_port(omini.base_port(0)))  # omini grpc
+            chains["omini"] = omini
             continue
 
         chain_instance = CosmosChain(tmp_path / chain_name, meta["bin"])
@@ -233,7 +233,7 @@ def prepare_network(
                 ]
             )
 
-    evmos.supervisorctl("start", "relayer-demo")
+    omini.supervisorctl("start", "relayer-demo")
     wait_for_port(hermes.port)
     yield IBCNetwork(chains, hermes)
 
@@ -250,13 +250,13 @@ def hermes_transfer(
     ibc,
     src_chain_name="chainmain-1",
     src_chain_denom="basecro",
-    dst_chain_name="evmos_9002-1",
+    dst_chain_name="omini_9002-1",
     src_amt=10,
     channel_id="channel-0",
 ):
     assert_ready(ibc)
     # defaults to:
-    # chainmain-1 -> evmos_9002-1
+    # chainmain-1 -> omini_9002-1
     dst_addr = eth_to_bech32(ADDRS["signer2"])
     cmd = (
         f"hermes --config {ibc.hermes.configpath} tx ft-transfer "
@@ -284,14 +284,14 @@ def get_balances(chain, addr):
 
 def setup_denom_trace(ibc):
     """
-    Helper setup function to send some funds from chain-main to evmos
+    Helper setup function to send some funds from chain-main to omini
     to register the denom trace (if not registered already)
     """
-    res = ibc.chains["evmos"].cosmos_cli().denom_traces()
+    res = ibc.chains["omini"].cosmos_cli().denom_traces()
     if len(res["denom_traces"]) == 0:
         amt = 100
         src_denom = "basecro"
-        dst_addr = ibc.chains["evmos"].cosmos_cli().address("signer2")
+        dst_addr = ibc.chains["omini"].cosmos_cli().address("signer2")
         src_addr = ibc.chains["chainmain"].cosmos_cli().address("signer2")
         rsp = (
             ibc.chains["chainmain"]
@@ -309,7 +309,7 @@ def setup_denom_trace(ibc):
 
         # wait for the ack and registering the denom trace
         def check_denom_trace_change():
-            res = ibc.chains["evmos"].cosmos_cli().denom_traces()
+            res = ibc.chains["omini"].cosmos_cli().denom_traces()
             return len(res["denom_traces"]) > 0
 
         wait_for_fn("denom trace registration", check_denom_trace_change)

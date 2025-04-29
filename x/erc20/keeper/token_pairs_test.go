@@ -5,8 +5,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
-	utiltx "github.com/evmos/evmos/v20/testutil/tx"
-	"github.com/evmos/evmos/v20/x/erc20/types"
+	utiltx "github.com/omini/omini/v20/testutil/tx"
+	"github.com/omini/omini/v20/x/erc20/types"
 )
 
 func (suite *KeeperTestSuite) TestGetTokenPairs() {

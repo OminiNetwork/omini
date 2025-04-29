@@ -45,20 +45,20 @@ from .utils import (
         ),
     ],
 )
-def test_fund_community_pool(evmos_cluster, name, deposit_amt, args, err_contains):
+def test_fund_community_pool(omini_cluster, name, deposit_amt, args, err_contains):
     """
     Test the fundCommunityPool function of the distribution
     precompile calling it from another precompile
     """
     gas_limit = 200_000
-    gas_price = evmos_cluster.w3.eth.gas_price
-    comm_pool_denom = "aevmos"
-    cli = evmos_cluster.cosmos_cli()
+    gas_price = omini_cluster.w3.eth.gas_price
+    comm_pool_denom = "aomini"
+    cli = omini_cluster.cosmos_cli()
     fee_denom = cli.evm_denom()
 
     # Deployment of distr precompile caller and initial checks
     eth_contract, tx_receipt = deploy_contract(
-        evmos_cluster.w3, CONTRACTS["DistributionCaller"]
+        omini_cluster.w3, CONTRACTS["DistributionCaller"]
     )
     assert tx_receipt.status == 1
 
@@ -67,9 +67,9 @@ def test_fund_community_pool(evmos_cluster, name, deposit_amt, args, err_contain
 
     if deposit_amt is not None:
         # deposit some funds to the contract.
-        # In case evm_denom != 'aevmos', we'll need
+        # In case evm_denom != 'aomini', we'll need
         # to fund the contract via a cosmos tx,
-        # because the precompile only funds the community pool with 'aevmos'
+        # because the precompile only funds the community pool with 'aomini'
         if fee_denom == comm_pool_denom:
             deposit_tx = eth_contract.functions.deposit().build_transaction(
                 {
@@ -80,12 +80,12 @@ def test_fund_community_pool(evmos_cluster, name, deposit_amt, args, err_contain
                 }
             )
             deposit_receipt = send_transaction(
-                evmos_cluster.w3, deposit_tx, KEYS["signer1"]
+                omini_cluster.w3, deposit_tx, KEYS["signer1"]
             )
             assert deposit_receipt.status == 1, f"Failed: {name}"
 
             def check_contract_balance():
-                new_contract_balance = evmos_cluster.w3.eth.get_balance(
+                new_contract_balance = omini_cluster.w3.eth.get_balance(
                     eth_contract.address
                 )
                 return new_contract_balance > 0
@@ -107,20 +107,20 @@ def test_fund_community_pool(evmos_cluster, name, deposit_amt, args, err_contain
             wait_for_new_blocks(cli, 2)
             receipt = cli.tx_search_rpc(f"tx.hash='{txhash}'")[0]
             assert receipt["tx_result"]["code"] == 0, debug_trace_tx(
-                evmos_cluster, txhash
+                omini_cluster, txhash
             )
 
     signer1_prev_balances = get_balances(
-        evmos_cluster, evmos_cluster.cosmos_cli().address("signer1")
+        omini_cluster, omini_cluster.cosmos_cli().address("signer1")
     )
     signer2_prev_balances = get_balances(
-        evmos_cluster, evmos_cluster.cosmos_cli().address("signer2")
+        omini_cluster, omini_cluster.cosmos_cli().address("signer2")
     )
 
-    # comm pool can have other coins balance (e.g. when evm_denom != 'aevmos')
-    # For the precompiles, we only care about the 'aevmos' balance
+    # comm pool can have other coins balance (e.g. when evm_denom != 'aomini')
+    # For the precompiles, we only care about the 'aomini' balance
     # because is the denomination used on the precompile tx
-    pool_balances = evmos_cluster.cosmos_cli().distribution_community()
+    pool_balances = omini_cluster.cosmos_cli().distribution_community()
     community_prev_balance = amount_of_dec_coin(pool_balances, comm_pool_denom)
 
     # call the smart contract to fund the community pool
@@ -133,22 +133,22 @@ def test_fund_community_pool(evmos_cluster, name, deposit_amt, args, err_contain
             "gas": gas_limit,
         }
     )
-    receipt = send_transaction(evmos_cluster.w3, send_tx, KEYS["signer1"])
+    receipt = send_transaction(omini_cluster.w3, send_tx, KEYS["signer1"])
 
     if err_contains is not None:
         assert receipt.status == 0
-        trace = debug_trace_tx(evmos_cluster, receipt.transactionHash.hex())
+        trace = debug_trace_tx(omini_cluster, receipt.transactionHash.hex())
         # stringify the tx trace to look for the expected error message
         trace_str = json.dumps(trace, separators=(",", ":"))
         assert err_contains in trace_str, f"Failed: {name}"
         return
 
     assert receipt.status == 1, debug_trace_tx(
-        evmos_cluster, receipt.transactionHash.hex()
+        omini_cluster, receipt.transactionHash.hex()
     )
 
     # check that contract's balance is 0
-    final_contract_balance = evmos_cluster.w3.eth.get_balance(eth_contract.address)
+    final_contract_balance = omini_cluster.w3.eth.get_balance(eth_contract.address)
     assert final_contract_balance == 0, f"Failed: {name}"
 
     # check counter of contract
@@ -164,9 +164,9 @@ def test_fund_community_pool(evmos_cluster, name, deposit_amt, args, err_contain
     # Check if evm has 6 dec,
     # actual fees will have 6 dec
     # instead of 18
-    fees = get_fee(evmos_cluster.cosmos_cli(), gas_price, gas_limit, receipt.gasUsed)
+    fees = get_fee(omini_cluster.cosmos_cli(), gas_price, gas_limit, receipt.gasUsed)
 
-    final_pool_balances = evmos_cluster.cosmos_cli().distribution_community()
+    final_pool_balances = omini_cluster.cosmos_cli().distribution_community()
     community_final_balance = amount_of_dec_coin(final_pool_balances, comm_pool_denom)
     assert (
         community_final_balance >= community_prev_balance + funds_sent_amt
@@ -174,13 +174,13 @@ def test_fund_community_pool(evmos_cluster, name, deposit_amt, args, err_contain
 
     # signer2 balance should remain unchanged
     signer2_final_balances = get_balances(
-        evmos_cluster, evmos_cluster.cosmos_cli().address("signer2")
+        omini_cluster, omini_cluster.cosmos_cli().address("signer2")
     )
 
     assert signer2_final_balances == signer2_prev_balances, f"Failed: {name}"
 
     signer1_final_balances = get_balances(
-        evmos_cluster, evmos_cluster.cosmos_cli().address("signer1")
+        omini_cluster, omini_cluster.cosmos_cli().address("signer1")
     )
     # if there was a deposit in the contract
     # the community pool was funded by the contract

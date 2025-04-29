@@ -18,15 +18,15 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/evmos/evmos/v20/crypto/hd"
-	"github.com/evmos/evmos/v20/encoding"
-	"github.com/evmos/evmos/v20/indexer"
-	"github.com/evmos/evmos/v20/rpc/backend/mocks"
-	rpctypes "github.com/evmos/evmos/v20/rpc/types"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	utiltx "github.com/evmos/evmos/v20/testutil/tx"
-	"github.com/evmos/evmos/v20/utils"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/omini/omini/v20/crypto/hd"
+	"github.com/omini/omini/v20/encoding"
+	"github.com/omini/omini/v20/indexer"
+	"github.com/omini/omini/v20/rpc/backend/mocks"
+	rpctypes "github.com/omini/omini/v20/rpc/types"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	utiltx "github.com/omini/omini/v20/testutil/tx"
+	"github.com/omini/omini/v20/utils"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
 type BackendTestSuite struct {
@@ -51,7 +51,7 @@ func (suite *BackendTestSuite) SetupTest() {
 
 	baseDir := suite.T().TempDir()
 	nodeDirName := "node"
-	clientDir := filepath.Join(baseDir, nodeDirName, "evmoscli")
+	clientDir := filepath.Join(baseDir, nodeDirName, "ominicli")
 	keyRing, err := suite.generateTestKeyring(clientDir)
 	if err != nil {
 		panic(err)

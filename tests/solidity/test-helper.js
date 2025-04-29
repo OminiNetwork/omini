@@ -18,21 +18,21 @@ function panic (errMsg) {
 function checkTestEnv () {
   const argv = yargs(hideBin(process.argv))
     .usage('Usage: $0 [options] <tests>')
-    .example('$0 --network evmos', 'run all tests using evmos network')
+    .example('$0 --network omini', 'run all tests using omini network')
     .example(
-      '$0 --network evmos --allowTests=test1,test2',
-      'run only test1 and test2 using evmos network'
+      '$0 --network omini --allowTests=test1,test2',
+      'run only test1 and test2 using omini network'
     )
     .help('h')
     .alias('h', 'help')
-    .describe('network', 'set which network to use: ganache|evmos')
+    .describe('network', 'set which network to use: ganache|omini')
     .describe(
       'batch',
       'set the test batch in parallelized testing. Format: %d-%d'
     )
     .describe('allowTests', 'only run specified tests. Separated by comma.')
     .boolean('verbose-log')
-    .describe('verbose-log', 'print evmosd output, default false').argv
+    .describe('verbose-log', 'print ominid output, default false').argv
 
   if (!fs.existsSync(path.join(__dirname, './node_modules'))) {
     panic(
@@ -45,8 +45,8 @@ function checkTestEnv () {
   if (!argv.network) {
     runConfig.network = 'ganache'
   } else {
-    if (argv.network !== 'evmos' && argv.network !== 'ganache') {
-      panic('network is invalid. Must be ganache or evmos')
+    if (argv.network !== 'omini' && argv.network !== 'ganache') {
+      panic('network is invalid. Must be ganache or omini')
     } else {
       runConfig.network = argv.network
     }
@@ -112,7 +112,7 @@ function loadTests (runConfig) {
           'utf-8'
         )
       )
-      const needScripts = ['test-ganache', 'test-evmos']
+      const needScripts = ['test-ganache', 'test-omini']
       for (const s of needScripts) {
         if (Object.keys(testManifest.scripts).indexOf(s) === -1) {
           logger.warn(
@@ -150,7 +150,7 @@ function loadTests (runConfig) {
 }
 
 function performTestSuite ({ testName, network }) {
-  const cmd = network === 'ganache' ? 'test-ganache' : 'test-evmos'
+  const cmd = network === 'ganache' ? 'test-ganache' : 'test-omini'
   return new Promise((resolve, reject) => {
     const testProc = spawn('yarn', [cmd], {
       cwd: path.join(__dirname, 'suites', testName)
@@ -187,28 +187,28 @@ async function performTests ({ allTests, runConfig }) {
 }
 
 function setupNetwork ({ runConfig, timeout }) {
-  if (runConfig.network !== 'evmos') {
+  if (runConfig.network !== 'omini') {
     // no need to start ganache. Truffle will start it
     return
   }
 
-  // Spawn the evmos process
+  // Spawn the omini process
 
   const spawnPromise = new Promise((resolve, reject) => {
     const serverStartedLog = 'Starting JSON-RPC server'
-    const serverStartedMsg = 'evmosd started'
+    const serverStartedMsg = 'ominid started'
 
-    const evmosdProc = spawn('../e2e/init-node.sh', {
+    const ominidProc = spawn('../e2e/init-node.sh', {
       cwd: __dirname,
       stdio: ['ignore', 'pipe', 'pipe']
     })
 
-    logger.info(`Starting evmosd process... timeout: ${timeout}ms`)
+    logger.info(`Starting ominid process... timeout: ${timeout}ms`)
     if (runConfig.verboseLog) {
-      evmosdProc.stdout.pipe(process.stdout)
+      ominidProc.stdout.pipe(process.stdout)
     }
 
-    evmosdProc.stdout.on('data', (d) => {
+    ominidProc.stdout.on('data', (d) => {
       const oLine = d.toString()
       if (runConfig.verboseLog) {
         process.stdout.write(oLine)
@@ -216,11 +216,11 @@ function setupNetwork ({ runConfig, timeout }) {
 
       if (oLine.indexOf(serverStartedLog) !== -1) {
         logger.info(serverStartedMsg)
-        resolve(evmosdProc)
+        resolve(ominidProc)
       }
     })
 
-    evmosdProc.stderr.on('data', (d) => {
+    ominidProc.stderr.on('data', (d) => {
       const oLine = d.toString()
       if (runConfig.verboseLog) {
         process.stdout.write(oLine)
@@ -228,13 +228,13 @@ function setupNetwork ({ runConfig, timeout }) {
 
       if (oLine.indexOf(serverStartedLog) !== -1) {
         logger.info(serverStartedMsg)
-        resolve(evmosdProc)
+        resolve(ominidProc)
       }
     })
   })
 
   const timeoutPromise = new Promise((resolve, reject) => {
-    setTimeout(() => reject(new Error('Start evmosd timeout!')), timeout)
+    setTimeout(() => reject(new Error('Start ominid timeout!')), timeout)
   })
   return Promise.race([spawnPromise, timeoutPromise])
 }

@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package types
 
@@ -9,32 +9,32 @@ import (
 	"slices"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v20/types"
-	"github.com/evmos/evmos/v20/utils"
+	"github.com/omini/omini/v20/types"
+	"github.com/omini/omini/v20/utils"
 )
 
 const (
-	// WEVMOSContractMainnet is the WEVMOS contract address for mainnet
-	WEVMOSContractMainnet = "0xD4949664cD82660AaE99bEdc034a0deA8A0bd517"
-	// WEVMOSContractTestnet is the WEVMOS contract address for testnet
-	WEVMOSContractTestnet = "0xcc491f589b45d4a3c679016195b3fb87d7848210"
+	// WominiContractMainnet is the Womini contract address for mainnet
+	WominiContractMainnet = "0xD4949664cD82660AaE99bEdc034a0deA8A0bd517"
+	// WominiContractTestnet is the Womini contract address for testnet
+	WominiContractTestnet = "0xcc491f589b45d4a3c679016195b3fb87d7848210"
 )
 
-// chainsWEVMOSHex is an utility map used to retrieve the WEVMOS contract
+// chainsWominiHex is an utility map used to retrieve the Womini contract
 // address in hex format from the chain ID.
-var chainsWEVMOSHex = map[string]string{
-	utils.MainnetChainID: WEVMOSContractMainnet,
-	utils.TestnetChainID: WEVMOSContractTestnet,
+var chainsWominiHex = map[string]string{
+	utils.MainnetChainID: WominiContractMainnet,
+	utils.TestnetChainID: WominiContractTestnet,
 }
 
-// GetWEVMOSContractHex returns the hex format of address for the WEVMOS contract given the
+// GetWominiContractHex returns the hex format of address for the Womini contract given the
 // chainID. If the chainID is not found, it defaults to the mainnet address.
-// The function expect the chain ID for a Cosmos chain, i.e. evmos_9000
-func GetWEVMOSContractHex(chainID string) string {
-	address, found := chainsWEVMOSHex[chainID]
+// The function expect the chain ID for a Cosmos chain, i.e. omini_9000
+func GetWominiContractHex(chainID string) string {
+	address, found := chainsWominiHex[chainID]
 	// default to mainnet address
 	if !found {
-		address = chainsWEVMOSHex[utils.MainnetChainID]
+		address = chainsWominiHex[utils.MainnetChainID]
 	}
 	return address
 }
@@ -46,7 +46,7 @@ var (
 	ParamStoreKeyNativePrecompiles  = []byte("NativePrecompiles")
 	// DefaultNativePrecompiles defines the default precompiles for the wrapped native coin
 	// NOTE: If you modify this, make sure you modify it on the local_node genesis script as well
-	DefaultNativePrecompiles = []string{WEVMOSContractMainnet}
+	DefaultNativePrecompiles = []string{WominiContractMainnet}
 	// DefaultDynamicPrecompiles defines the default active dynamic precompiles
 	DefaultDynamicPrecompiles []string
 )

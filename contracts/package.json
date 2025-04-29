@@ -1,7 +1,7 @@
 {
-  "name": "evmos-contracts",
+  "name": "omini-contracts",
   "version": "2.0.0",
-  "description": "A collection of smart contracts used in the development of the Evmos blockchain.",
+  "description": "A collection of smart contracts used in the development of the omini blockchain.",
   "devDependencies": {
     "@openzeppelin/contracts": "^4.9.6",
     "hardhat": "^2.22.2"
@@ -11,12 +11,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/evmos/evmos.git"
+    "url": "git+https://github.com/omini/omini.git"
   },
-  "author": "Evmos Core Team",
+  "author": "omini Core Team",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/evmos/evmos/issues"
+    "url": "https://github.com/omini/omini/issues"
   },
-  "homepage": "https://github.com/evmos/evmos#readme"
+  "homepage": "https://github.com/omini/omini#readme"
 }

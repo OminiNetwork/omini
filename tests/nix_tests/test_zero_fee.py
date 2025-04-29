@@ -3,10 +3,10 @@ from pathlib import Path
 import pytest
 from web3 import Web3
 
-from .network import create_snapshots_dir, setup_custom_evmos
+from .network import create_snapshots_dir, setup_custom_omini
 from .utils import (
     ADDRS,
-    EVMOS_6DEC_CHAIN_ID,
+    omini_6DEC_CHAIN_ID,
     KEYS,
     eth_to_bech32,
     evm6dec_config,
@@ -17,8 +17,8 @@ from .utils import (
 
 
 @pytest.fixture(scope="module")
-def custom_evmos(tmp_path_factory):
-    yield from setup_custom_evmos(
+def custom_omini(tmp_path_factory):
+    yield from setup_custom_omini(
         tmp_path_factory.mktemp("zero-fee"),
         26900,
         Path(__file__).parent / "configs/zero-fee.jsonnet",
@@ -26,51 +26,51 @@ def custom_evmos(tmp_path_factory):
 
 
 @pytest.fixture(scope="module")
-def custom_evmos_6dec(tmp_path_factory):
+def custom_omini_6dec(tmp_path_factory):
     """
-    Setup an evmos chain with
+    Setup an omini chain with
     an evm denom with 6 decimals
     """
     path = tmp_path_factory.mktemp("zero-fee-6dec")
-    yield from setup_custom_evmos(
-        path, 46900, evm6dec_config(path, "zero-fee"), chain_id=EVMOS_6DEC_CHAIN_ID
+    yield from setup_custom_omini(
+        path, 46900, evm6dec_config(path, "zero-fee"), chain_id=omini_6DEC_CHAIN_ID
     )
 
 
 @pytest.fixture(scope="module")
-def custom_evmos_rocksdb(tmp_path_factory):
+def custom_omini_rocksdb(tmp_path_factory):
     path = tmp_path_factory.mktemp("zero-fee-rocksdb")
-    yield from setup_custom_evmos(
+    yield from setup_custom_omini(
         path,
         26810,
         memiavl_config(path, "zero-fee"),
         post_init=create_snapshots_dir,
-        chain_binary="evmosd-rocksdb",
+        chain_binary="ominid-rocksdb",
     )
 
 
-@pytest.fixture(scope="module", params=["evmos", "evmos-6dec", "evmos-rocksdb"])
-def evmos_cluster(request, custom_evmos, custom_evmos_6dec, custom_evmos_rocksdb):
+@pytest.fixture(scope="module", params=["omini", "omini-6dec", "omini-rocksdb"])
+def omini_cluster(request, custom_omini, custom_omini_6dec, custom_omini_rocksdb):
     """
-    run on evmos and
-    evmos built with rocksdb (memIAVL + versionDB)
+    run on omini and
+    omini built with rocksdb (memIAVL + versionDB)
     """
     provider = request.param
-    if provider == "evmos":
-        yield custom_evmos
-    elif provider == "evmos-6dec":
-        yield custom_evmos_6dec
-    elif provider == "evmos-rocksdb":
-        yield custom_evmos_rocksdb
+    if provider == "omini":
+        yield custom_omini
+    elif provider == "omini-6dec":
+        yield custom_omini_6dec
+    elif provider == "omini-rocksdb":
+        yield custom_omini_rocksdb
     else:
         raise NotImplementedError
 
 
-def test_cosmos_tx(evmos_cluster):
+def test_cosmos_tx(omini_cluster):
     """
     test basic cosmos transaction works with zero fees
     """
-    cli = evmos_cluster.cosmos_cli()
+    cli = omini_cluster.cosmos_cli()
     denom = cli.evm_denom()
     sender = eth_to_bech32(ADDRS["signer1"])
     receiver = eth_to_bech32(ADDRS["signer2"])
@@ -107,11 +107,11 @@ def test_cosmos_tx(evmos_cluster):
     assert old_src_balance - amt == new_src_balance
 
 
-def test_eth_tx(evmos_cluster):
+def test_eth_tx(omini_cluster):
     """
     test basic Ethereum transaction works with zero fees
     """
-    w3: Web3 = evmos_cluster.w3
+    w3: Web3 = omini_cluster.w3
 
     sender = ADDRS["signer1"]
     receiver = ADDRS["signer2"]

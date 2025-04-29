@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package utils
 
 import (
@@ -7,8 +7,8 @@ import (
 
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
+	"github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
 )
 
 // WaitToAccrueRewards is a helper function that waits for rewards to

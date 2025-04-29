@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package werc20_test
 
@@ -11,19 +11,19 @@ import (
 	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	auth "github.com/evmos/evmos/v20/precompiles/authorization"
-	"github.com/evmos/evmos/v20/precompiles/erc20"
-	"github.com/evmos/evmos/v20/precompiles/testutil"
-	"github.com/evmos/evmos/v20/precompiles/werc20"
-	"github.com/evmos/evmos/v20/precompiles/werc20/testdata"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	utiltx "github.com/evmos/evmos/v20/testutil/tx"
-	erc20types "github.com/evmos/evmos/v20/x/erc20/types"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
-	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
+	auth "github.com/omini/omini/v20/precompiles/authorization"
+	"github.com/omini/omini/v20/precompiles/erc20"
+	"github.com/omini/omini/v20/precompiles/testutil"
+	"github.com/omini/omini/v20/precompiles/werc20"
+	"github.com/omini/omini/v20/precompiles/werc20/testdata"
+	"github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	"github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	utiltx "github.com/omini/omini/v20/testutil/tx"
+	erc20types "github.com/omini/omini/v20/x/erc20/types"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
+	feemarkettypes "github.com/omini/omini/v20/x/feemarket/types"
 
 	"github.com/ethereum/go-ethereum/common"
 
@@ -45,7 +45,7 @@ type PrecompileIntegrationTestSuite struct {
 
 	wrappedCoinDenom string
 
-	// WEVMOS related fields
+	// Womini related fields
 	precompile        *werc20.Precompile
 	precompileAddrHex string
 }
@@ -53,7 +53,7 @@ type PrecompileIntegrationTestSuite struct {
 func TestPrecompileIntegrationTestSuite(t *testing.T) {
 	// Run Ginkgo integration tests
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "WEVMOS precompile test suite")
+	RunSpecs(t, "Womini precompile test suite")
 }
 
 // checkAndReturnBalance check that the balance of the address is the same in
@@ -84,7 +84,7 @@ func (is *PrecompileIntegrationTestSuite) checkAndReturnBalance(
 // Integration tests
 // -------------------------------------------------------------------------------------------------
 
-var _ = When("a user interact with the WEVMOS precompiled contract", func() {
+var _ = When("a user interact with the Womini precompiled contract", func() {
 	var (
 		is                                         *PrecompileIntegrationTestSuite
 		passCheck, failCheck                       testutil.LogCheckArgs
@@ -130,25 +130,25 @@ var _ = When("a user interact with the WEVMOS precompiled contract", func() {
 		is.wrappedCoinDenom = evmtypes.GetEVMCoinDenom()
 
 		cosmosChainID := strings.Split(is.network.GetChainID(), "-")[0]
-		is.precompileAddrHex = erc20types.GetWEVMOSContractHex(cosmosChainID)
+		is.precompileAddrHex = erc20types.GetWominiContractHex(cosmosChainID)
 
 		ctx := integrationNetwork.GetContext()
 
 		// Perform some check before adding the precompile to the suite.
 
-		// Check that WEVMOS is part of the native precompiles.
+		// Check that Womini is part of the native precompiles.
 		erc20Params := is.network.App.Erc20Keeper.GetParams(ctx)
 		Expect(erc20Params.NativePrecompiles).To(
 			ContainElement(is.precompileAddrHex),
-			"expected wevmos to be in the native precompiles",
+			"expected womini to be in the native precompiles",
 		)
 		_, found := is.network.App.BankKeeper.GetDenomMetaData(ctx, evmtypes.GetEVMCoinDenom())
 		Expect(found).To(BeTrue(), "expected native token metadata to be registered")
 
-		// Check that WEVMOS is registered in the token pairs map.
+		// Check that Womini is registered in the token pairs map.
 		tokenPairID := is.network.App.Erc20Keeper.GetTokenPairID(ctx, is.wrappedCoinDenom)
 		tokenPair, found := is.network.App.Erc20Keeper.GetTokenPair(ctx, tokenPairID)
-		Expect(found).To(BeTrue(), "expected wevmos precompile to be registered in the tokens map")
+		Expect(found).To(BeTrue(), "expected womini precompile to be registered in the tokens map")
 		Expect(tokenPair.Erc20Address).To(Equal(is.precompileAddrHex))
 
 		precompileAddr := common.HexToAddress(is.precompileAddrHex)
@@ -168,7 +168,7 @@ var _ = When("a user interact with the WEVMOS precompiled contract", func() {
 
 		// Setup of the contract calling into the precompile to tests revert
 		// edge cases and proper handling of snapshots.
-		revertCallerContract, err := testdata.LoadWEVMOS9TestCaller()
+		revertCallerContract, err := testdata.LoadWomini9TestCaller()
 		Expect(err).ToNot(HaveOccurred(), "failed to load werc20 reverter caller contract")
 
 		txArgs := evmtypes.EvmTxArgs{}
@@ -564,7 +564,7 @@ var _ = When("a user interact with the WEVMOS precompiled contract", func() {
 				var name string
 				err = is.precompile.UnpackIntoInterface(&name, erc20.NameMethod, ethRes.Ret)
 				Expect(err).ToNot(HaveOccurred(), "failed to unpack result")
-				Expect(name).To(ContainSubstring("Evmos"), "expected different name")
+				Expect(name).To(ContainSubstring("omini"), "expected different name")
 			})
 
 			It("should return the correct symbol", func() {
@@ -576,7 +576,7 @@ var _ = When("a user interact with the WEVMOS precompiled contract", func() {
 				var symbol string
 				err = is.precompile.UnpackIntoInterface(&symbol, erc20.SymbolMethod, ethRes.Ret)
 				Expect(err).ToNot(HaveOccurred(), "failed to unpack result")
-				Expect(symbol).To(ContainSubstring("EVMOS"), "expected different symbol")
+				Expect(symbol).To(ContainSubstring("omini"), "expected different symbol")
 			})
 
 			It("should return the decimals", func() {

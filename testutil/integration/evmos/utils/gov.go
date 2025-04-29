@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package utils
 
@@ -16,10 +16,10 @@ import (
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	govv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
-	commonfactory "github.com/evmos/evmos/v20/testutil/integration/common/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	commonfactory "github.com/omini/omini/v20/testutil/integration/common/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
 // SubmitProposal is a helper function to submit a governance proposal and

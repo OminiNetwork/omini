@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package testutils
 
 import (
@@ -12,16 +12,16 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	consensustypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
 
-	"github.com/evmos/evmos/v20/app"
-	ante "github.com/evmos/evmos/v20/app/ante"
-	evmante "github.com/evmos/evmos/v20/app/ante/evm"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	"github.com/evmos/evmos/v20/types"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
-	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
+	"github.com/omini/omini/v20/app"
+	ante "github.com/omini/omini/v20/app/ante"
+	evmante "github.com/omini/omini/v20/app/ante/evm"
+	"github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	"github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	"github.com/omini/omini/v20/types"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
+	feemarkettypes "github.com/omini/omini/v20/x/feemarket/types"
 )
 
 type AnteTestSuite struct {

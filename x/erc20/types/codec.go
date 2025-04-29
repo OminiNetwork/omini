@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package types
 
@@ -27,11 +27,11 @@ var (
 
 const (
 	// Amino names
-	convertERC20Name = "evmos/MsgConvertERC20"
-	convertCoinName  = "evmos/MsgConvertCoin" // keep it for backwards compatibility when querying txs
-	updateParams     = "evmos/erc20/MsgUpdateParams"
-	registerERC20    = "evmos/erc20/MsgRegisterERC20"
-	toggleConversion = "evmos/erc20/MsgToggleConversion"
+	convertERC20Name = "omini/MsgConvertERC20"
+	convertCoinName  = "omini/MsgConvertCoin" // keep it for backwards compatibility when querying txs
+	updateParams     = "omini/erc20/MsgUpdateParams"
+	registerERC20    = "omini/erc20/MsgRegisterERC20"
+	toggleConversion = "omini/erc20/MsgToggleConversion"
 )
 
 // NOTE: This is required for the GetSignBytes function

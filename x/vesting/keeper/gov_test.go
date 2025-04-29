@@ -3,8 +3,8 @@ package keeper_test
 import (
 	"testing"
 
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	testutiltx "github.com/evmos/evmos/v20/testutil/tx"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	testutiltx "github.com/omini/omini/v20/testutil/tx"
 	"github.com/stretchr/testify/require"
 )
 

@@ -6,10 +6,10 @@ TMVERSION := $(shell go list -m github.com/cometbft/cometbft | sed 's:.* ::')
 COMMIT := $(shell git log -1 --format='%H')
 LEDGER_ENABLED ?= true
 BINDIR ?= $(GOPATH)/bin
-EVMOS_BINARY = evmosd
-EVMOS_DIR = evmos
+omini_BINARY = ominid
+omini_DIR = omini
 BUILDDIR ?= $(CURDIR)/build
-HTTPS_GIT := https://github.com/evmos/evmos.git
+HTTPS_GIT := https://github.com/omini/omini.git
 DOCKER := $(shell which docker)
 DOCKER_BUILDKIT=1
 DOCKER_ARGS=
@@ -19,7 +19,7 @@ ifdef GITHUB_TOKEN
 	endif
 endif
 NAMESPACE := tharsishq
-PROJECT := evmos
+PROJECT := omini
 DOCKER_IMAGE := $(NAMESPACE)/$(PROJECT)
 COMMIT_HASH := $(shell git rev-parse --short=7 HEAD)
 DOCKER_TAG := $(COMMIT_HASH)
@@ -28,7 +28,7 @@ MOUNT_PATH := $(shell pwd)/build/:/root/
 E2E_SKIP_CLEANUP := false
 ROCKSDB_VERSION ?= "9.8.4"
 # Deps
-DEPS_COSMOS_SDK_VERSION := $(shell cat go.sum | grep -E 'github.com/evmos/cosmos-sdk\s' | grep -v -e 'go.mod' | tail -n 1 | awk '{ print $$2; }')
+DEPS_COSMOS_SDK_VERSION := $(shell cat go.sum | grep -E 'github.com/omini/cosmos-sdk\s' | grep -v -e 'go.mod' | tail -n 1 | awk '{ print $$2; }')
 DEPS_IBC_GO_VERSION := $(shell cat go.sum | grep 'github.com/cosmos/ibc-go' | grep -v -e 'go.mod' | tail -n 1 | awk '{ print $$2; }')
 DEPS_COSMOS_PROTO := $(shell cat go.sum | grep 'github.com/cosmos/cosmos-proto' | grep -v -e 'go.mod' | tail -n 1 | awk '{ print $$2; }')
 DEPS_COSMOS_GOGOPROTO := $(shell cat go.sum | grep 'github.com/cosmos/gogoproto' | grep -v -e 'go.mod' | tail -n 1 | awk '{ print $$2; }')
@@ -75,8 +75,8 @@ build_tags := $(strip $(build_tags))
 
 # process linker flags
 
-ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=evmos \
-          -X github.com/cosmos/cosmos-sdk/version.AppName=$(EVMOS_BINARY) \
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=omini \
+          -X github.com/cosmos/cosmos-sdk/version.AppName=$(omini_BINARY) \
           -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
           -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
           -X github.com/cometbft/cometbft/version.TMCoreSemVer=$(TMVERSION)
@@ -154,7 +154,7 @@ build-reproducible: go.sum
 	$(DOCKER) rm latest-build || true
 	$(DOCKER) run --volume=$(CURDIR):/sources:ro \
         --env TARGET_PLATFORMS='linux/amd64' \
-        --env APP=evmosd \
+        --env APP=ominid \
         --env VERSION=$(VERSION) \
         --env COMMIT=$(COMMIT) \
         --env CGO_ENABLED=1 \
@@ -169,22 +169,22 @@ build-docker-goleveldb:
 	$(DOCKER) tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
 	# docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:${COMMIT_HASH}
 	# move the binaries to the ./build directory
-	mkdir -p ./build/.evmosd
-	echo '#!/usr/bin/env bash' > ./build/evmosd
-	echo "IMAGE_NAME=${DOCKER_IMAGE}:${COMMIT_HASH}" >> ./build/evmosd
-	echo 'SCRIPT_PATH=$$(cd $$(dirname $$0) && pwd -P)' >> ./build/evmosd
-	echo 'docker run -it --rm -v $${SCRIPT_PATH}/.evmosd:/home/evmos/.evmosd $$IMAGE_NAME evmosd "$$@"' >> ./build/evmosd
-	chmod +x ./build/evmosd
+	mkdir -p ./build/.ominid
+	echo '#!/usr/bin/env bash' > ./build/ominid
+	echo "IMAGE_NAME=${DOCKER_IMAGE}:${COMMIT_HASH}" >> ./build/ominid
+	echo 'SCRIPT_PATH=$$(cd $$(dirname $$0) && pwd -P)' >> ./build/ominid
+	echo 'docker run -it --rm -v $${SCRIPT_PATH}/.ominid:/home/omini/.ominid $$IMAGE_NAME ominid "$$@"' >> ./build/ominid
+	chmod +x ./build/ominid
 
 build-docker-pebbledb:
 	DOCKER_BUILDKIT=1 $(DOCKER) build --build-arg DB_BACKEND=pebbledb -t ${DOCKER_IMAGE}:${DOCKER_TAG}-pebble ${DOCKER_ARGS} .
 	$(DOCKER) tag ${DOCKER_IMAGE}:${DOCKER_TAG}-pebble ${DOCKER_IMAGE}:latest-pebble
-	mkdir -p ./build/.evmosd
-	echo '#!/usr/bin/env bash' > ./build/evmosd
-	echo "IMAGE_NAME=${DOCKER_IMAGE}:${COMMIT_HASH}" >> ./build/evmosd
-	echo 'SCRIPT_PATH=$$(cd $$(dirname $$0) && pwd -P)' >> ./build/evmosd
-	echo 'docker run -it --rm -v $${SCRIPT_PATH}/.evmosd:/home/evmos/.evmosd $$IMAGE_NAME evmosd "$$@"' >> ./build/evmosd
-	chmod +x ./build/evmosd
+	mkdir -p ./build/.ominid
+	echo '#!/usr/bin/env bash' > ./build/ominid
+	echo "IMAGE_NAME=${DOCKER_IMAGE}:${COMMIT_HASH}" >> ./build/ominid
+	echo 'SCRIPT_PATH=$$(cd $$(dirname $$0) && pwd -P)' >> ./build/ominid
+	echo 'docker run -it --rm -v $${SCRIPT_PATH}/.ominid:/home/omini/.ominid $$IMAGE_NAME ominid "$$@"' >> ./build/ominid
+	chmod +x ./build/ominid
 
 build-rocksdb:
 	# Make sure to run this command with root permission
@@ -319,7 +319,7 @@ swagger-update-docs: statik
 .PHONY: swagger-update-docs
 
 godocs:
-	@echo "--> Wait a few seconds and visit http://localhost:6060/pkg/github.com/evmos/evmos"
+	@echo "--> Wait a few seconds and visit http://localhost:6060/pkg/github.com/omini/omini"
 	godoc -http=:6060
 
 ###############################################################################
@@ -353,7 +353,7 @@ test-e2e:
 		make build-docker-pebbledb; \
 	fi
 	@mkdir -p ./build
-	@rm -rf build/.evmosd
+	@rm -rf build/.ominid
 	@INITIAL_VERSION=$(INITIAL_VERSION) TARGET_VERSION=$(TARGET_VERSION) \
 	E2E_SKIP_CLEANUP=$(E2E_SKIP_CLEANUP) MOUNT_PATH=$(MOUNT_PATH) CHAIN_ID=$(CHAIN_ID) \
 	go test -v ./tests/e2e -run ^TestIntegrationTestSuite$
@@ -486,7 +486,7 @@ proto-download-deps:
 	mkdir -p "$(THIRD_PARTY_DIR)/cosmos_tmp" && \
 	cd "$(THIRD_PARTY_DIR)/cosmos_tmp" && \
 	git init && \
-	git remote add origin "https://github.com/evmos/cosmos-sdk.git" && \
+	git remote add origin "https://github.com/omini/cosmos-sdk.git" && \
 	git config core.sparseCheckout true && \
 	printf "proto\nthird_party\n" > .git/info/sparse-checkout && \
 	git pull origin "$(DEPS_COSMOS_SDK_VERSION)" && \
@@ -533,7 +533,7 @@ proto-download-deps:
 ###                                Releasing                                ###
 ###############################################################################
 
-PACKAGE_NAME:=github.com/evmos/evmos
+PACKAGE_NAME:=github.com/omini/omini
 GOLANG_CROSS_VERSION  = v1.22
 GOPATH ?= '$(HOME)/go'
 release-dry-run:
@@ -571,7 +571,7 @@ release:
 ###############################################################################
 
 # Install the necessary dependencies, compile the solidity contracts found in the
-# Evmos repository and then clean up the contracts data.
+# omini repository and then clean up the contracts data.
 contracts-all: contracts-compile contracts-clean
 
 # Clean smart contract compilation artifacts, dependencies and cache files
@@ -579,7 +579,7 @@ contracts-clean:
 	@echo "Cleaning up the contracts directory..."
 	@python3 ./scripts/compile_smart_contracts/compile_smart_contracts.py --clean
 
-# Compile the solidity contracts found in the Evmos repository.
+# Compile the solidity contracts found in the omini repository.
 contracts-compile:
 	@echo "Compiling smart contracts..."
 	@python3 ./scripts/compile_smart_contracts/compile_smart_contracts.py --compile

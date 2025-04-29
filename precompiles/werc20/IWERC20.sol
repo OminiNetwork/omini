@@ -4,7 +4,7 @@ pragma solidity >=0.8.18;
 import "./../erc20/IERC20MetadataAllowance.sol";
 
 /**
- * @author Evmos Team
+ * @author omini Team
  * @title Wrapped ERC20 Interface
  * @dev Interface for representing the native EVM token as a wrapped ERC20 standard.
  */

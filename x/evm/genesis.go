@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package evm
 
 import (
@@ -10,8 +10,8 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 
-	"github.com/evmos/evmos/v20/x/evm/keeper"
-	"github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/omini/omini/v20/x/evm/keeper"
+	"github.com/omini/omini/v20/x/evm/types"
 )
 
 // InitGenesis initializes genesis state based on exported genesis

@@ -5,18 +5,18 @@ import (
 	"math/big"
 
 	"cosmossdk.io/math"
-	"github.com/evmos/evmos/v20/precompiles/testutil"
-	"github.com/evmos/evmos/v20/x/evm/core/vm"
+	"github.com/omini/omini/v20/precompiles/testutil"
+	"github.com/omini/omini/v20/x/evm/core/vm"
 
 	"github.com/ethereum/go-ethereum/common"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/distribution/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	cmn "github.com/evmos/evmos/v20/precompiles/common"
-	"github.com/evmos/evmos/v20/precompiles/distribution"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	utiltx "github.com/evmos/evmos/v20/testutil/tx"
+	cmn "github.com/omini/omini/v20/precompiles/common"
+	"github.com/omini/omini/v20/precompiles/distribution"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	utiltx "github.com/omini/omini/v20/testutil/tx"
 )
 
 func (s *PrecompileTestSuite) TestSetWithdrawAddress() {
@@ -527,7 +527,7 @@ func (s *PrecompileTestSuite) TestFundCommunityPool() {
 			"invalid hex address address",
 		},
 		{
-			"success - fund the community pool 1 EVMOS",
+			"success - fund the community pool 1 omini",
 			func() []interface{} {
 				return []interface{}{
 					s.keyring.GetAddr(0),
@@ -557,7 +557,7 @@ func (s *PrecompileTestSuite) TestFundCommunityPool() {
 			var contract *vm.Contract
 			contract, ctx = testutil.NewPrecompileContract(s.T(), ctx, s.keyring.GetAddr(0), s.precompile, tc.gas)
 
-			// Sanity check to make sure the starting balance is always 100k EVMOS
+			// Sanity check to make sure the starting balance is always 100k omini
 			balance := s.network.App.BankKeeper.GetBalance(ctx, s.keyring.GetAddr(0).Bytes(), s.baseDenom)
 			s.Require().Equal(balance.Amount, network.PrefundedAccountInitialBalance)
 

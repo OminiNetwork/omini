@@ -9,12 +9,12 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	evmostypes "github.com/evmos/evmos/v20/types"
-	"github.com/evmos/evmos/v20/utils"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
-	"github.com/evmos/evmos/v20/x/inflation/v1/types"
+	testkeyring "github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	ominitypes "github.com/omini/omini/v20/types"
+	"github.com/omini/omini/v20/utils"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
+	"github.com/omini/omini/v20/x/inflation/v1/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -115,24 +115,24 @@ func TestGetCirculatingSupplyAndInflationRate(t *testing.T) {
 	}{
 		{
 			"no epochs per period",
-			sdk.TokensFromConsensusPower(400_000_000, evmostypes.PowerReduction),
+			sdk.TokensFromConsensusPower(400_000_000, ominitypes.PowerReduction),
 			func() {
 				nw.App.InflationKeeper.SetEpochsPerPeriod(ctx, 0)
 			},
 		},
 		{
 			"high supply",
-			sdk.TokensFromConsensusPower(800_000_000, evmostypes.PowerReduction),
+			sdk.TokensFromConsensusPower(800_000_000, ominitypes.PowerReduction),
 			func() {},
 		},
 		{
 			"low supply",
-			sdk.TokensFromConsensusPower(400_000_000, evmostypes.PowerReduction),
+			sdk.TokensFromConsensusPower(400_000_000, ominitypes.PowerReduction),
 			func() {},
 		},
 		{
 			"zero circulating supply",
-			sdk.TokensFromConsensusPower(200_000_000, evmostypes.PowerReduction),
+			sdk.TokensFromConsensusPower(200_000_000, ominitypes.PowerReduction),
 			func() {},
 		},
 	}

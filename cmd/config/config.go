@@ -1,17 +1,17 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package config
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/evmos/evmos/v20/types"
+	"github.com/omini/omini/v20/types"
 )
 
 const (
-	// Bech32Prefix defines the Bech32 prefix used for accounts on the Evmos blockchain
-	Bech32Prefix = "evmos"
+	// Bech32Prefix defines the Bech32 prefix used for accounts on the omini blockchain
+	Bech32Prefix = "omini"
 
 	// Bech32PrefixAccAddr defines the Bech32 prefix of an account's address
 	Bech32PrefixAccAddr = Bech32Prefix

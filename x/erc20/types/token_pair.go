@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package types
 
@@ -7,8 +7,8 @@ import (
 	"github.com/cometbft/cometbft/crypto/tmhash"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
-	evmostypes "github.com/evmos/evmos/v20/types"
-	"github.com/evmos/evmos/v20/utils"
+	ominitypes "github.com/omini/omini/v20/types"
+	"github.com/omini/omini/v20/utils"
 )
 
 // NewTokenPairSTRv2 creates a new TokenPair instance in the context of the
@@ -56,7 +56,7 @@ func (tp TokenPair) Validate() error {
 		return err
 	}
 
-	return evmostypes.ValidateAddress(tp.Erc20Address)
+	return ominitypes.ValidateAddress(tp.Erc20Address)
 }
 
 // IsNativeCoin returns true if the owner of the ERC20 contract is the

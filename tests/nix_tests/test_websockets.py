@@ -1,6 +1,6 @@
-def test_single_request_netversion(evmos_cluster):
-    evmos_cluster.use_websocket()
-    eth_ws = evmos_cluster.w3.provider
+def test_single_request_netversion(omini_cluster):
+    omini_cluster.use_websocket()
+    eth_ws = omini_cluster.w3.provider
 
     response = eth_ws.make_request("net_version", [])
 
@@ -18,13 +18,13 @@ def test_single_request_netversion(evmos_cluster):
 # todo: follow https://github.com/ethereum/web3.py/issues/1402, add tests when complete
 
 
-def test_batch_request_netversion(evmos):
+def test_batch_request_netversion(omini):
     return
 
 
-def test_ws_subscribe_log(evmos):
+def test_ws_subscribe_log(omini):
     return
 
 
-def test_ws_subscribe_newheads(evmos):
+def test_ws_subscribe_newheads(omini):
     return

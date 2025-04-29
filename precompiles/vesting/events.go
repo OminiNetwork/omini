@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package vesting
 
 import (
@@ -7,10 +7,10 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/evmos/evmos/v20/precompiles/authorization"
-	cmn "github.com/evmos/evmos/v20/precompiles/common"
-	"github.com/evmos/evmos/v20/x/evm/core/vm"
-	vestingtypes "github.com/evmos/evmos/v20/x/vesting/types"
+	"github.com/omini/omini/v20/precompiles/authorization"
+	cmn "github.com/omini/omini/v20/precompiles/common"
+	"github.com/omini/omini/v20/x/evm/core/vm"
+	vestingtypes "github.com/omini/omini/v20/x/vesting/types"
 )
 
 const (

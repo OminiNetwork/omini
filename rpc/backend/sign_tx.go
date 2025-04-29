@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package backend
 
 import (
@@ -18,7 +18,7 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
 
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
 // SendTransaction sends transaction based on received args using Node's key to sign it

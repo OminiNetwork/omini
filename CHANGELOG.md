@@ -54,7 +54,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 - (evidence) [#2997](https://github.com/evmos/evmos/pull/2997) Add `evidence` precompile with `submitEvidence` and `evidence` queries.
 - (precompiles) [#2991](https://github.com/evmos/evmos/pull/2991) Add `slashing` precompile with `unjail` and `signingInfo`.
 - (gov) [#2976](https://github.com/evmos/evmos/pull/2976) Add `Proposals` and `Proposal` queries to gov precompile.
-- (testnet) [#2826](https://github.com/evmos/evmos/pull/2826) Fix command `evmosd testnet init-files` for validator_address is error.
+- (testnet) [#2826](https://github.com/evmos/evmos/pull/2826) Fix command `ominid testnet init-files` for validator_address is error.
 - (evm) [#2836](https://github.com/evmos/evmos/pull/2836) Recap the highest gas limit with account's available balance.
 - (evm) [#2872](https://github.com/evmos/evmos/pull/2872) Change `BankKeeper` for `BankWrapper` to manage EVM coin with different decimals.
 - (evm) [#2873](https://github.com/evmos/evmos/pull/2873) Remove `BeginBlock` and replace `ChainID` with global config.
@@ -318,7 +318,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 ### Improvements
 
-- (testnet) [#1864](https://github.com/evmos/evmos/pull/1864) Add `--base-fee` and `--min-gas-price` flags to the command `evmosd testnet init-files`.
+- (testnet) [#1864](https://github.com/evmos/evmos/pull/1864) Add `--base-fee` and `--min-gas-price` flags to the command `ominid testnet init-files`.
 - (stride-outpost) [#1912](https://github.com/evmos/evmos/pull/1912) Add Stride outpost interface and ABI.
 - (stride-outpost) [#1913](https://github.com/evmos/evmos/pull/1913) Add Run function, precompile struct and tx definitions.
 - (stride-outpost) [#1914](https://github.com/evmos/evmos/pull/1914) Add types, events and common util function.
@@ -447,7 +447,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 - (consensus) [#1740](https://github.com/evmos/evmos/pull/1740) Enable setting block gas limit to max by specifying it as -1 in the genesis file.
 - (ante) [#1753](https://github.com/evmos/evmos/pull/1753) Handle zero fee case on EVM transactions.
 - (rpc) [#1829](https://github.com/evmos/evmos/pull/1829) Bump IAVL to v0.20.1 to fix concurrency issue.
-- (testnet) [#1857](https://github.com/evmos/evmos/pull/1857) Remove the crisis module causing an error when using the `evmosd testnet init-files` command.
+- (testnet) [#1857](https://github.com/evmos/evmos/pull/1857) Remove the crisis module causing an error when using the `ominid testnet init-files` command.
 - (rpc) [#1863](https://github.com/evmos/evmos/pull/1863) Handle error gracefully on RPC calls when node is not persisting ABCI responses.
 - (ibc) [#1918](https://github.com/evmos/evmos/pull/1918) Upgrade IBC-Go to `v7.3.1`, which (among other things) fixes the `DenomTraces` REST endpoint.
 - (gov) [#1981](https://github.com/evmos/evmos/pull/1981) Remove deprecated `cosmos.params.v1beta1/ParameterChangeProposal` handler.
@@ -486,7 +486,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 - (go) [#1674](https://github.com/evmos/evmos/pull/1674) Update `evmos` module name to `evmos/v14`.
 - (vesting) [#1672](https://github.com/evmos/evmos/pull/1672) Port `vesting` precompile code and refactor integration tests.
 - (vesting) [#1667](https://github.com/evmos/evmos/pull/1667) Add support for vesting precompile in the `evm` module.
-- (cli) [#1647](https://github.com/evmos/evmos/pull/1647) Update defaults on `evmosd start` flags.
+- (cli) [#1647](https://github.com/evmos/evmos/pull/1647) Update defaults on `ominid start` flags.
 - (vesting) Refactor vesting flow.
 
 ### Bug Fixes
@@ -496,7 +496,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 - (evm) [#1703](https://github.com/evmos/evmos/pull/1703) Prevent panic on uint64 conversion in EVM keeper `ApplyMessageWithConfig` function.
 - (ante) [#1693](https://github.com/evmos/evmos/pull/1693) Prevent panic on int64 conversion in EVM fees antehandler.
 - (cli) [#1681](https://github.com/evmos/evmos/pull/1681) Add `bootstrap-state` command.
-- (tests) [#1678](https://github.com/evmos/evmos/pull/1678) Fix e2e tests after recent changes to `evmosd start` default flags.
+- (tests) [#1678](https://github.com/evmos/evmos/pull/1678) Fix e2e tests after recent changes to `ominid start` default flags.
 - (rpc) [#1676](https://github.com/evmos/evmos/pull/1676) Fix gas meter stacking gas from predecessors in `TraceTx` & `TraceBlock` functions.
 - (rpc) [#1663](https://github.com/evmos/evmos/pull/1663) Fix block number returned in opcode for debug trace related API.
 - (revenue) [#1659](https://github.com/evmos/evmos/pull/1659) Check if DevelopersShares are set to 0.
@@ -750,7 +750,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 - (app) [#1165](https://github.com/evmos/evmos/pull/1165) Update Ledger supported algorithms to only consist of `EthSecp256k1`.
 - (cli) [#1172](https://github.com/evmos/evmos/pull/1172) Update default node snapshot interval to `5000`.
-- (cli) [#1121](https://github.com/evmos/evmos/pull/1121) Fix `evmosd version` to show either tag or last commit.
+- (cli) [#1121](https://github.com/evmos/evmos/pull/1121) Fix `ominid version` to show either tag or last commit.
 - (cli) [#1120](https://github.com/evmos/evmos/pull/1120) Fix snapshot configuration.
 - (app) [#1118](https://github.com/evmos/evmos/pull/1118) Setup gRPC node service with the application.
 - (metrics) [#1094](https://github.com/evmos/evmos/pull/1094) Fix unbound metrics and remove labels that keep increasing.

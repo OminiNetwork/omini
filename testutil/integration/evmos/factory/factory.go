@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package factory
 
@@ -16,14 +16,14 @@ import (
 	"github.com/cosmos/gogoproto/proto"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core"
-	"github.com/evmos/evmos/v20/precompiles/testutil"
-	commonfactory "github.com/evmos/evmos/v20/testutil/integration/common/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/omini/omini/v20/precompiles/testutil"
+	commonfactory "github.com/omini/omini/v20/testutil/integration/common/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
-// TxFactory defines a struct that can build and broadcast transactions for the Evmos
+// TxFactory defines a struct that can build and broadcast transactions for the omini
 // network.
 // Methods are organized by build sign and broadcast type methods.
 type TxFactory interface {

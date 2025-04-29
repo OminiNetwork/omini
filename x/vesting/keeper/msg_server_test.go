@@ -13,21 +13,21 @@ import (
 	sdkvesting "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	"github.com/evmos/evmos/v20/contracts"
-	"github.com/evmos/evmos/v20/testutil"
-	evmosfactory "github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	utiltx "github.com/evmos/evmos/v20/testutil/tx"
-	evmostypes "github.com/evmos/evmos/v20/types"
-	"github.com/evmos/evmos/v20/utils"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
-	"github.com/evmos/evmos/v20/x/vesting/types"
+	"github.com/omini/omini/v20/contracts"
+	"github.com/omini/omini/v20/testutil"
+	ominifactory "github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	utiltx "github.com/omini/omini/v20/testutil/tx"
+	ominitypes "github.com/omini/omini/v20/types"
+	"github.com/omini/omini/v20/utils"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
+	"github.com/omini/omini/v20/x/vesting/types"
 )
 
 var (
 	vestAmount      = int64(1000)
-	baseDenom       = evmostypes.BaseDenom
+	baseDenom       = ominitypes.BaseDenom
 	balances        = sdk.NewCoins(sdk.NewInt64Coin(baseDenom, vestAmount))
 	delegationCoins = sdk.NewCoins(sdk.NewInt64Coin(baseDenom, 1e18))
 	quarter         = sdk.NewCoins(sdk.NewInt64Coin(baseDenom, 250))
@@ -294,7 +294,7 @@ func TestMsgCreateClawbackVestingAccount(t *testing.T) {
 		ctx     sdk.Context
 		nw      *network.UnitTestNetwork
 		handler grpc.Handler
-		factory evmosfactory.TxFactory
+		factory ominifactory.TxFactory
 	)
 	funderAddr, funderPriv := utiltx.NewAccAddressAndKey()
 	vestingAddr, _ := utiltx.NewAccAddressAndKey()
@@ -321,7 +321,7 @@ func TestMsgCreateClawbackVestingAccount(t *testing.T) {
 				contractAddr, err := factory.DeployContract(
 					funderPriv,
 					evmtypes.EvmTxArgs{},
-					evmosfactory.ContractDeploymentData{
+					ominifactory.ContractDeploymentData{
 						Contract:        contracts.ERC20MinterBurnerDecimalsContract,
 						ConstructorArgs: []interface{}{"TestToken", "TTK", uint8(18)},
 					},
@@ -407,7 +407,7 @@ func TestMsgCreateClawbackVestingAccount(t *testing.T) {
 			// reset
 			nw = network.NewUnitTestNetwork(network.WithPreFundedAccounts(funderAddr))
 			handler = grpc.NewIntegrationHandler(nw)
-			factory = evmosfactory.New(nw, handler)
+			factory = ominifactory.New(nw, handler)
 			ctx = nw.GetContext()
 
 			vestingAddr := tc.malleate(tc.funder)

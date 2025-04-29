@@ -8,9 +8,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 
-	cmn "github.com/evmos/evmos/v20/precompiles/common"
-	"github.com/evmos/evmos/v20/precompiles/evidence"
-	"github.com/evmos/evmos/v20/precompiles/testutil"
+	cmn "github.com/omini/omini/v20/precompiles/common"
+	"github.com/omini/omini/v20/precompiles/evidence"
+	"github.com/omini/omini/v20/precompiles/testutil"
 )
 
 func (s *PrecompileTestSuite) TestEvidence() {

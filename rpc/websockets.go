@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package rpc
 
 import (
@@ -29,11 +29,11 @@ import (
 	rpcclient "github.com/cometbft/cometbft/rpc/jsonrpc/client"
 	cmttypes "github.com/cometbft/cometbft/types"
 
-	"github.com/evmos/evmos/v20/rpc/ethereum/pubsub"
-	rpcfilters "github.com/evmos/evmos/v20/rpc/namespaces/ethereum/eth/filters"
-	"github.com/evmos/evmos/v20/rpc/types"
-	"github.com/evmos/evmos/v20/server/config"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/omini/omini/v20/rpc/ethereum/pubsub"
+	rpcfilters "github.com/omini/omini/v20/rpc/namespaces/ethereum/eth/filters"
+	"github.com/omini/omini/v20/rpc/types"
+	"github.com/omini/omini/v20/server/config"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
 type WebsocketsServer interface {

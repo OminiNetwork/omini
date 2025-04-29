@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package factory
 
@@ -30,7 +30,7 @@ func newStakingTxFactory(bf BaseTxFactory) StakingTxFactory {
 
 // Delegate on behalf of the account associated with the given private key.
 // The defined amount will delegated to the specified validator.
-// The validator address should be in the format `evmosvaloper1...`.
+// The validator address should be in the format `ominivaloper1...`.
 func (tf *stakingTxFactory) Delegate(delegatorPriv cryptotypes.PrivKey, validatorAddr string, amount sdk.Coin) error {
 	delegatorAccAddr := sdk.AccAddress(delegatorPriv.PubKey().Address())
 

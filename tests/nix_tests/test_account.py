@@ -1,7 +1,7 @@
 import pytest
 from web3 import Web3
 
-from .network import setup_evmos, setup_evmos_6dec, setup_evmos_rocksdb
+from .network import setup_omini, setup_omini_6dec, setup_omini_rocksdb
 from .utils import (
     ADDRS,
     KEYS,
@@ -13,15 +13,15 @@ from .utils import (
 
 # start a brand new chain for this test
 @pytest.fixture(scope="module")
-def custom_evmos(tmp_path_factory):
+def custom_omini(tmp_path_factory):
     path = tmp_path_factory.mktemp("account")
-    yield from setup_evmos(path, 26700, long_timeout_commit=True)
+    yield from setup_omini(path, 26700, long_timeout_commit=True)
 
 
 @pytest.fixture(scope="module")
-def custom_evmos_6dec(tmp_path_factory):
+def custom_omini_6dec(tmp_path_factory):
     path = tmp_path_factory.mktemp("account-6dec")
-    yield from setup_evmos_6dec(
+    yield from setup_omini_6dec(
         path,
         46777,
     )
@@ -30,34 +30,34 @@ def custom_evmos_6dec(tmp_path_factory):
 # ATM rocksdb build is not supported for sdkv0.50
 # This is due to cronos dependencies (versionDB, memIAVL)
 @pytest.fixture(scope="module")
-def custom_evmos_rocksdb(tmp_path_factory):
+def custom_omini_rocksdb(tmp_path_factory):
     path = tmp_path_factory.mktemp("account-rocksdb")
-    yield from setup_evmos_rocksdb(
+    yield from setup_omini_rocksdb(
         path,
         26777,
     )
 
 
 @pytest.fixture(
-    scope="module", params=["evmos", "evmos-ws", "evmos-6dec", "evmos-rocksdb", "geth"]
+    scope="module", params=["omini", "omini-ws", "omini-6dec", "omini-rocksdb", "geth"]
 )
-def cluster(request, custom_evmos, custom_evmos_6dec, custom_evmos_rocksdb, geth):
+def cluster(request, custom_omini, custom_omini_6dec, custom_omini_rocksdb, geth):
     """
-    run on evmos, evmos websocket,
-    evmos built with rocksdb (memIAVL + versionDB)
+    run on omini, omini websocket,
+    omini built with rocksdb (memIAVL + versionDB)
     and geth
     """
     provider = request.param
-    if provider == "evmos":
-        yield custom_evmos
-    elif provider == "evmos-ws":
-        evmos_ws = custom_evmos.copy()
-        evmos_ws.use_websocket()
-        yield evmos_ws
-    elif provider == "evmos-6dec":
-        yield custom_evmos_6dec
-    elif provider == "evmos-rocksdb":
-        yield custom_evmos_rocksdb
+    if provider == "omini":
+        yield custom_omini
+    elif provider == "omini-ws":
+        omini_ws = custom_omini.copy()
+        omini_ws.use_websocket()
+        yield omini_ws
+    elif provider == "omini-6dec":
+        yield custom_omini_6dec
+    elif provider == "omini-rocksdb":
+        yield custom_omini_rocksdb
     elif provider == "geth":
         yield geth
     else:

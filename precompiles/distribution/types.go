@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package distribution
 
@@ -14,9 +14,9 @@ import (
 	distributiontypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v20/cmd/config"
-	cmn "github.com/evmos/evmos/v20/precompiles/common"
-	evmostypes "github.com/evmos/evmos/v20/types"
+	"github.com/omini/omini/v20/cmd/config"
+	cmn "github.com/omini/omini/v20/precompiles/common"
+	ominitypes "github.com/omini/omini/v20/types"
 )
 
 // EventSetWithdrawAddress defines the event data for the SetWithdrawAddress transaction.
@@ -158,7 +158,7 @@ func NewMsgFundCommunityPool(args []interface{}) (*distributiontypes.MsgFundComm
 
 	msg := &distributiontypes.MsgFundCommunityPool{
 		Depositor: sdk.AccAddress(depositorAddress.Bytes()).String(),
-		Amount:    sdk.Coins{sdk.Coin{Denom: evmostypes.BaseDenom, Amount: math.NewIntFromBigInt(amount)}},
+		Amount:    sdk.Coins{sdk.Coin{Denom: ominitypes.BaseDenom, Amount: math.NewIntFromBigInt(amount)}},
 	}
 
 	return msg, depositorAddress, nil

@@ -16,7 +16,7 @@ struct Balance {
 }
 
 /**
- * @author Evmos Team
+ * @author omini Team
  * @title Bank Interface
  * @dev Interface for querying balances and supply from the Bank module.
  */

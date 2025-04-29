@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package werc20
 
@@ -10,9 +10,9 @@ import (
 	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	cmn "github.com/evmos/evmos/v20/precompiles/common"
-	"github.com/evmos/evmos/v20/x/evm/core/vm"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	cmn "github.com/omini/omini/v20/precompiles/common"
+	"github.com/omini/omini/v20/x/evm/core/vm"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
 const (
@@ -66,7 +66,7 @@ func (p Precompile) Deposit(
 
 // Withdraw is a no-op and mock function that provides the same interface as the
 // WETH contract to support equality between the native coin and its wrapped
-// ERC-20 (e.g. EVMOS and WEVMOS).
+// ERC-20 (e.g. omini and Womini).
 func (p Precompile) Withdraw(ctx sdk.Context, contract *vm.Contract, stateDB vm.StateDB, args []interface{}) ([]byte, error) {
 	amount, ok := args[0].(*big.Int)
 	if !ok {

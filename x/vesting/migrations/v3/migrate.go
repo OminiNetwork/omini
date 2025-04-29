@@ -1,10 +1,10 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package v3
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	vestingtypes "github.com/evmos/evmos/v20/x/vesting/types"
+	vestingtypes "github.com/omini/omini/v20/x/vesting/types"
 )
 
 // MigrateStore migrates the x/vesting module state from the consensus version 2 to

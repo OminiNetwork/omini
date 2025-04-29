@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package ics20
 
@@ -12,12 +12,12 @@ import (
 	channelkeeper "github.com/cosmos/ibc-go/v8/modules/core/04-channel/keeper"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v20/precompiles/authorization"
-	cmn "github.com/evmos/evmos/v20/precompiles/common"
-	"github.com/evmos/evmos/v20/x/evm/core/vm"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
-	transferkeeper "github.com/evmos/evmos/v20/x/ibc/transfer/keeper"
-	stakingkeeper "github.com/evmos/evmos/v20/x/staking/keeper"
+	"github.com/omini/omini/v20/precompiles/authorization"
+	cmn "github.com/omini/omini/v20/precompiles/common"
+	"github.com/omini/omini/v20/x/evm/core/vm"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
+	transferkeeper "github.com/omini/omini/v20/x/ibc/transfer/keeper"
+	stakingkeeper "github.com/omini/omini/v20/x/staking/keeper"
 )
 
 // PrecompileAddress of the ICS-20 EVM extension in hex format.

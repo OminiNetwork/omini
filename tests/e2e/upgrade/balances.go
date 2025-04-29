@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package upgrade
 
@@ -32,7 +32,7 @@ func (m *Manager) GetBalance(ctx context.Context, chainID, address string) (sdk.
 		return sdk.Coins{}, fmt.Errorf("run exec error: %w", err)
 	}
 	if errBuff.String() != "" {
-		return sdk.Coins{}, fmt.Errorf("evmos query error: %s", errBuff.String())
+		return sdk.Coins{}, fmt.Errorf("omini query error: %s", errBuff.String())
 	}
 
 	return UnpackBalancesResponse(m.ProtoCodec, outBuff.String())

@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package evm_test
 
 import (
@@ -9,12 +9,12 @@ import (
 	"cosmossdk.io/math"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	gethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/evmos/evmos/v20/app/ante/evm"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/omini/omini/v20/app/ante/evm"
+	"github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	testkeyring "github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
 func (suite *EvmAnteTestSuite) TestCanTransfer() {

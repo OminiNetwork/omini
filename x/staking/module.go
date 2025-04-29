@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package staking
 
@@ -15,7 +15,7 @@ import (
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	"github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/evmos/evmos/v20/x/staking/keeper"
+	"github.com/omini/omini/v20/x/staking/keeper"
 )
 
 var (
@@ -36,7 +36,7 @@ type AppModuleBasic struct {
 }
 
 // AppModule represents a wrapper around the Cosmos SDK staking module AppModule and
-// the Evmos custom staking module keeper.
+// the omini custom staking module keeper.
 type AppModule struct {
 	*staking.AppModule
 	keeper         *keeper.Keeper

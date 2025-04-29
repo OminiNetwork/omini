@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package eip712
 
 import (
@@ -12,7 +12,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
-	"github.com/evmos/evmos/v20/types"
+	"github.com/omini/omini/v20/types"
 )
 
 // PreprocessLedgerTx reformats Ledger-signed Cosmos transactions to match the fork expected by Ethermint
@@ -74,7 +74,7 @@ func PreprocessLedgerTx(chainID string, keyType cosmoskr.KeyType, txBuilder clie
 	extensionBuilder.SetExtensionOptions(option)
 
 	// Set blank signature with Amino Sign Type
-	// (Regardless of input signMode, Evmos requires Amino signature type for Ledger)
+	// (Regardless of input signMode, omini requires Amino signature type for Ledger)
 	blankSig := signing.SingleSignatureData{
 		SignMode:  signing.SignMode_SIGN_MODE_LEGACY_AMINO_JSON,
 		Signature: nil,

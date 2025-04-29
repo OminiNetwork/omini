@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package staking_test
 
 import (
@@ -21,23 +21,23 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	compiledcontracts "github.com/evmos/evmos/v20/contracts"
-	"github.com/evmos/evmos/v20/crypto/ethsecp256k1"
-	"github.com/evmos/evmos/v20/precompiles/authorization"
-	cmn "github.com/evmos/evmos/v20/precompiles/common"
-	"github.com/evmos/evmos/v20/precompiles/distribution"
-	"github.com/evmos/evmos/v20/precompiles/staking"
-	"github.com/evmos/evmos/v20/precompiles/staking/testdata"
-	"github.com/evmos/evmos/v20/precompiles/testutil"
-	"github.com/evmos/evmos/v20/precompiles/testutil/contracts"
-	evmosutil "github.com/evmos/evmos/v20/testutil"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	testutils "github.com/evmos/evmos/v20/testutil/integration/evmos/utils"
-	testutiltx "github.com/evmos/evmos/v20/testutil/tx"
-	"github.com/evmos/evmos/v20/x/evm/core/vm"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
-	vestingtypes "github.com/evmos/evmos/v20/x/vesting/types"
+	compiledcontracts "github.com/omini/omini/v20/contracts"
+	"github.com/omini/omini/v20/crypto/ethsecp256k1"
+	"github.com/omini/omini/v20/precompiles/authorization"
+	cmn "github.com/omini/omini/v20/precompiles/common"
+	"github.com/omini/omini/v20/precompiles/distribution"
+	"github.com/omini/omini/v20/precompiles/staking"
+	"github.com/omini/omini/v20/precompiles/staking/testdata"
+	"github.com/omini/omini/v20/precompiles/testutil"
+	"github.com/omini/omini/v20/precompiles/testutil/contracts"
+	ominiutil "github.com/omini/omini/v20/testutil"
+	"github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	testutils "github.com/omini/omini/v20/testutil/integration/omini/utils"
+	testutiltx "github.com/omini/omini/v20/testutil/tx"
+	"github.com/omini/omini/v20/x/evm/core/vm"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
+	vestingtypes "github.com/omini/omini/v20/x/vesting/types"
 )
 
 func TestPrecompileIntegrationTestSuite(t *testing.T) {
@@ -231,7 +231,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 			s.ExpectAuthorization(staking.DelegateAuthz, grantee.Addr, granter.Addr, nil)
 		})
 
-		It("should approve the undelegate method with 1 evmos", func() {
+		It("should approve the undelegate method with 1 omini", func() {
 			granter := s.keyring.GetKey(0)
 			grantee := s.keyring.GetKey(1)
 
@@ -242,7 +242,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 			s.ExpectAuthorization(staking.UndelegateAuthz, grantee.Addr, granter.Addr, &oneE18Coin)
 		})
 
-		It("should approve the redelegate method with 2 evmos", func() {
+		It("should approve the redelegate method with 2 omini", func() {
 			granter := s.keyring.GetKey(0)
 			grantee := s.keyring.GetKey(1)
 
@@ -253,7 +253,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 			s.ExpectAuthorization(staking.RedelegateAuthz, grantee.Addr, granter.Addr, &twoE18Coin)
 		})
 
-		It("should approve the cancel unbonding delegation method with 1 evmos", func() {
+		It("should approve the cancel unbonding delegation method with 1 omini", func() {
 			granter := s.keyring.GetKey(0)
 			grantee := s.keyring.GetKey(1)
 
@@ -288,7 +288,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 		//	Expect(err).To(BeNil(), "error while calling the contract and checking logs")
 		// })
 
-		It("Should increase the allowance of the delegate method with 1 evmos", func() {
+		It("Should increase the allowance of the delegate method with 1 omini", func() {
 			granter := s.keyring.GetKey(0)
 			grantee := s.keyring.GetKey(1)
 
@@ -365,7 +365,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 		//	Expect(err).To(BeNil(), "error while calling the contract and checking logs")
 		// })
 
-		It("Should decrease the allowance of the delegate method with 1 evmos", func() {
+		It("Should decrease the allowance of the delegate method with 1 omini", func() {
 			granteeAddr := s.precompile.Address()
 			granter := s.keyring.GetKey(0)
 
@@ -1147,7 +1147,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 			funderKey := s.keyring.GetKey(0)
 			vestAccKey := keyring.NewKey()
 			vestAcc, vestAccPriv = vestAccKey.Addr, vestAccKey.Priv.(*ethsecp256k1.PrivKey)
-			vestingAmtTotal := evmosutil.TestVestingSchedule.TotalVestingCoins
+			vestingAmtTotal := ominiutil.TestVestingSchedule.TotalVestingCoins
 
 			clawbackAccount = s.setupVestingAccount(funderKey, vestAccKey)
 
@@ -1176,7 +1176,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 				unlocked := clawbackAccount.GetUnlockedCoins(ctx.BlockTime())
 				zeroCoins := sdk.NewCoins(sdk.NewCoin(s.bondDenom, math.ZeroInt()))
 				Expect(vested).To(Equal(zeroCoins), "expected different vested coins")
-				Expect(unvested).To(Equal(evmosutil.TestVestingSchedule.TotalVestingCoins), "expected different unvested coins")
+				Expect(unvested).To(Equal(ominiutil.TestVestingSchedule.TotalVestingCoins), "expected different unvested coins")
 				Expect(unlocked).To(Equal(zeroCoins), "expected different unlocked coins")
 			})
 
@@ -1202,7 +1202,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 				// check balance is updated
 				balRes, err := s.grpcHandler.GetBalanceFromBank(clawbackAccount.GetAddress(), s.bondDenom)
 				Expect(err).To(BeNil())
-				Expect(*balRes.Balance).To(Equal(accountGasCoverage[0].Add(evmosutil.TestVestingSchedule.TotalVestingCoins[0]).Add(coinsToDelegate[0])))
+				Expect(*balRes.Balance).To(Equal(accountGasCoverage[0].Add(ominiutil.TestVestingSchedule.TotalVestingCoins[0]).Add(coinsToDelegate[0])))
 
 				delegateArgs.Args = []interface{}{
 					vestAcc, valAddr.String(), coinsToDelegate.AmountOf(s.bondDenom).BigInt(),
@@ -1221,28 +1221,28 @@ var _ = Describe("Calling staking precompile directly", func() {
 				// check vesting balance is untouched
 				balRes, err = s.grpcHandler.GetBalanceFromBank(vestAcc.Bytes(), s.bondDenom)
 				Expect(err).To(BeNil())
-				Expect(balRes.Balance.IsGTE(evmosutil.TestVestingSchedule.TotalVestingCoins[0])).To(BeTrue())
+				Expect(balRes.Balance.IsGTE(ominiutil.TestVestingSchedule.TotalVestingCoins[0])).To(BeTrue())
 			})
 		})
 
 		Context("after first vesting period and before lockup - some vested tokens, but still all locked", func() {
 			BeforeEach(func() {
 				// Surpass cliff but none of lockup duration
-				cliffDuration := time.Duration(evmosutil.TestVestingSchedule.CliffPeriodLength)
+				cliffDuration := time.Duration(ominiutil.TestVestingSchedule.CliffPeriodLength)
 				Expect(s.network.NextBlockAfter(cliffDuration * time.Second)).To(BeNil())
 				ctx := s.network.GetContext()
 
 				// Check if some, but not all tokens are vested
 				vested = clawbackAccount.GetVestedCoins(ctx.BlockTime())
-				expVested := sdk.NewCoins(sdk.NewCoin(s.bondDenom, evmosutil.TestVestingSchedule.VestedCoinsPerPeriod[0].Amount.Mul(math.NewInt(evmosutil.TestVestingSchedule.CliffMonths))))
-				Expect(vested).NotTo(Equal(evmosutil.TestVestingSchedule.TotalVestingCoins), "expected some tokens to have been vested")
+				expVested := sdk.NewCoins(sdk.NewCoin(s.bondDenom, ominiutil.TestVestingSchedule.VestedCoinsPerPeriod[0].Amount.Mul(math.NewInt(ominiutil.TestVestingSchedule.CliffMonths))))
+				Expect(vested).NotTo(Equal(ominiutil.TestVestingSchedule.TotalVestingCoins), "expected some tokens to have been vested")
 				Expect(vested).To(Equal(expVested), "expected different vested amount")
 
 				// check the vested tokens are still locked
 				unlockedVested = clawbackAccount.GetUnlockedVestedCoins(ctx.BlockTime())
 				Expect(unlockedVested).To(Equal(sdk.Coins{}))
 
-				vestingAmtTotal := evmosutil.TestVestingSchedule.TotalVestingCoins
+				vestingAmtTotal := ominiutil.TestVestingSchedule.TotalVestingCoins
 				res, err := s.network.App.VestingKeeper.Balances(ctx, &vestingtypes.QueryBalancesRequest{Address: clawbackAccount.Address})
 				Expect(err).To(BeNil())
 				Expect(res.Vested).To(Equal(expVested))
@@ -1278,7 +1278,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 				// check balance is updated
 				balRes, err := s.grpcHandler.GetBalanceFromBank(vestAcc.Bytes(), s.bondDenom)
 				Expect(err).To(BeNil())
-				Expect(*balRes.Balance).To(Equal(accountGasCoverage[0].Add(evmosutil.TestVestingSchedule.TotalVestingCoins[0]).Add(amt[0])))
+				Expect(*balRes.Balance).To(Equal(accountGasCoverage[0].Add(ominiutil.TestVestingSchedule.TotalVestingCoins[0]).Add(amt[0])))
 
 				coinsToDelegate := amt.Add(vested...)
 
@@ -1301,7 +1301,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 		Context("Between first and second lockup periods - vested coins are unlocked", func() {
 			BeforeEach(func() {
 				// Surpass first lockup
-				vestDuration := time.Duration(evmosutil.TestVestingSchedule.LockupPeriodLength)
+				vestDuration := time.Duration(ominiutil.TestVestingSchedule.LockupPeriodLength)
 				Expect(s.network.NextBlockAfter(vestDuration * time.Second)).To(BeNil())
 				ctx := s.network.GetContext()
 
@@ -1310,14 +1310,14 @@ var _ = Describe("Calling staking precompile directly", func() {
 				unlocked := clawbackAccount.GetUnlockedCoins(ctx.BlockTime())
 				unlockedVested = clawbackAccount.GetUnlockedVestedCoins(ctx.BlockTime())
 
-				expVested := sdk.NewCoins(sdk.NewCoin(s.bondDenom, evmosutil.TestVestingSchedule.VestedCoinsPerPeriod[0].Amount.Mul(math.NewInt(evmosutil.TestVestingSchedule.LockupMonths))))
+				expVested := sdk.NewCoins(sdk.NewCoin(s.bondDenom, ominiutil.TestVestingSchedule.VestedCoinsPerPeriod[0].Amount.Mul(math.NewInt(ominiutil.TestVestingSchedule.LockupMonths))))
 				expUnlockedVested := expVested
 
-				Expect(vested).NotTo(Equal(evmosutil.TestVestingSchedule.TotalVestingCoins), "expected not all tokens to be vested")
+				Expect(vested).NotTo(Equal(ominiutil.TestVestingSchedule.TotalVestingCoins), "expected not all tokens to be vested")
 				Expect(vested).To(Equal(expVested), "expected different amount of vested tokens")
 				// all vested coins are unlocked
 				Expect(unlockedVested).To(Equal(vested))
-				Expect(unlocked).To(Equal(evmosutil.TestVestingSchedule.UnlockedCoinsPerLockup))
+				Expect(unlocked).To(Equal(ominiutil.TestVestingSchedule.UnlockedCoinsPerLockup))
 				Expect(unlockedVested).To(Equal(expUnlockedVested))
 			})
 			It("Should be able to delegate unlocked vested tokens", func() {
@@ -1935,7 +1935,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 
 		It("should return an empty array if no redelegation is found for the given source validator", func() {
 			// NOTE: the way that the functionality is implemented in the Cosmos SDK, the following combinations are
-			// possible (see https://github.com/evmos/cosmos-sdk/blob/e773cf768844c87245d0c737cda1893a2819dd89/x/staking/keeper/querier.go#L361-L373):
+			// possible (see https://github.com/omini/cosmos-sdk/blob/e773cf768844c87245d0c737cda1893a2819dd89/x/staking/keeper/querier.go#L361-L373):
 			//
 			// - delegator is NOT empty, source validator is empty, destination validator is empty
 			//   --> filtering for all redelegations of the given delegator
@@ -3076,7 +3076,7 @@ var _ = Describe("Calling staking precompile via Solidity", Ordered, func() {
 				ctx := s.network.GetContext()
 
 				// Check if all tokens are unvested at vestingStart
-				totalVestingCoins := evmosutil.TestVestingSchedule.TotalVestingCoins
+				totalVestingCoins := ominiutil.TestVestingSchedule.TotalVestingCoins
 				unvested = clawbackAccount.GetVestingCoins(ctx.BlockTime())
 				vested = clawbackAccount.GetVestedCoins(ctx.BlockTime())
 				Expect(unvested).To(Equal(totalVestingCoins))
@@ -3101,7 +3101,7 @@ var _ = Describe("Calling staking precompile via Solidity", Ordered, func() {
 					unlocked := clawbackAccount.GetUnlockedCoins(ctx.BlockTime())
 					zeroCoins := sdk.NewCoins(sdk.NewCoin(s.bondDenom, math.ZeroInt()))
 					Expect(vested).To(Equal(zeroCoins))
-					Expect(unvested).To(Equal(evmosutil.TestVestingSchedule.TotalVestingCoins))
+					Expect(unvested).To(Equal(ominiutil.TestVestingSchedule.TotalVestingCoins))
 					Expect(unlocked).To(Equal(zeroCoins))
 				})
 
@@ -3139,20 +3139,20 @@ var _ = Describe("Calling staking precompile via Solidity", Ordered, func() {
 			Context("after first vesting period and before lockup - some vested tokens, but still all locked", func() {
 				BeforeEach(func() {
 					// Surpass cliff but none of lockup duration
-					cliffDuration := time.Duration(evmosutil.TestVestingSchedule.CliffPeriodLength)
+					cliffDuration := time.Duration(ominiutil.TestVestingSchedule.CliffPeriodLength)
 					Expect(s.network.NextBlockAfter(cliffDuration * time.Second)).Error().To(BeNil())
 
 					// Check if some, but not all tokens are vested
 					vested = clawbackAccount.GetVestedCoins(s.network.GetContext().BlockTime())
-					expVested := sdk.NewCoins(sdk.NewCoin(s.bondDenom, evmosutil.TestVestingSchedule.VestedCoinsPerPeriod[0].Amount.Mul(math.NewInt(evmosutil.TestVestingSchedule.CliffMonths))))
-					Expect(vested).NotTo(Equal(evmosutil.TestVestingSchedule.TotalVestingCoins))
+					expVested := sdk.NewCoins(sdk.NewCoin(s.bondDenom, ominiutil.TestVestingSchedule.VestedCoinsPerPeriod[0].Amount.Mul(math.NewInt(ominiutil.TestVestingSchedule.CliffMonths))))
+					Expect(vested).NotTo(Equal(ominiutil.TestVestingSchedule.TotalVestingCoins))
 					Expect(vested).To(Equal(expVested))
 
 					// check the vested tokens are still locked
 					unlockedVested = clawbackAccount.GetUnlockedVestedCoins(s.network.GetContext().BlockTime())
 					Expect(unlockedVested).To(Equal(sdk.Coins{}))
 
-					vestingAmtTotal := evmosutil.TestVestingSchedule.TotalVestingCoins
+					vestingAmtTotal := ominiutil.TestVestingSchedule.TotalVestingCoins
 					res, err := s.network.App.VestingKeeper.Balances(s.network.GetContext(), &vestingtypes.QueryBalancesRequest{Address: clawbackAccount.Address})
 					Expect(err).To(BeNil())
 					Expect(res.Vested).To(Equal(expVested))
@@ -3206,7 +3206,7 @@ var _ = Describe("Calling staking precompile via Solidity", Ordered, func() {
 			Context("Between first and second lockup periods - vested coins are unlocked", func() {
 				BeforeEach(func() {
 					// Surpass first lockup
-					vestDuration := time.Duration(evmosutil.TestVestingSchedule.LockupPeriodLength)
+					vestDuration := time.Duration(ominiutil.TestVestingSchedule.LockupPeriodLength)
 					Expect(s.network.NextBlockAfter(vestDuration * time.Second)).To(BeNil())
 
 					// Check if some, but not all tokens are vested and unlocked
@@ -3214,14 +3214,14 @@ var _ = Describe("Calling staking precompile via Solidity", Ordered, func() {
 					unlocked := clawbackAccount.GetUnlockedCoins(s.network.GetContext().BlockTime())
 					unlockedVested = clawbackAccount.GetUnlockedVestedCoins(s.network.GetContext().BlockTime())
 
-					expVested := sdk.NewCoins(sdk.NewCoin(s.bondDenom, evmosutil.TestVestingSchedule.VestedCoinsPerPeriod[0].Amount.Mul(math.NewInt(evmosutil.TestVestingSchedule.LockupMonths))))
+					expVested := sdk.NewCoins(sdk.NewCoin(s.bondDenom, ominiutil.TestVestingSchedule.VestedCoinsPerPeriod[0].Amount.Mul(math.NewInt(ominiutil.TestVestingSchedule.LockupMonths))))
 					expUnlockedVested := expVested
 
-					Expect(vested).NotTo(Equal(evmosutil.TestVestingSchedule.TotalVestingCoins))
+					Expect(vested).NotTo(Equal(ominiutil.TestVestingSchedule.TotalVestingCoins))
 					Expect(vested).To(Equal(expVested))
 					// all vested coins are unlocked
 					Expect(unlockedVested).To(Equal(vested))
-					Expect(unlocked).To(Equal(evmosutil.TestVestingSchedule.UnlockedCoinsPerLockup))
+					Expect(unlocked).To(Equal(ominiutil.TestVestingSchedule.UnlockedCoinsPerLockup))
 					Expect(unlockedVested).To(Equal(expUnlockedVested))
 				})
 				It("Should be able to delegate unlocked vested tokens", func() {

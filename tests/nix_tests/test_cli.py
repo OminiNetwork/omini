@@ -1,17 +1,17 @@
 from .utils import get_current_height, get_scaling_factor, supervisorctl, wait_for_block
 
 
-def test_block_cmd(evmos_cluster):
+def test_block_cmd(omini_cluster):
     """
-    - start 2 evmos nodes
+    - start 2 omini nodes
     - wait for a certain height
     - stop the node1
     - use the 'block' cli cmd
-    - restart evmos node1
+    - restart omini node1
     """
 
     # wait for specific height
-    node1 = evmos_cluster.cosmos_cli(1)
+    node1 = omini_cluster.cosmos_cli(1)
     current_height = get_current_height(node1)
 
     last_block = current_height + 2
@@ -19,9 +19,9 @@ def test_block_cmd(evmos_cluster):
 
     # stop node1
     supervisorctl(
-        evmos_cluster.base_dir / "../tasks.ini",
+        omini_cluster.base_dir / "../tasks.ini",
         "stop",
-        f"{evmos_cluster.cosmos_cli().chain_id}-node1",
+        f"{omini_cluster.cosmos_cli().chain_id}-node1",
     )
 
     # use 'block' CLI cmd in node1
@@ -63,20 +63,20 @@ def test_block_cmd(evmos_cluster):
 
     # start node1 again
     supervisorctl(
-        evmos_cluster.base_dir / "../tasks.ini",
+        omini_cluster.base_dir / "../tasks.ini",
         "start",
-        f"{evmos_cluster.cosmos_cli().chain_id}-node1",
+        f"{omini_cluster.cosmos_cli().chain_id}-node1",
     )
     # check if chain continues alright
     wait_for_block(node1, last_block + 3)
 
 
-def test_tx_flags(evmos_cluster):
+def test_tx_flags(omini_cluster):
     """
     Tests the expected responses for common fee and gas related CLI flags.
     """
 
-    node = evmos_cluster.cosmos_cli(0)
+    node = omini_cluster.cosmos_cli(0)
     current_height = get_current_height(node)
     wait_for_block(node, current_height + 1)
     fee_denom = node.evm_denom()
@@ -153,7 +153,7 @@ def test_tx_flags(evmos_cluster):
         try:
             res = node.transfer(
                 "signer1",
-                "evmos10jmp6sgh4cc6zt3e8gw05wavvejgr5pwjnpcky",
+                "omini10jmp6sgh4cc6zt3e8gw05wavvejgr5pwjnpcky",
                 f"{int(100000000000000/scale_factor)}{fee_denom}",
                 False,
                 **tc["flags"],

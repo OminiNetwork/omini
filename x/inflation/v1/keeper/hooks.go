@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package keeper
 
@@ -10,8 +10,8 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	epochstypes "github.com/evmos/evmos/v20/x/epochs/types"
-	"github.com/evmos/evmos/v20/x/inflation/v1/types"
+	epochstypes "github.com/omini/omini/v20/x/epochs/types"
+	"github.com/omini/omini/v20/x/inflation/v1/types"
 )
 
 // BeforeEpochStart: noop, We don't need to do anything here

@@ -5,12 +5,12 @@ import pytest
 
 from .ibc_utils import (
     BASECRO_IBC_DENOM,
-    EVMOS_IBC_DENOM,
+    omini_IBC_DENOM,
     assert_ready,
     get_balance,
     prepare_network,
 )
-from .network import CosmosChain, Evmos
+from .network import CosmosChain, omini
 from .utils import (
     approve_proposal,
     wait_for_ack,
@@ -23,8 +23,8 @@ RATE_LIMIT_PROP = {
     "messages": [
         {
             "@type": "/ratelimit.v1.MsgAddRateLimit",
-            "authority": "evmos10d07y265gmmuvt4z0w9aw880jnsr700jcrztvm",
-            "denom": "aevmos",
+            "authority": "omini10d07y265gmmuvt4z0w9aw880jnsr700jcrztvm",
+            "denom": "aomini",
             "channel_id": "channel-0",
             "max_percent_send": "10",
             "max_percent_recv": "100",
@@ -32,23 +32,23 @@ RATE_LIMIT_PROP = {
         }
     ],
     "metadata": "ipfs://CID",
-    "deposit": "1aevmos",
+    "deposit": "1aomini",
     "title": "add rate limit",
     "summary": "add rate limit",
 }
 
 
-@pytest.fixture(scope="module", params=["evmos", "evmos-6dec", "evmos-rocksdb"])
+@pytest.fixture(scope="module", params=["omini", "omini-6dec", "omini-rocksdb"])
 def ibc(request, tmp_path_factory):
     """
-    prepare IBC network with an evmos chain
+    prepare IBC network with an omini chain
     (default build or with memIAVL + versionDB)
     and a chainmain (crypto.org) chain
     """
     name = "ibc"
-    evmos_build = request.param
+    omini_build = request.param
     path = tmp_path_factory.mktemp(name)
-    network = prepare_network(path, name, [evmos_build, "chainmain"])
+    network = prepare_network(path, name, [omini_build, "chainmain"])
     yield from network
 
 
@@ -67,27 +67,27 @@ def ibc(request, tmp_path_factory):
         ),
     ],
 )
-def test_evmos_ibc_transfer_native_denom(ibc, name, transfer_amt, err_contains):
+def test_omini_ibc_transfer_native_denom(ibc, name, transfer_amt, err_contains):
     """
-    test sending aevmos from evmos to crypto-org-chain using cli.
+    test sending aomini from omini to crypto-org-chain using cli.
     """
     assert_ready(ibc)
-    evmos: Evmos = ibc.chains["evmos"]
+    omini: omini = ibc.chains["omini"]
     chainmain: CosmosChain = ibc.chains["chainmain"]
 
     dst_addr = chainmain.cosmos_cli().address("signer2")
 
-    cli = evmos.cosmos_cli()
+    cli = omini.cosmos_cli()
     src_addr = cli.address("signer2")
-    src_denom = "aevmos"
+    src_denom = "aomini"
 
     # submit proposal if limit was not set
     limits = cli.rate_limits()
     if len(limits) == 0:
-        add_rate_limit(evmos)
+        add_rate_limit(omini)
 
-    old_src_balance = get_balance(evmos, src_addr, src_denom)
-    old_dst_balance = get_balance(chainmain, dst_addr, EVMOS_IBC_DENOM)
+    old_src_balance = get_balance(omini, src_addr, src_denom)
+    old_dst_balance = get_balance(chainmain, dst_addr, omini_IBC_DENOM)
 
     rsp = cli.ibc_transfer(
         src_addr,
@@ -112,7 +112,7 @@ def test_evmos_ibc_transfer_native_denom(ibc, name, transfer_amt, err_contains):
     def check_balance_change():
         nonlocal new_dst_balance
         new_dst_balance = get_balance(
-            ibc.chains["chainmain"], dst_addr, EVMOS_IBC_DENOM
+            ibc.chains["chainmain"], dst_addr, omini_IBC_DENOM
         )
         return old_dst_balance < new_dst_balance
 
@@ -124,7 +124,7 @@ def test_evmos_ibc_transfer_native_denom(ibc, name, transfer_amt, err_contains):
     assert int(rate["flow"]["outflow"]) == transfer_amt
 
     assert old_dst_balance + transfer_amt == new_dst_balance, name
-    new_src_balance = get_balance(ibc.chains["evmos"], src_addr, src_denom)
+    new_src_balance = get_balance(ibc.chains["omini"], src_addr, src_denom)
     assert old_src_balance - transfer_amt == new_src_balance, name
 
 
@@ -154,23 +154,23 @@ def test_evmos_ibc_transfer_native_denom(ibc, name, transfer_amt, err_contains):
         ),
     ],
 )
-def test_evmos_ibc_transfer_ibc_denom(
+def test_omini_ibc_transfer_ibc_denom(
     ibc, name, amt_in, amt_out, err_inflow, err_outflow
 ):
     """
-    test sending aevmos from evmos to crypto-org-chain using cli.
+    test sending aomini from omini to crypto-org-chain using cli.
     """
     assert_ready(ibc)
-    evmos: Evmos = ibc.chains["evmos"]
+    omini: omini = ibc.chains["omini"]
     chainmain: CosmosChain = ibc.chains["chainmain"]
 
     dst_addr = chainmain.cosmos_cli().address("signer2")
 
-    cli = evmos.cosmos_cli()
+    cli = omini.cosmos_cli()
     src_addr = cli.address("signer2")
     src_denom = BASECRO_IBC_DENOM
 
-    old_dst_balance = get_balance(evmos, src_addr, src_denom)
+    old_dst_balance = get_balance(omini, src_addr, src_denom)
 
     rsp = chainmain.cosmos_cli().ibc_transfer(
         dst_addr,
@@ -183,26 +183,26 @@ def test_evmos_ibc_transfer_ibc_denom(
     )
     assert rsp["code"] == 0, rsp["raw_log"]
 
-    wait_for_ack(cli, "evmos")
+    wait_for_ack(cli, "omini")
     if err_inflow is not None:
         wait_for_block(cli, 2)
         # balance should now have increased because the transaction
         # exceeded the inflow quota
-        new_dst_balance = get_balance(evmos, src_addr, src_denom)
+        new_dst_balance = get_balance(omini, src_addr, src_denom)
         assert new_dst_balance == old_dst_balance
         return
 
-    def check_balance_change_evmos():
-        new_dst_balance = get_balance(evmos, src_addr, src_denom)
+    def check_balance_change_omini():
+        new_dst_balance = get_balance(omini, src_addr, src_denom)
         return old_dst_balance < new_dst_balance
 
-    wait_for_fn("balance change", check_balance_change_evmos)
+    wait_for_fn("balance change", check_balance_change_omini)
 
     # submit proposal if limit was not set
     limits = cli.rate_limits()
-    # expect to already have one rate limit (for 'aevmos') from the previous test
+    # expect to already have one rate limit (for 'aomini') from the previous test
     if len(limits) == 1:
-        add_rate_limit(evmos, src_denom)
+        add_rate_limit(omini, src_denom)
 
     else:
         # if rate limit already exists,
@@ -211,7 +211,7 @@ def test_evmos_ibc_transfer_ibc_denom(
         rate = cli.rate_limit("channel-0", src_denom)
         assert int(rate["flow"]["inflow"]) == amt_in
 
-    old_src_balance = get_balance(evmos, src_addr, src_denom)
+    old_src_balance = get_balance(omini, src_addr, src_denom)
     old_dst_balance = get_balance(chainmain, dst_addr, "basecro")
 
     rsp = cli.ibc_transfer(
@@ -246,12 +246,12 @@ def test_evmos_ibc_transfer_ibc_denom(
     assert int(rate["flow"]["outflow"]) == amt_out
 
     assert old_dst_balance + amt_out == new_dst_balance, name
-    new_src_balance = get_balance(ibc.chains["evmos"], src_addr, src_denom)
+    new_src_balance = get_balance(ibc.chains["omini"], src_addr, src_denom)
     assert old_src_balance - amt_out == new_src_balance, name
 
 
-def add_rate_limit(evmos: Evmos, denom: str = "aevmos"):
-    cli = evmos.cosmos_cli()
+def add_rate_limit(omini: omini, denom: str = "aomini"):
+    cli = omini.cosmos_cli()
     with tempfile.NamedTemporaryFile("w") as fp:
         RATE_LIMIT_PROP["messages"][0]["denom"] = denom  # type: ignore
         json.dump(RATE_LIMIT_PROP, fp)
@@ -269,7 +269,7 @@ def add_rate_limit(evmos: Evmos, denom: str = "aevmos"):
     props_count = len(props)
     assert props_count >= 1
 
-    approve_proposal(evmos, props[props_count - 1]["id"])
+    approve_proposal(omini, props[props_count - 1]["id"])
     wait_for_new_blocks(cli, 2)
 
     limits = cli.rate_limits()

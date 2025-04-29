@@ -1,12 +1,12 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package types
 
 import (
 	"cosmossdk.io/math"
 
-	evmostypes "github.com/evmos/evmos/v20/types"
+	ominitypes "github.com/omini/omini/v20/types"
 )
 
 const (
@@ -65,9 +65,9 @@ func CalculateEpochMintProvision(
 		epochProvision = reducedPeriodProvision.Quo(math.LegacyNewDec(epochsPerPeriod))
 	}
 
-	// Multiply epochMintProvision with power reduction (10^18 for evmos) as the
-	// calculation is based on `evmos` and the issued tokens need to be given in
-	// `aevmos`
-	epochProvision = epochProvision.Mul(math.LegacyNewDecFromInt(evmostypes.PowerReduction))
+	// Multiply epochMintProvision with power reduction (10^18 for omini) as the
+	// calculation is based on `omini` and the issued tokens need to be given in
+	// `aomini`
+	epochProvision = epochProvision.Mul(math.LegacyNewDecFromInt(ominitypes.PowerReduction))
 	return epochProvision
 }

@@ -157,12 +157,12 @@ def check_link(link: str, pr_number: int) -> Tuple[str, List[str]]:
     problems: List[str] = []
     fixed = link
 
-    if not link.startswith("https://github.com/evmos/evmos/pull/"):
-        fixed = f"https://github.com/evmos/evmos/pull/{pr_number}"
-        problems.append(f'PR link should point to evmos repository: "{link}"')
+    if not link.startswith("https://github.com/omini/omini/pull/"):
+        fixed = f"https://github.com/omini/omini/pull/{pr_number}"
+        problems.append(f'PR link should point to omini repository: "{link}"')
 
     if str(pr_number) not in link:
-        fixed = f"https://github.com/evmos/evmos/pull/{pr_number}"
+        fixed = f"https://github.com/omini/omini/pull/{pr_number}"
         problems.append(f'PR link is not matching PR number {pr_number}: "{link}"')
 
     return fixed, problems

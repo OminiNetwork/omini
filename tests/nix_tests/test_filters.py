@@ -5,7 +5,7 @@ from eth_abi import abi
 from hexbytes import HexBytes
 from web3 import Web3
 
-from .network import setup_custom_evmos, setup_evmos
+from .network import setup_custom_omini, setup_omini
 from .utils import (
     ADDRS,
     CONTRACTS,
@@ -17,15 +17,15 @@ from .utils import (
 
 
 @pytest.fixture(scope="module")
-def custom_evmos(tmp_path_factory):
+def custom_omini(tmp_path_factory):
     path = tmp_path_factory.mktemp("filters")
-    yield from setup_evmos(path, 26200)
+    yield from setup_omini(path, 26200)
 
 
 @pytest.fixture(scope="module")
-def evmos_indexer(tmp_path_factory):
+def omini_indexer(tmp_path_factory):
     path = tmp_path_factory.mktemp("indexer")
-    yield from setup_custom_evmos(
+    yield from setup_custom_omini(
         path, 26660, Path(__file__).parent / "configs/enable-indexer.jsonnet"
     )
 
@@ -33,33 +33,33 @@ def evmos_indexer(tmp_path_factory):
 @pytest.fixture(
     scope="module",
     params=[
-        "evmos",
+        "omini",
         "geth",
-        "evmos-ws",
-        "evmos-6dec",
+        "omini-ws",
+        "omini-6dec",
         "enable-indexer",
-        "evmos-rocksdb",
+        "omini-rocksdb",
     ],
 )
-def cluster(request, custom_evmos, evmos_indexer, evmos_6dec, evmos_rocksdb, geth):
+def cluster(request, custom_omini, omini_indexer, omini_6dec, omini_rocksdb, geth):
     """
-    run on both evmos and geth
+    run on both omini and geth
     """
     provider = request.param
-    if provider == "evmos":
-        yield custom_evmos
+    if provider == "omini":
+        yield custom_omini
     elif provider == "geth":
         yield geth
-    elif provider == "evmos-ws":
-        evmos_ws = custom_evmos.copy()
-        evmos_ws.use_websocket()
-        yield evmos_ws
+    elif provider == "omini-ws":
+        omini_ws = custom_omini.copy()
+        omini_ws.use_websocket()
+        yield omini_ws
     elif provider == "enable-indexer":
-        yield evmos_indexer
-    elif provider == "evmos-6dec":
-        yield evmos_6dec
-    elif provider == "evmos-rocksdb":
-        yield evmos_rocksdb
+        yield omini_indexer
+    elif provider == "omini-6dec":
+        yield omini_6dec
+    elif provider == "omini-rocksdb":
+        yield omini_rocksdb
     else:
         raise NotImplementedError
 

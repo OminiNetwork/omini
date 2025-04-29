@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package ledger_test
 
@@ -9,11 +9,11 @@ import (
 	gethaccounts "github.com/ethereum/go-ethereum/accounts"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/evmos/evmos/v20/wallets/accounts"
-	"github.com/evmos/evmos/v20/wallets/ledger"
+	"github.com/omini/omini/v20/wallets/accounts"
+	"github.com/omini/omini/v20/wallets/ledger"
 )
 
-func (suite *LedgerTestSuite) TestEvmosLedgerDerivation() {
+func (suite *LedgerTestSuite) TestominiLedgerDerivation() {
 	testCases := []struct {
 		name     string
 		mockFunc func()
@@ -29,7 +29,7 @@ func (suite *LedgerTestSuite) TestEvmosLedgerDerivation() {
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
 			suite.SetupTest() // reset
-			derivationFunc := ledger.EvmosLedgerDerivation()
+			derivationFunc := ledger.ominiLedgerDerivation()
 			_, err := derivationFunc()
 			if tc.expPass {
 				suite.Require().NoError(err)
@@ -206,7 +206,7 @@ func (suite *LedgerTestSuite) TestGetAddressPubKeySECP256K1() {
 	suite.Require().NoError(err)
 
 	addr := crypto.PubkeyToAddress(privKey.PublicKey)
-	expAddr, err := sdk.Bech32ifyAddressBytes("evmos", common.HexToAddress(addr.String()).Bytes())
+	expAddr, err := sdk.Bech32ifyAddressBytes("omini", common.HexToAddress(addr.String()).Bytes())
 	suite.Require().NoError(err)
 
 	testCases := []struct {

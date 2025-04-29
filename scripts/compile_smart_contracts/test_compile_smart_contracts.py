@@ -9,7 +9,7 @@ from compile_smart_contracts import (
     compile_contracts_in_dir,
     copy_to_contracts_directory,
     find_solidity_contracts,
-    is_evmos_repo,
+    is_omini_repo,
     is_ignored_folder,
 )
 
@@ -86,9 +86,9 @@ def test_copy_to_contracts_directory(
 ):
     target = tmp_path
     wd = Path(os.getcwd())
-    assert is_evmos_repo(
+    assert is_omini_repo(
         wd
-    ), "This test should be executed from the top level of the Evmos repo"
+    ), "This test should be executed from the top level of the omini repo"
     contracts = find_solidity_contracts(wd)
 
     assert os.listdir(target) == []

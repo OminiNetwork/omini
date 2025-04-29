@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package factory
 
@@ -8,7 +8,7 @@ import (
 
 	sdktypes "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
+	"github.com/omini/omini/v20/testutil/integration/omini/keyring"
 )
 
 // FundTxFactory is the interface that wraps the common methods to fund accounts

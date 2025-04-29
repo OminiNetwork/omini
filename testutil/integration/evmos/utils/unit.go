@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 //
 // This file contains all utility function that require the access to the unit
 // test network and should only be used in unit tests.
@@ -13,21 +13,21 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	evmostypes "github.com/evmos/evmos/v20/types"
-	erc20types "github.com/evmos/evmos/v20/x/erc20/types"
-	inflationtypes "github.com/evmos/evmos/v20/x/inflation/v1/types"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	ominitypes "github.com/omini/omini/v20/types"
+	erc20types "github.com/omini/omini/v20/x/erc20/types"
+	inflationtypes "github.com/omini/omini/v20/x/inflation/v1/types"
 )
 
 const (
 	TokenToMint = 1e18
 )
 
-// RegisterEvmosERC20Coins uses the UnitNetwork to register the evmos token as an
+// RegisterominiERC20Coins uses the UnitNetwork to register the omini token as an
 // ERC20 token. The function performs all the required steps for the registration
 // like registering the denom trace in the transfer keeper and minting the token
 // with the bank. Returns the TokenPair or an error.
-func RegisterEvmosERC20Coins(
+func RegisterominiERC20Coins(
 	network network.UnitTestNetwork,
 	tokenReceiver sdk.AccAddress,
 ) (erc20types.TokenPair, error) {
@@ -35,7 +35,7 @@ func RegisterEvmosERC20Coins(
 	if err != nil {
 		return erc20types.TokenPair{}, err
 	}
-	coin := sdk.NewCoin(evmostypes.BaseDenom, math.NewInt(TokenToMint))
+	coin := sdk.NewCoin(ominitypes.BaseDenom, math.NewInt(TokenToMint))
 	err = network.App.BankKeeper.MintCoins(
 		network.GetContext(),
 		inflationtypes.ModuleName,
@@ -54,20 +54,20 @@ func RegisterEvmosERC20Coins(
 		return erc20types.TokenPair{}, err
 	}
 
-	evmosMetadata, found := network.App.BankKeeper.GetDenomMetaData(network.GetContext(), evmostypes.BaseDenom)
+	ominiMetadata, found := network.App.BankKeeper.GetDenomMetaData(network.GetContext(), ominitypes.BaseDenom)
 	if !found {
-		return erc20types.TokenPair{}, fmt.Errorf("expected evmos denom metadata")
+		return erc20types.TokenPair{}, fmt.Errorf("expected omini denom metadata")
 	}
 
-	_, err = network.App.Erc20Keeper.RegisterERC20Extension(network.GetContext(), evmosMetadata.Base)
+	_, err = network.App.Erc20Keeper.RegisterERC20Extension(network.GetContext(), ominiMetadata.Base)
 	if err != nil {
 		return erc20types.TokenPair{}, err
 	}
 
-	evmosDenomID := network.App.Erc20Keeper.GetDenomMap(network.GetContext(), bondDenom)
-	tokenPair, ok := network.App.Erc20Keeper.GetTokenPair(network.GetContext(), evmosDenomID)
+	ominiDenomID := network.App.Erc20Keeper.GetDenomMap(network.GetContext(), bondDenom)
+	tokenPair, ok := network.App.Erc20Keeper.GetTokenPair(network.GetContext(), ominiDenomID)
 	if !ok {
-		return erc20types.TokenPair{}, fmt.Errorf("expected evmos erc20 token pair")
+		return erc20types.TokenPair{}, fmt.Errorf("expected omini erc20 token pair")
 	}
 
 	return tokenPair, nil

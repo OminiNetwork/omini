@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package server
 
 import (
@@ -12,7 +12,7 @@ import (
 	cmtstore "github.com/cometbft/cometbft/store"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/server"
-	"github.com/evmos/evmos/v20/indexer"
+	"github.com/omini/omini/v20/indexer"
 )
 
 // NewIndexTxCmd creates a new Cobra command to index historical Ethereum transactions.

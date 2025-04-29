@@ -15,20 +15,20 @@ import (
 
 	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
 
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	utiltx "github.com/evmos/evmos/v20/testutil/tx"
-	"github.com/evmos/evmos/v20/utils"
-	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	utiltx "github.com/omini/omini/v20/testutil/tx"
+	"github.com/omini/omini/v20/utils"
+	feemarkettypes "github.com/omini/omini/v20/x/feemarket/types"
 
-	"github.com/evmos/evmos/v20/app"
-	"github.com/evmos/evmos/v20/x/erc20"
-	"github.com/evmos/evmos/v20/x/erc20/types"
+	"github.com/omini/omini/v20/app"
+	"github.com/omini/omini/v20/x/erc20"
+	"github.com/omini/omini/v20/x/erc20/types"
 )
 
 type GenesisTestSuite struct {
 	suite.Suite
 	ctx     sdk.Context
-	app     *app.Evmos
+	app     *app.omini
 	genesis types.GenesisState
 }
 

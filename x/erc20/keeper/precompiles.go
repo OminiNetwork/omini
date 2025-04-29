@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package keeper
 
@@ -9,10 +9,10 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v20/precompiles/erc20"
-	"github.com/evmos/evmos/v20/precompiles/werc20"
-	"github.com/evmos/evmos/v20/x/erc20/types"
-	"github.com/evmos/evmos/v20/x/evm/core/vm"
+	"github.com/omini/omini/v20/precompiles/erc20"
+	"github.com/omini/omini/v20/precompiles/werc20"
+	"github.com/omini/omini/v20/x/erc20/types"
+	"github.com/omini/omini/v20/x/evm/core/vm"
 )
 
 // GetERC20PrecompileInstance returns the precompile instance for the given address.

@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package keeper_test
 
 import (
@@ -15,14 +15,14 @@ import (
 	sdktypes "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/evmos/evmos/v20/contracts"
-	"github.com/evmos/evmos/v20/precompiles/staking"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	integrationutils "github.com/evmos/evmos/v20/testutil/integration/evmos/utils"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/omini/omini/v20/contracts"
+	"github.com/omini/omini/v20/precompiles/staking"
+	"github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	testkeyring "github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	integrationutils "github.com/omini/omini/v20/testutil/integration/omini/utils"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
 type IntegrationTestSuite struct {
@@ -32,8 +32,8 @@ type IntegrationTestSuite struct {
 	keyring     testkeyring.Keyring
 }
 
-// This test suite is meant to test the EVM module in the context of the EVMOS.
-// It uses the integration test framework to spin up a local EVMOS network and
+// This test suite is meant to test the EVM module in the context of the omini.
+// It uses the integration test framework to spin up a local omini network and
 // perform transactions on it.
 // The test suite focus on testing how the MsgEthereumTx message is handled under the
 // different params configuration of the module while testing the different Tx types

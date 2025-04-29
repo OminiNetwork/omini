@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package p256_test
 
 import (
@@ -9,9 +9,9 @@ import (
 
 	"github.com/cometbft/cometbft/crypto"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v20/precompiles/p256"
-	"github.com/evmos/evmos/v20/x/evm/core/vm"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/omini/omini/v20/precompiles/p256"
+	"github.com/omini/omini/v20/x/evm/core/vm"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
 var trueValue = common.LeftPadBytes(common.Big1.Bytes(), 32)

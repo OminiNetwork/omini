@@ -6,9 +6,9 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/types"
 
-	cmn "github.com/evmos/evmos/v20/precompiles/common"
-	"github.com/evmos/evmos/v20/precompiles/evidence"
-	"github.com/evmos/evmos/v20/precompiles/testutil"
+	cmn "github.com/omini/omini/v20/precompiles/common"
+	"github.com/omini/omini/v20/precompiles/evidence"
+	"github.com/omini/omini/v20/precompiles/testutil"
 )
 
 func (s *PrecompileTestSuite) TestSubmitEvidence() {

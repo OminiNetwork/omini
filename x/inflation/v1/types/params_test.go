@@ -63,7 +63,7 @@ func (suite *ParamsTestSuite) TestParamsValidate() {
 		{
 			"invalid - denom",
 			NewParams(
-				"/aevmos",
+				"/aomini",
 				validExponentialCalculation,
 				validInflationDistribution,
 				true,

@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package feemarket
 
 import (
@@ -21,9 +21,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/evmos/evmos/v20/x/feemarket/client/cli"
-	"github.com/evmos/evmos/v20/x/feemarket/keeper"
-	"github.com/evmos/evmos/v20/x/feemarket/types"
+	"github.com/omini/omini/v20/x/feemarket/client/cli"
+	"github.com/omini/omini/v20/x/feemarket/keeper"
+	"github.com/omini/omini/v20/x/feemarket/types"
 )
 
 // consensusVersion defines the current x/feemarket module consensus version.

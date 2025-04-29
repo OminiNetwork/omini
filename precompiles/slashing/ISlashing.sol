@@ -40,7 +40,7 @@ struct Params {
     string slashFractionDowntime;
 }
 
-/// @author Evmos Team
+/// @author omini Team
 /// @title Slashing Precompiled Contract
 /// @dev The interface through which solidity contracts will interact with slashing.
 /// We follow this same interface including four-byte function selectors, in the precompile that

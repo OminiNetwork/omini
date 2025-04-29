@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package keeper
 
@@ -10,9 +10,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/evmos/evmos/v20/utils"
-	"github.com/evmos/evmos/v20/x/erc20/types"
-	"github.com/evmos/evmos/v20/x/evm/statedb"
+	"github.com/omini/omini/v20/utils"
+	"github.com/omini/omini/v20/x/erc20/types"
+	"github.com/omini/omini/v20/x/evm/statedb"
 )
 
 // RegisterERC20Extension creates and adds an ERC20 precompile interface for an IBC Coin.

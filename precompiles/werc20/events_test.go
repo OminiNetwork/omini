@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package werc20_test
 
@@ -13,15 +13,15 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 
-	cmn "github.com/evmos/evmos/v20/precompiles/common"
-	"github.com/evmos/evmos/v20/precompiles/werc20"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	"github.com/evmos/evmos/v20/utils"
-	erc20types "github.com/evmos/evmos/v20/x/erc20/types"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	cmn "github.com/omini/omini/v20/precompiles/common"
+	"github.com/omini/omini/v20/precompiles/werc20"
+	"github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	"github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	"github.com/omini/omini/v20/utils"
+	erc20types "github.com/omini/omini/v20/x/erc20/types"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
 type PrecompileUnitTestSuite struct {
@@ -32,7 +32,7 @@ type PrecompileUnitTestSuite struct {
 	grpcHandler grpc.Handler
 	keyring     keyring.Keyring
 
-	// WEVMOS related fields
+	// Womini related fields
 	precompile        *werc20.Precompile
 	precompileAddrHex string
 }
@@ -60,13 +60,13 @@ func (s *PrecompileUnitTestSuite) SetupTest(chainID string) {
 	s.keyring = keyring
 
 	cosmosChainID := strings.Split(chainID, "-")[0]
-	s.precompileAddrHex = erc20types.GetWEVMOSContractHex(cosmosChainID)
+	s.precompileAddrHex = erc20types.GetWominiContractHex(cosmosChainID)
 
 	ctx := integrationNetwork.GetContext()
 
 	tokenPairID := s.network.App.Erc20Keeper.GetTokenPairID(ctx, evmtypes.GetEVMCoinDenom())
 	tokenPair, found := s.network.App.Erc20Keeper.GetTokenPair(ctx, tokenPairID)
-	s.Require().True(found, "expected wevmos precompile to be registered in the tokens map")
+	s.Require().True(found, "expected womini precompile to be registered in the tokens map")
 	s.Require().Equal(s.precompileAddrHex, tokenPair.Erc20Address, "expected a different address of the contract")
 
 	precompile, err := werc20.NewPrecompile(

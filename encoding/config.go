@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package encoding
 
 import (
@@ -14,10 +14,10 @@ import (
 	"github.com/cosmos/gogoproto/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	enccodec "github.com/evmos/evmos/v20/encoding/codec"
-	"github.com/evmos/evmos/v20/ethereum/eip712"
-	erc20types "github.com/evmos/evmos/v20/x/erc20/types"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	enccodec "github.com/omini/omini/v20/encoding/codec"
+	"github.com/omini/omini/v20/ethereum/eip712"
+	erc20types "github.com/omini/omini/v20/x/erc20/types"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
 // encodingConfig creates a new EncodingConfig and returns it

@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package statedb_test
 
@@ -9,14 +9,14 @@ import (
 
 	"cosmossdk.io/math"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v20/contracts"
-	stakingprecompile "github.com/evmos/evmos/v20/precompiles/staking"
-	testcontracts "github.com/evmos/evmos/v20/precompiles/testutil/contracts"
-	testfactory "github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	testnetwork "github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/omini/omini/v20/contracts"
+	stakingprecompile "github.com/omini/omini/v20/precompiles/staking"
+	testcontracts "github.com/omini/omini/v20/precompiles/testutil/contracts"
+	testfactory "github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	testkeyring "github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	testnetwork "github.com/omini/omini/v20/testutil/integration/omini/network"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 
 	//nolint:revive // okay to use dot imports for Ginkgo
 	. "github.com/onsi/ginkgo/v2"

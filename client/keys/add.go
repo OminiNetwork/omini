@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package keys
 
 import (
@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"sort"
 
-	cryptohd "github.com/evmos/evmos/v20/crypto/hd"
+	cryptohd "github.com/omini/omini/v20/crypto/hd"
 
 	bip39 "github.com/cosmos/go-bip39"
 	"github.com/spf13/cobra"

@@ -3,11 +3,11 @@ package erc20_test
 import (
 	"testing"
 
-	erc20precompile "github.com/evmos/evmos/v20/precompiles/erc20"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
+	erc20precompile "github.com/omini/omini/v20/precompiles/erc20"
+	"github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	testkeyring "github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
 	"github.com/stretchr/testify/suite"
 )
 

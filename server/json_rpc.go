@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package server
 
 import (
@@ -13,10 +13,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/server"
 	ethlog "github.com/ethereum/go-ethereum/log"
 	ethrpc "github.com/ethereum/go-ethereum/rpc"
-	"github.com/evmos/evmos/v20/rpc"
+	"github.com/omini/omini/v20/rpc"
 
-	svrconfig "github.com/evmos/evmos/v20/server/config"
-	evmostypes "github.com/evmos/evmos/v20/types"
+	svrconfig "github.com/omini/omini/v20/server/config"
+	ominitypes "github.com/omini/omini/v20/types"
 )
 
 // StartJSONRPC starts the JSON-RPC server
@@ -25,7 +25,7 @@ func StartJSONRPC(ctx *server.Context,
 	tmRPCAddr,
 	tmEndpoint string,
 	config *svrconfig.Config,
-	indexer evmostypes.EVMTxIndexer,
+	indexer ominitypes.EVMTxIndexer,
 ) (*http.Server, chan struct{}, error) {
 	tmWsClient := ConnectTmWS(tmRPCAddr, tmEndpoint, ctx.Logger)
 

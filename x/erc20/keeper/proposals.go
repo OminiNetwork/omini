@@ -1,4 +1,4 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
+// Copyright Tharsis Labs Ltd.(omini)
 // SPDX-License-Identifier:LGPL-3.0-only
 
 package keeper
@@ -9,7 +9,7 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/ethereum/go-ethereum/common"
 
-	"github.com/evmos/evmos/v20/x/erc20/types"
+	"github.com/omini/omini/v20/x/erc20/types"
 )
 
 // RegisterERC20 creates a Cosmos coin and registers the token pair between the
@@ -38,7 +38,7 @@ func (k Keeper) registerERC20(
 }
 
 // CreateCoinMetadata generates the metadata to represent the ERC20 token on
-// evmos.
+// omini.
 func (k Keeper) CreateCoinMetadata(
 	ctx sdk.Context,
 	contract common.Address,

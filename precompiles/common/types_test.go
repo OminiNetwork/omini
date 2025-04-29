@@ -5,8 +5,8 @@ import (
 
 	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/evmos/evmos/v20/precompiles/common"
-	evmostypes "github.com/evmos/evmos/v20/types"
+	"github.com/omini/omini/v20/precompiles/common"
+	ominitypes "github.com/omini/omini/v20/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -21,7 +21,7 @@ func TestNewCoinsResponse(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		coin := sdk.NewCoin(evmostypes.BaseDenom, tc.amount)
+		coin := sdk.NewCoin(ominitypes.BaseDenom, tc.amount)
 		coins := sdk.NewCoins(coin)
 		res := common.NewCoinsResponse(coins)
 		require.Equal(t, 1, len(res))
@@ -38,7 +38,7 @@ func TestNewDecCoinsResponse(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		coin := sdk.NewDecCoin(evmostypes.BaseDenom, tc.amount)
+		coin := sdk.NewDecCoin(ominitypes.BaseDenom, tc.amount)
 		coins := sdk.NewDecCoins(coin)
 		res := common.NewDecCoinsResponse(coins)
 		require.Equal(t, 1, len(res))

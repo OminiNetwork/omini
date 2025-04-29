@@ -7,14 +7,14 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v20/precompiles/bank"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	evmosutiltx "github.com/evmos/evmos/v20/testutil/tx"
+	"github.com/omini/omini/v20/precompiles/bank"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	ominiutiltx "github.com/omini/omini/v20/testutil/tx"
 )
 
 func (s *PrecompileTestSuite) TestBalances() {
 	var ctx sdk.Context
-	// setup test in order to have s.precompile, s.evmosAddr and s.xmplAddr defined
+	// setup test in order to have s.precompile, s.ominiAddr and s.xmplAddr defined
 	s.SetupTest()
 	method := s.precompile.Methods[bank.BalancesMethod]
 
@@ -23,7 +23,7 @@ func (s *PrecompileTestSuite) TestBalances() {
 		malleate    func() []interface{}
 		expPass     bool
 		errContains string
-		expBalances func(evmosAddr, xmplAddr common.Address) []bank.Balance
+		expBalances func(ominiAddr, xmplAddr common.Address) []bank.Balance
 	}{
 		{
 			"fail - invalid number of arguments",
@@ -51,7 +51,7 @@ func (s *PrecompileTestSuite) TestBalances() {
 			"pass - empty balances for new account",
 			func() []interface{} {
 				return []interface{}{
-					evmosutiltx.GenerateAddress(),
+					ominiutiltx.GenerateAddress(),
 				}
 			},
 			true,
@@ -67,10 +67,10 @@ func (s *PrecompileTestSuite) TestBalances() {
 			},
 			true,
 			"",
-			func(evmosAddr, xmplAddr common.Address) []bank.Balance {
+			func(ominiAddr, xmplAddr common.Address) []bank.Balance {
 				return []bank.Balance{
 					{
-						ContractAddress: evmosAddr,
+						ContractAddress: ominiAddr,
 						Amount:          network.PrefundedAccountInitialBalance.BigInt(),
 					},
 					{
@@ -81,7 +81,7 @@ func (s *PrecompileTestSuite) TestBalances() {
 			},
 		},
 		{
-			"pass - EVMOS and XMPL balances present - mint extra XMPL",
+			"pass - omini and XMPL balances present - mint extra XMPL",
 			func() []interface{} {
 				ctx = s.mintAndSendXMPLCoin(ctx, s.keyring.GetAccAddr(0), math.NewInt(1e18))
 				return []interface{}{
@@ -90,9 +90,9 @@ func (s *PrecompileTestSuite) TestBalances() {
 			},
 			true,
 			"",
-			func(evmosAddr, xmplAddr common.Address) []bank.Balance {
+			func(ominiAddr, xmplAddr common.Address) []bank.Balance {
 				return []bank.Balance{{
-					ContractAddress: evmosAddr,
+					ContractAddress: ominiAddr,
 					Amount:          network.PrefundedAccountInitialBalance.BigInt(),
 				}, {
 					ContractAddress: xmplAddr,
@@ -118,7 +118,7 @@ func (s *PrecompileTestSuite) TestBalances() {
 				var balances []bank.Balance
 				err = s.precompile.UnpackIntoInterface(&balances, method.Name, bz)
 				s.Require().NoError(err)
-				s.Require().Equal(tc.expBalances(s.evmosAddr, s.xmplAddr), balances)
+				s.Require().Equal(tc.expBalances(s.ominiAddr, s.xmplAddr), balances)
 			} else {
 				s.Require().Contains(err.Error(), tc.errContains)
 			}
@@ -128,29 +128,29 @@ func (s *PrecompileTestSuite) TestBalances() {
 
 func (s *PrecompileTestSuite) TestTotalSupply() {
 	var ctx sdk.Context
-	// setup test in order to have s.precompile, s.evmosAddr and s.xmplAddr defined
+	// setup test in order to have s.precompile, s.ominiAddr and s.xmplAddr defined
 	s.SetupTest()
 	method := s.precompile.Methods[bank.TotalSupplyMethod]
 
 	totSupplRes, err := s.grpcHandler.GetTotalSupply()
 	s.Require().NoError(err)
-	evmosTotalSupply := totSupplRes.Supply.AmountOf(s.bondDenom)
+	ominiTotalSupply := totSupplRes.Supply.AmountOf(s.bondDenom)
 	xmplTotalSupply := totSupplRes.Supply.AmountOf(s.tokenDenom)
 
 	testcases := []struct {
 		name      string
 		malleate  func()
-		expSupply func(evmosAddr, xmplAddr common.Address) []bank.Balance
+		expSupply func(ominiAddr, xmplAddr common.Address) []bank.Balance
 	}{
 		{
-			"pass - EVMOS and XMPL total supply",
+			"pass - omini and XMPL total supply",
 			func() {
 				ctx = s.mintAndSendXMPLCoin(ctx, s.keyring.GetAccAddr(0), math.NewInt(1e18))
 			},
-			func(evmosAddr, xmplAddr common.Address) []bank.Balance {
+			func(ominiAddr, xmplAddr common.Address) []bank.Balance {
 				return []bank.Balance{{
-					ContractAddress: evmosAddr,
-					Amount:          evmosTotalSupply.BigInt(),
+					ContractAddress: ominiAddr,
+					Amount:          ominiTotalSupply.BigInt(),
 				}, {
 					ContractAddress: xmplAddr,
 					Amount:          xmplTotalSupply.Add(math.NewInt(1e18)).BigInt(),
@@ -174,19 +174,19 @@ func (s *PrecompileTestSuite) TestTotalSupply() {
 			var balances []bank.Balance
 			err = s.precompile.UnpackIntoInterface(&balances, method.Name, bz)
 			s.Require().NoError(err)
-			s.Require().Equal(tc.expSupply(s.evmosAddr, s.xmplAddr), balances)
+			s.Require().Equal(tc.expSupply(s.ominiAddr, s.xmplAddr), balances)
 		})
 	}
 }
 
 func (s *PrecompileTestSuite) TestSupplyOf() {
-	// setup test in order to have s.precompile, s.evmosAddr and s.xmplAddr defined
+	// setup test in order to have s.precompile, s.ominiAddr and s.xmplAddr defined
 	s.SetupTest()
 	method := s.precompile.Methods[bank.SupplyOfMethod]
 
 	totSupplRes, err := s.grpcHandler.GetTotalSupply()
 	s.Require().NoError(err)
-	evmosTotalSupply := totSupplRes.Supply.AmountOf(s.bondDenom)
+	ominiTotalSupply := totSupplRes.Supply.AmountOf(s.bondDenom)
 	xmplTotalSupply := totSupplRes.Supply.AmountOf(s.tokenDenom)
 
 	testcases := []struct {
@@ -222,7 +222,7 @@ func (s *PrecompileTestSuite) TestSupplyOf() {
 			"pass - erc20 not registered return 0 supply",
 			func() []interface{} {
 				return []interface{}{
-					evmosutiltx.GenerateAddress(),
+					ominiutiltx.GenerateAddress(),
 				}
 			},
 			false,
@@ -242,15 +242,15 @@ func (s *PrecompileTestSuite) TestSupplyOf() {
 		},
 
 		{
-			"pass - EVMOS total supply",
+			"pass - omini total supply",
 			func() []interface{} {
 				return []interface{}{
-					s.evmosAddr,
+					s.ominiAddr,
 				}
 			},
 			false,
 			"",
-			evmosTotalSupply.BigInt(),
+			ominiTotalSupply.BigInt(),
 		},
 	}
 

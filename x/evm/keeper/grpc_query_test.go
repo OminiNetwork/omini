@@ -6,7 +6,7 @@ import (
 	"math"
 	"math/big"
 
-	"github.com/evmos/evmos/v20/x/evm/keeper/testdata"
+	"github.com/omini/omini/v20/x/evm/keeper/testdata"
 
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -15,17 +15,17 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
 	ethparams "github.com/ethereum/go-ethereum/params"
-	ethlogger "github.com/evmos/evmos/v20/x/evm/core/logger"
-	"github.com/evmos/evmos/v20/x/evm/core/vm"
+	ethlogger "github.com/omini/omini/v20/x/evm/core/logger"
+	"github.com/omini/omini/v20/x/evm/core/vm"
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	"github.com/evmos/evmos/v20/server/config"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	"github.com/evmos/evmos/v20/x/evm/statedb"
-	"github.com/evmos/evmos/v20/x/evm/types"
-	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
+	"github.com/omini/omini/v20/server/config"
+	"github.com/omini/omini/v20/testutil/integration/omini/factory"
+	testkeyring "github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	"github.com/omini/omini/v20/x/evm/statedb"
+	"github.com/omini/omini/v20/x/evm/types"
+	feemarkettypes "github.com/omini/omini/v20/x/feemarket/types"
 )
 
 // Not valid Ethereum address

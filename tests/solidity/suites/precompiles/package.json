@@ -1,13 +1,13 @@
 {
   "name": "precompiles",
   "version": "1.0.0",
-  "author": "Evmos team",
+  "author": "omini team",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "get-contracts": "mkdir -p ./contracts/evmos && rsync -avm --include='*/' --exclude='**/ERC20Minter_OpenZeppelinV5.sol' --exclude='**/WEVMOS.sol' --exclude='**/ERC20NoMetadata.sol' --include='*.sol' --exclude='*' ../../../../precompiles/ ./contracts/evmos/",
-    "clean-contracts": "rm -rf ./contracts/evmos/*",
+    "get-contracts": "mkdir -p ./contracts/omini && rsync -avm --include='*/' --exclude='**/ERC20Minter_OpenZeppelinV5.sol' --exclude='**/Womini.sol' --exclude='**/ERC20NoMetadata.sol' --include='*.sol' --exclude='*' ../../../../precompiles/ ./contracts/omini/",
+    "clean-contracts": "rm -rf ./contracts/omini/*",
     "test-ganache": "yarn hardhat test",
-    "test-evmos": "yarn get-contracts && yarn hardhat test --network evmos && yarn clean-contracts"
+    "test-omini": "yarn get-contracts && yarn hardhat test --network omini && yarn clean-contracts"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.2",

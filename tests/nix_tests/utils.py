@@ -35,9 +35,9 @@ ACCOUNTS = {
 }
 KEYS = {name: account.key for name, account in ACCOUNTS.items()}
 ADDRS = {name: account.address for name, account in ACCOUNTS.items()}
-EVMOS_ADDRESS_PREFIX = "evmos"
-DEFAULT_DENOM = "aevmos"
-WEVMOS_ADDRESS = Web3.toChecksumAddress("0xD4949664cD82660AaE99bEdc034a0deA8A0bd517")
+omini_ADDRESS_PREFIX = "omini"
+DEFAULT_DENOM = "aomini"
+Womini_ADDRESS = Web3.toChecksumAddress("0xD4949664cD82660AaE99bEdc034a0deA8A0bd517")
 TEST_CONTRACTS = {
     "TestERC20A": "TestERC20A.sol",
     "TestRevert": "TestRevert.sol",
@@ -47,20 +47,20 @@ TEST_CONTRACTS = {
     "Mars": "Mars.sol",
     "StateContract": "StateContract.sol",
     "ICS20FromContract": "ICS20FromContract.sol",
-    "InterchainSender": "evmos/testutil/contracts/InterchainSender.sol",
-    "InterchainSenderCaller": "evmos/testutil/contracts/InterchainSenderCaller.sol",
-    "ICS20I": "evmos/ics20/ICS20I.sol",
-    "DistributionI": "evmos/distribution/DistributionI.sol",
-    "DistributionCaller": "evmos/testutil/contracts/DistributionCaller.sol",
-    "StakingI": "evmos/staking/StakingI.sol",
-    "StakingCaller": "evmos/staking/testdata/StakingCaller.sol",
-    "IStrideOutpost": "evmos/outposts/stride/IStrideOutpost.sol",
-    "IOsmosisOutpost": "evmos/outposts/osmosis/IOsmosisOutpost.sol",
-    "IERC20": "evmos/erc20/IERC20.sol",
+    "InterchainSender": "omini/testutil/contracts/InterchainSender.sol",
+    "InterchainSenderCaller": "omini/testutil/contracts/InterchainSenderCaller.sol",
+    "ICS20I": "omini/ics20/ICS20I.sol",
+    "DistributionI": "omini/distribution/DistributionI.sol",
+    "DistributionCaller": "omini/testutil/contracts/DistributionCaller.sol",
+    "StakingI": "omini/staking/StakingI.sol",
+    "StakingCaller": "omini/staking/testdata/StakingCaller.sol",
+    "IStrideOutpost": "omini/outposts/stride/IStrideOutpost.sol",
+    "IOsmosisOutpost": "omini/outposts/osmosis/IOsmosisOutpost.sol",
+    "IERC20": "omini/erc20/IERC20.sol",
 }
 
 OSMOSIS_POOLS = {
-    "Evmos_Osmo": Path(__file__).parent / "osmosis/evmosOsmosisPool.json",
+    "omini_Osmo": Path(__file__).parent / "osmosis/ominiOsmosisPool.json",
 }
 
 # If need to update these binaries
@@ -74,13 +74,13 @@ WASM_BINARIES = {
 REGISTER_ERC20_PROP = {
     "messages": [
         {
-            "@type": "/evmos.erc20.v1.MsgRegisterERC20",
-            "authority": "evmos10d07y265gmmuvt4z0w9aw880jnsr700jcrztvm",
+            "@type": "/omini.erc20.v1.MsgRegisterERC20",
+            "authority": "omini10d07y265gmmuvt4z0w9aw880jnsr700jcrztvm",
             "erc20addresses": ["ADDRESS_HERE"],
         }
     ],
     "metadata": "ipfs://CID",
-    "deposit": "1aevmos",
+    "deposit": "1aomini",
     "title": "register erc20",
     "summary": "register erc20",
     "expedited": False,
@@ -93,31 +93,31 @@ PROPOSAL_STATUS_REJECTED = 4
 PROPOSAL_STATUS_FAILED = 5
 
 SCALE_FACTOR_6DEC = 1e12
-EVMOS_6DEC_CHAIN_ID = "evmosics_9000-1"
-EVM_6DEC_CONF = """'evmosics_9000-1': default['evmos_9002-1'] + {
+omini_6DEC_CHAIN_ID = "ominiics_9000-1"
+EVM_6DEC_CONF = """'ominiics_9000-1': default['omini_9002-1'] + {
     'app-config'+:{
       'minimum-gas-prices': '0ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2',
     },
     'validators':[{
-      coins: '10001000000000000000000aevmos,1000000000000000000ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2',
-      staked: '1000000000000000000aevmos',
+      coins: '10001000000000000000000aomini,1000000000000000000ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2',
+      staked: '1000000000000000000aomini',
       mnemonic: '${VALIDATOR1_MNEMONIC}',
     },{
-      coins: '10001000000000000000000aevmos,1000000000000000000ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2',
-      staked: '1000000000000000000aevmos',
+      coins: '10001000000000000000000aomini,1000000000000000000ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2',
+      staked: '1000000000000000000aomini',
       mnemonic: '${VALIDATOR2_MNEMONIC}',
     }],
     'accounts':[{
       name: 'community',
-      coins: '10000000000000000000000aevmos,1000000000000000000ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2',
+      coins: '10000000000000000000000aomini,1000000000000000000ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2',
       mnemonic: '${COMMUNITY_MNEMONIC}',
     },{
       name: 'signer1',
-      coins: '20000000000000000000000aevmos,2000000000000000000ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2',
+      coins: '20000000000000000000000aomini,2000000000000000000ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2',
       mnemonic: '${SIGNER1_MNEMONIC}',
     },{
       name: 'signer2',
-      coins: '30000000000000000000000aevmos,3000000000000000000ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2',
+      coins: '30000000000000000000000aomini,3000000000000000000ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2',
       mnemonic: '${SIGNER2_MNEMONIC}',
     }],
     'genesis'+: {
@@ -283,9 +283,9 @@ def approve_proposal(n, proposal_id, **kwargs):
     """
     cli = n.cosmos_cli()
 
-    # make the deposit (1 aevmos)
-    # 'aevmos' is always the gov denom for the current tests
-    rsp = cli.gov_deposit("signer2", proposal_id, 1, denom="aevmos", **kwargs)
+    # make the deposit (1 aomini)
+    # 'aomini' is always the gov denom for the current tests
+    rsp = cli.gov_deposit("signer2", proposal_id, 1, denom="aomini", **kwargs)
     assert rsp["code"] == 0, rsp["raw_log"]
     wait_for_new_blocks(cli, 1)
 
@@ -449,7 +449,7 @@ def send_successful_transaction(w3, i=0):
     return txhash
 
 
-def eth_to_bech32(addr, prefix=EVMOS_ADDRESS_PREFIX):
+def eth_to_bech32(addr, prefix=omini_ADDRESS_PREFIX):
     bz = bech32.convertbits(HexBytes(addr), 8, 5)
     return bech32.bech32_encode(prefix, bz)
 
@@ -530,8 +530,8 @@ local default = import '{tests_dir}/configs/{file_name}.jsonnet';
 
 default {{
   dotenv: '{root_dir}/scripts/.env',
-  'evmos_9002-1'+: {{
-    cmd: 'evmosd-rocksdb',
+  'omini_9002-1'+: {{
+    cmd: 'ominid-rocksdb',
     'app-config'+: {{
       'app-db-backend': 'rocksdb',
       memiavl: {{
@@ -596,9 +596,9 @@ local default = import '{tests_dir}/configs/{file_name}.jsonnet';
 // Function to check if a key is a chain configuration (based on your specific criteria)
 local isChainConfig(key) = std.isObject(default[key]) && std.objectHas(default[key], 'validators');
 
-// Collect all the chain configurations, excluding 'evmos_9002-1'
+// Collect all the chain configurations, excluding 'omini_9002-1'
 local other_chains = {{
-  [key]: default[key] for key in std.objectFields(default) if isChainConfig(key) && key != 'evmos_9002-1'
+  [key]: default[key] for key in std.objectFields(default) if isChainConfig(key) && key != 'omini_9002-1'
 }};
 
 {{
@@ -608,9 +608,9 @@ local other_chains = {{
   relayer: default.relayer + {{
     chains: std.map(
       function(chain)
-        if chain.id == 'evmos_9002-1' then
+        if chain.id == 'omini_9002-1' then
           chain + {{
-            id: 'evmosics_9000-1',
+            id: 'ominiics_9000-1',
             gas_price: {{
               price: 0.08,
               denom: 'ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2',
@@ -654,7 +654,7 @@ def update_node_cmd(path, cmd, i):
     ini = configparser.RawConfigParser()
     ini.read(ini_path)
     for section in ini.sections():
-        if section == f"program:evmos_9002-1-node{i}":
+        if section == f"program:omini_9002-1-node{i}":
             ini[section].update(
                 {
                     "command": f"{cmd} start --home %(here)s/node{i}",
@@ -665,19 +665,19 @@ def update_node_cmd(path, cmd, i):
         ini.write(fp)
 
 
-def update_evmosd_and_setup_stride(modified_bin):
+def update_ominid_and_setup_stride(modified_bin):
     def inner(path, base_port, config):  # pylint: disable=unused-argument
-        update_evmos_bin(modified_bin)(path, base_port, config)
+        update_omini_bin(modified_bin)(path, base_port, config)
         setup_stride()(path, base_port, config)
 
     return inner
 
 
-def update_evmos_bin(
+def update_omini_bin(
     modified_bin, nodes=[0, 1]
 ):  # pylint: disable=dangerous-default-value
     """
-    updates the evmos binary with a patched binary.
+    updates the omini binary with a patched binary.
     Input parameters are the modified binary (modified_bin)
     and the nodes in which
     to apply the modified binary (nodes).
@@ -686,7 +686,7 @@ def update_evmos_bin(
     """
 
     def inner(path, base_port, config):  # pylint: disable=unused-argument
-        chain_id = "evmos_9002-1"
+        chain_id = "omini_9002-1"
         # by default, there're 2 nodes
         # need to update the bin in all these
         for i in nodes:
@@ -712,8 +712,8 @@ def erc20_balance(w3, erc20_contract_addr, addr):
     return contract.functions.balanceOf(addr).call()
 
 
-def debug_trace_tx(evmos, tx_hash: str):
-    url = f"http://127.0.0.1:{ports.evmrpc_port(evmos.base_port(0))}"
+def debug_trace_tx(omini, tx_hash: str):
+    url = f"http://127.0.0.1:{ports.evmrpc_port(omini.base_port(0))}"
     params = {
         "method": "debug_traceTransaction",
         "params": [tx_hash, {"tracer": "callTracer"}],

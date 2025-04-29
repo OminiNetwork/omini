@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package network_test
 
@@ -10,12 +10,12 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	grpchandler "github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	evmostypes "github.com/evmos/evmos/v20/types"
-	"github.com/evmos/evmos/v20/utils"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	grpchandler "github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	testkeyring "github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	ominitypes "github.com/omini/omini/v20/types"
+	"github.com/omini/omini/v20/utils"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 
 	"github.com/stretchr/testify/require"
 )
@@ -31,14 +31,14 @@ func TestWithChainID(t *testing.T) {
 		{
 			name:            "18 decimals",
 			chainID:         utils.MainnetChainID + "-1",
-			denom:           "aevmos",
+			denom:           "aomini",
 			expBaseFee:      math.LegacyNewDec(875_000_000),
 			expCosmosAmount: network.GetInitialAmount(evmtypes.EighteenDecimals),
 		},
 		{
 			name:            "6 decimals",
 			chainID:         utils.SixDecChainID + "-1",
-			denom:           "asevmos",
+			denom:           "asomini",
 			expBaseFee:      math.LegacyNewDecWithPrec(875, 6),
 			expCosmosAmount: network.GetInitialAmount(evmtypes.SixDecimals),
 		},
@@ -98,9 +98,9 @@ func TestWithChainID(t *testing.T) {
 }
 
 func TestWithBalances(t *testing.T) {
-	key1Balance := sdk.NewCoins(sdk.NewInt64Coin(evmostypes.BaseDenom, 1e18))
+	key1Balance := sdk.NewCoins(sdk.NewInt64Coin(ominitypes.BaseDenom, 1e18))
 	key2Balance := sdk.NewCoins(
-		sdk.NewInt64Coin(evmostypes.BaseDenom, 2e18),
+		sdk.NewInt64Coin(ominitypes.BaseDenom, 2e18),
 		sdk.NewInt64Coin("other", 3e18),
 	)
 

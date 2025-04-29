@@ -20,11 +20,11 @@ import (
 
 	"github.com/cometbft/cometbft/crypto/tmhash"
 	"github.com/cometbft/cometbft/version"
-	"github.com/evmos/evmos/v20/app"
-	"github.com/evmos/evmos/v20/crypto/hd"
-	"github.com/evmos/evmos/v20/tests/integration/ledger/mocks"
-	utiltx "github.com/evmos/evmos/v20/testutil/tx"
-	"github.com/evmos/evmos/v20/utils"
+	"github.com/omini/omini/v20/app"
+	"github.com/omini/omini/v20/crypto/hd"
+	"github.com/omini/omini/v20/tests/integration/ledger/mocks"
+	utiltx "github.com/omini/omini/v20/testutil/tx"
+	"github.com/omini/omini/v20/utils"
 	"github.com/stretchr/testify/suite"
 
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
@@ -32,9 +32,9 @@ import (
 	rpcclientmock "github.com/cometbft/cometbft/rpc/client/mock"
 	cosmosledger "github.com/cosmos/cosmos-sdk/crypto/ledger"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	clientkeys "github.com/evmos/evmos/v20/client/keys"
-	evmoskeyring "github.com/evmos/evmos/v20/crypto/keyring"
-	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
+	clientkeys "github.com/omini/omini/v20/client/keys"
+	ominikeyring "github.com/omini/omini/v20/crypto/keyring"
+	feemarkettypes "github.com/omini/omini/v20/x/feemarket/types"
 
 	//nolint:revive // dot imports are fine for Ginkgo
 	. "github.com/onsi/ginkgo/v2"
@@ -47,7 +47,7 @@ var s *LedgerTestSuite
 type LedgerTestSuite struct {
 	suite.Suite
 
-	app *app.Evmos
+	app *app.omini
 	ctx sdk.Context
 
 	ledger       *mocks.SECP256K1
@@ -64,7 +64,7 @@ func TestLedger(t *testing.T) {
 	suite.Run(t, s)
 
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Evmosd Suite")
+	RunSpecs(t, "ominid Suite")
 }
 
 func (suite *LedgerTestSuite) SetupTest() {
@@ -83,7 +83,7 @@ func (suite *LedgerTestSuite) SetupTest() {
 	suite.accAddr = sdk.AccAddress(ethAddr.Bytes())
 }
 
-func (suite *LedgerTestSuite) SetupEvmosApp() {
+func (suite *LedgerTestSuite) SetupominiApp() {
 	consAddress := sdk.ConsAddress(utiltx.GenerateAddress().Bytes())
 
 	// init app
@@ -147,7 +147,7 @@ func (suite *LedgerTestSuite) NewKeyringAndCtxs(krHome string, input io.Reader, 
 	return kr, initClientCtx, ctx
 }
 
-func (suite *LedgerTestSuite) evmosAddKeyCmd() *cobra.Command {
+func (suite *LedgerTestSuite) ominiAddKeyCmd() *cobra.Command {
 	cmd := keys.AddKeyCommand()
 
 	algoFlag := cmd.Flag(flags.FlagKeyType)
@@ -172,12 +172,12 @@ func (suite *LedgerTestSuite) evmosAddKeyCmd() *cobra.Command {
 
 func (suite *LedgerTestSuite) MockKeyringOption() keyring.Option {
 	return func(options *keyring.Options) {
-		options.SupportedAlgos = evmoskeyring.SupportedAlgorithms
-		options.SupportedAlgosLedger = evmoskeyring.SupportedAlgorithmsLedger
+		options.SupportedAlgos = ominikeyring.SupportedAlgorithms
+		options.SupportedAlgosLedger = ominikeyring.SupportedAlgorithmsLedger
 		options.LedgerDerivation = func() (cosmosledger.SECP256K1, error) { return suite.ledger, nil }
-		options.LedgerCreateKey = evmoskeyring.CreatePubkey
-		options.LedgerAppName = evmoskeyring.AppName
-		options.LedgerSigSkipDERConv = evmoskeyring.SkipDERConversion
+		options.LedgerCreateKey = ominikeyring.CreatePubkey
+		options.LedgerAppName = ominikeyring.AppName
+		options.LedgerSigSkipDERConv = ominikeyring.SkipDERConversion
 	}
 }
 

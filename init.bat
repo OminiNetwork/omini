@@ -1,5 +1,5 @@
 
-rem evmos compile on windows
+rem omini compile on windows
 rem install golang , gcc, sed for windows
 rem 1. install msys2 : https://www.msys2.org/
 rem 2. pacman -S mingw-w64-x86_64-toolchain
@@ -9,7 +9,7 @@ rem 3. add path C:\msys64\mingw64\bin
 rem             C:\msys64\usr\bin
 
 set KEY="dev0"
-set CHAINID="evmos_9000-1"
+set CHAINID="omini_9000-1"
 set MONIKER="localtestnet"
 set KEYRING="test"
 set KEYALGO="eth_secp256k1"
@@ -17,32 +17,32 @@ set LOGLEVEL="info"
 # to trace evm
 #TRACE="--trace"
 set TRACE=""
-set HOME=%USERPROFILE%\.evmosd
+set HOME=%USERPROFILE%\.ominid
 echo %HOME%
 set ETHCONFIG=%HOME%\config\config.toml
 set GENESIS=%HOME%\config\genesis.json
 set TMPGENESIS=%HOME%\config\tmp_genesis.json
 
 @echo build binary
-go build .\cmd\evmosd
+go build .\cmd\ominid
 
 
 @echo clear home folder
 del /s /q %HOME%
 
-evmosd config keyring-backend %KEYRING%
-evmosd config chain-id %CHAINID%
+ominid config keyring-backend %KEYRING%
+ominid config chain-id %CHAINID%
 
-evmosd keys add %KEY% --keyring-backend %KEYRING% --algo %KEYALGO%
+ominid keys add %KEY% --keyring-backend %KEYRING% --algo %KEYALGO%
 
-rem Set moniker and chain-id for Evmos (Moniker can be anything, chain-id must be an integer)
-evmosd init %MONIKER% --chain-id %CHAINID% 
+rem Set moniker and chain-id for omini (Moniker can be anything, chain-id must be an integer)
+ominid init %MONIKER% --chain-id %CHAINID% 
 
-rem Change parameter token denominations to aevmos
-cat %GENESIS% | jq ".app_state[\"staking\"][\"params\"][\"bond_denom\"]=\"aevmos\""   >   %TMPGENESIS% && move %TMPGENESIS% %GENESIS%
-cat %GENESIS% | jq ".app_state[\"crisis\"][\"constant_fee\"][\"denom\"]=\"aevmos\"" > %TMPGENESIS% && move %TMPGENESIS% %GENESIS%
-cat %GENESIS% | jq ".app_state[\"gov\"][\"deposit_params\"][\"min_deposit\"][0][\"denom\"]=\"aevmos\"" > %TMPGENESIS% && move %TMPGENESIS% %GENESIS%
-cat %GENESIS% | jq ".app_state[\"mint\"][\"params\"][\"mint_denom\"]=\"aevmos\"" > %TMPGENESIS% && move %TMPGENESIS% %GENESIS%
+rem Change parameter token denominations to aomini
+cat %GENESIS% | jq ".app_state[\"staking\"][\"params\"][\"bond_denom\"]=\"aomini\""   >   %TMPGENESIS% && move %TMPGENESIS% %GENESIS%
+cat %GENESIS% | jq ".app_state[\"crisis\"][\"constant_fee\"][\"denom\"]=\"aomini\"" > %TMPGENESIS% && move %TMPGENESIS% %GENESIS%
+cat %GENESIS% | jq ".app_state[\"gov\"][\"deposit_params\"][\"min_deposit\"][0][\"denom\"]=\"aomini\"" > %TMPGENESIS% && move %TMPGENESIS% %GENESIS%
+cat %GENESIS% | jq ".app_state[\"mint\"][\"params\"][\"mint_denom\"]=\"aomini\"" > %TMPGENESIS% && move %TMPGENESIS% %GENESIS%
 
 rem increase block time (?)
 cat %GENESIS% | jq ".consensus_params[\"block\"][\"time_iota_ms\"]=\"30000\"" > %TMPGENESIS% && move %TMPGENESIS% %GENESIS%
@@ -54,18 +54,18 @@ rem setup
 sed -i "s/create_empty_blocks = true/create_empty_blocks = false/g" %ETHCONFIG%
 
 rem Allocate genesis accounts (cosmos formatted addresses)
-evmosd add-genesis-account %KEY% 100000000000000000000000000aevmos --keyring-backend %KEYRING%
+ominid add-genesis-account %KEY% 100000000000000000000000000aomini --keyring-backend %KEYRING%
 
 rem Sign genesis transaction
-evmosd gentx %KEY% 1000000000000000000000aevmos --keyring-backend %KEYRING% --chain-id %CHAINID%
+ominid gentx %KEY% 1000000000000000000000aomini --keyring-backend %KEYRING% --chain-id %CHAINID%
 
 rem Collect genesis tx
-evmosd collect-gentxs
+ominid collect-gentxs
 
 rem Run this to ensure everything worked and that the genesis file is setup correctly
-evmosd validate-genesis
+ominid validate-genesis
 
 
 
 rem Start the node (remove the --pruning=nothing flag if historical queries are not needed)
-evmosd start --pruning=nothing %TRACE% --log_level %LOGLEVEL% --minimum-gas-prices=0.0001aevmos
+ominid start --pruning=nothing %TRACE% --log_level %LOGLEVEL% --minimum-gas-prices=0.0001aomini

@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package v192
 
@@ -11,8 +11,8 @@ import (
 
 	"cosmossdk.io/log"
 	upgradetypes "cosmossdk.io/x/upgrade/types"
-	erc20keeper "github.com/evmos/evmos/v20/x/erc20/keeper"
-	erc20types "github.com/evmos/evmos/v20/x/erc20/types"
+	erc20keeper "github.com/omini/omini/v20/x/erc20/keeper"
+	erc20types "github.com/omini/omini/v20/x/erc20/types"
 )
 
 // CreateUpgradeHandler creates an SDK upgrade handler for v19.2

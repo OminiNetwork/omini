@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package network
 
@@ -15,10 +15,10 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	testtx "github.com/evmos/evmos/v20/testutil/tx"
-	evmostypes "github.com/evmos/evmos/v20/types"
-	"github.com/evmos/evmos/v20/utils"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	testtx "github.com/omini/omini/v20/testutil/tx"
+	ominitypes "github.com/omini/omini/v20/types"
+	"github.com/omini/omini/v20/utils"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
 // defaultChain represents the default chain ID used in the suite setup.
@@ -56,7 +56,7 @@ func DefaultConfig() Config {
 
 	// Default chainID is mainnet.
 	chainID := defaultChain + "-1"
-	eip155ChainID, err := evmostypes.ParseChainID(chainID)
+	eip155ChainID, err := ominitypes.ParseChainID(chainID)
 	if err != nil {
 		panic("chain ID with invalid eip155 value")
 	}
@@ -122,7 +122,7 @@ type ConfigOption func(*Config)
 // WithChainID sets a custom chainID for the network. Changing the chainID
 // change automatically also the EVM coin used. It panics if the chainID is invalid.
 func WithChainID(chainID string) ConfigOption {
-	eip155ChainID, err := evmostypes.ParseChainID(chainID)
+	eip155ChainID, err := ominitypes.ParseChainID(chainID)
 	if err != nil {
 		panic(err)
 	}

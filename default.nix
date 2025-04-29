@@ -12,10 +12,10 @@
 }:
 let
   version = if dbBackend == "rocksdb" then "latest-rocksdb" else "latest";
-  pname = "evmosd";
+  pname = "ominid";
   tags = [ "ledger" "netgo" ] ++ lib.optionals (dbBackend == "rocksdb") [ "rocksdb" "grocksdb_clean_link" ];
   ldflags = lib.concatStringsSep "\n" ([
-    "-X github.com/cosmos/cosmos-sdk/version.Name=evmos"
+    "-X github.com/cosmos/cosmos-sdk/version.Name=omini"
     "-X github.com/cosmos/cosmos-sdk/version.AppName=${pname}"
     "-X github.com/cosmos/cosmos-sdk/version.Version=${version}"
     "-X github.com/cosmos/cosmos-sdk/version.BuildTags=${lib.concatStringsSep "," tags}"
@@ -50,19 +50,19 @@ buildGoApplication rec {
   modules = ./gomod2nix.toml;
   doCheck = false;
   pwd = src; # needed to support replace
-  subPackages = [ "cmd/evmosd" ];
+  subPackages = [ "cmd/ominid" ];
   CGO_ENABLED = "1";
 
   postFixup = if dbBackend == "rocksdb" then
     ''
-      # Rename the binary from evmosd to evmosd-rocksdb
-      mv $out/bin/evmosd $out/bin/evmosd-rocksdb
+      # Rename the binary from ominid to ominid-rocksdb
+      mv $out/bin/ominid $out/bin/ominid-rocksdb
     '' else '''';
 
   meta = with lib; {
-    description = "Evmos is a scalable and interoperable blockchain, built on Proof-of-Stake with fast-finality using the Cosmos SDK which runs on top of CometBFT Core consensus engine.";
-    homepage = "https://github.com/evmos/evmos";
+    description = "omini is a scalable and interoperable blockchain, built on Proof-of-Stake with fast-finality using the Cosmos SDK which runs on top of CometBFT Core consensus engine.";
+    homepage = "https://github.com/omini/omini";
     license = licenses.asl20;
-    mainProgram = "evmosd";
+    mainProgram = "ominid";
   };
 }

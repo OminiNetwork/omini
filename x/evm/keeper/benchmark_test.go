@@ -4,7 +4,7 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/evmos/evmos/v20/x/evm/keeper/testdata"
+	"github.com/omini/omini/v20/x/evm/keeper/testdata"
 
 	sdkmath "cosmossdk.io/math"
 	"github.com/stretchr/testify/require"
@@ -14,16 +14,16 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	utiltx "github.com/evmos/evmos/v20/testutil/tx"
-	evmostypes "github.com/evmos/evmos/v20/types"
-	"github.com/evmos/evmos/v20/x/evm/types"
+	utiltx "github.com/omini/omini/v20/testutil/tx"
+	ominitypes "github.com/omini/omini/v20/types"
+	"github.com/omini/omini/v20/x/evm/types"
 )
 
 func SetupContract(b *testing.B) (*KeeperTestSuite, common.Address) {
 	suite := KeeperTestSuite{}
 	suite.SetupTest()
 
-	amt := sdk.Coins{sdk.NewInt64Coin(evmostypes.BaseDenom, 1000000000000000000)}
+	amt := sdk.Coins{sdk.NewInt64Coin(ominitypes.BaseDenom, 1000000000000000000)}
 	err := suite.network.App.BankKeeper.MintCoins(suite.network.GetContext(), types.ModuleName, amt)
 	require.NoError(b, err)
 	err = suite.network.App.BankKeeper.SendCoinsFromModuleToAccount(suite.network.GetContext(), types.ModuleName, suite.keyring.GetAddr(0).Bytes(), amt)
@@ -40,7 +40,7 @@ func SetupTestMessageCall(b *testing.B) (*KeeperTestSuite, common.Address) {
 	suite := KeeperTestSuite{}
 	suite.SetupTest()
 
-	amt := sdk.Coins{sdk.NewInt64Coin(evmostypes.BaseDenom, 1000000000000000000)}
+	amt := sdk.Coins{sdk.NewInt64Coin(ominitypes.BaseDenom, 1000000000000000000)}
 	err := suite.network.App.BankKeeper.MintCoins(suite.network.GetContext(), types.ModuleName, amt)
 	require.NoError(b, err)
 	err = suite.network.App.BankKeeper.SendCoinsFromModuleToAccount(suite.network.GetContext(), types.ModuleName, suite.keyring.GetAddr(0).Bytes(), amt)

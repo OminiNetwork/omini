@@ -20,12 +20,12 @@ from .utils import (
 )
 
 
-def test_send_funds_to_distr_mod(evmos_cluster):
+def test_send_funds_to_distr_mod(omini_cluster):
     """
     This tests the transfer of funds to the distribution module account,
     which should be forbidden, since this is a blocked address.
     """
-    cli = evmos_cluster.cosmos_cli()
+    cli = omini_cluster.cosmos_cli()
     sender = eth_to_bech32(ADDRS["signer1"])
     amt = 1000
     fee_denom = cli.evm_denom()
@@ -71,14 +71,14 @@ def test_send_funds_to_distr_mod(evmos_cluster):
     assert old_src_balance - fees == new_src_balance
 
 
-def test_send_funds_to_distr_mod_eth_tx(evmos_cluster):
+def test_send_funds_to_distr_mod_eth_tx(omini_cluster):
     """
     This tests the transfer of funds to the distribution module account,
     via ethereum tx
     which should be forbidden, since this is a blocked address.
     """
-    cli = evmos_cluster.cosmos_cli()
-    w3 = evmos_cluster.w3
+    cli = omini_cluster.cosmos_cli()
+    w3 = omini_cluster.w3
 
     sender = ADDRS["signer1"]
     mod_accs = cli.query_module_accounts()
@@ -118,12 +118,12 @@ def test_send_funds_to_distr_mod_eth_tx(evmos_cluster):
     assert old_src_balance - fees == new_src_balance
 
 
-def test_authz_nested_msg(evmos_cluster):
+def test_authz_nested_msg(omini_cluster):
     """
     test sending MsgEthereumTx nested in a MsgExec should be forbidden
     """
-    w3: Web3 = evmos_cluster.w3
-    cli = evmos_cluster.cosmos_cli()
+    w3: Web3 = omini_cluster.w3
+    cli = omini_cluster.cosmos_cli()
 
     sender_acc = ACCOUNTS["signer1"]
     sender_bech32_addr = eth_to_bech32(sender_acc.address)
@@ -158,15 +158,15 @@ def test_authz_nested_msg(evmos_cluster):
         )
 
 
-def test_create_invalid_vesting_acc(evmos_cluster):
+def test_create_invalid_vesting_acc(omini_cluster):
     """
     test create vesting account with account address != signer address
     """
-    cli = evmos_cluster.cosmos_cli()
+    cli = omini_cluster.cosmos_cli()
     # create the vesting account
     tx = cli.create_vesting_acc(
         eth_to_bech32(ADDRS["validator"]),
-        "evmos1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqzqpgshrm7",
+        "omini1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqzqpgshrm7",
     )
     try:
         tx = cli.sign_tx_json(tx, eth_to_bech32(ADDRS["signer1"]), max_priority_price=0)
@@ -177,7 +177,7 @@ def test_create_invalid_vesting_acc(evmos_cluster):
         assert "tx intended signer does not match the given signer" in error.args[0]
 
 
-def test_vesting_acc_schedule(evmos_cluster):
+def test_vesting_acc_schedule(omini_cluster):
     """
     test vesting account with negative/zero amounts should be forbidden
     """
@@ -186,13 +186,13 @@ def test_vesting_acc_schedule(evmos_cluster):
             "name": "fail - vesting account with negative amount",
             "funder": eth_to_bech32(ADDRS["validator"]),
             "address": eth_to_bech32(ADDRS["signer1"]),
-            "exp_err": "invalid decimal coin expression: -10000000000aevmos",
+            "exp_err": "invalid decimal coin expression: -10000000000aomini",
             "lockup": {
                 "start_time": 1625204910,
                 "periods": [
                     {
                         "length_seconds": 2419200,
-                        "coins": "10000000000aevmos",
+                        "coins": "10000000000aomini",
                     }
                 ],
             },
@@ -201,15 +201,15 @@ def test_vesting_acc_schedule(evmos_cluster):
                 "periods": [
                     {
                         "length_seconds": 2419200,
-                        "coins": "10000000000aevmos",
+                        "coins": "10000000000aomini",
                     },
                     {
                         "length_seconds": 2419200,
-                        "coins": "10000000000aevmos",
+                        "coins": "10000000000aomini",
                     },
                     {
                         "length_seconds": 2419200,
-                        "coins": "-10000000000aevmos",
+                        "coins": "-10000000000aomini",
                     },
                 ],
             },
@@ -224,7 +224,7 @@ def test_vesting_acc_schedule(evmos_cluster):
                 "periods": [
                     {
                         "length_seconds": 2419200,
-                        "coins": "0aevmos",
+                        "coins": "0aomini",
                     }
                 ],
             },
@@ -233,14 +233,14 @@ def test_vesting_acc_schedule(evmos_cluster):
                 "periods": [
                     {
                         "length_seconds": 2419200,
-                        "coins": "0aevmos",
+                        "coins": "0aomini",
                     },
                 ],
             },
         },
     ]
 
-    cli = evmos_cluster.cosmos_cli()
+    cli = omini_cluster.cosmos_cli()
     for tc in test_cases:
         print("\nCase: {}".format(tc["name"]))
         # create the vesting account
@@ -282,11 +282,11 @@ def test_vesting_acc_schedule(evmos_cluster):
                     assert tc["exp_err"] in error.args[0]
 
 
-def test_unvested_token_delegation(evmos_cluster):
+def test_unvested_token_delegation(omini_cluster):
     """
     test vesting account cannot delegate unvested tokens
     """
-    cli = evmos_cluster.cosmos_cli()
+    cli = omini_cluster.cosmos_cli()
     funder = eth_to_bech32(ADDRS["signer1"])
     # add a new key that will be the vesting account
     acc = cli.create_account("vesting_acc")
@@ -333,7 +333,7 @@ def test_unvested_token_delegation(evmos_cluster):
                 "periods": [
                     {
                         "length_seconds": 1675184400,
-                        "coins": "10000000000000000000aevmos",
+                        "coins": "10000000000000000000aomini",
                     }
                 ],
             },
@@ -348,15 +348,15 @@ def test_unvested_token_delegation(evmos_cluster):
                     "periods": [
                         {
                             "length_seconds": 1675184400,
-                            "coins": "3000000000000000000aevmos",
+                            "coins": "3000000000000000000aomini",
                         },
                         {
                             "length_seconds": 2419200,
-                            "coins": "3000000000000000000aevmos",
+                            "coins": "3000000000000000000aomini",
                         },
                         {
                             "length_seconds": 2419200,
-                            "coins": "4000000000000000000aevmos",
+                            "coins": "4000000000000000000aomini",
                         },
                     ],
                 },
@@ -388,7 +388,7 @@ def test_unvested_token_delegation(evmos_cluster):
     assert balances["locked"] == balances["unvested"]
 
     # try to delegate more than the allowed tokens
-    del_amt = "7000000000000000000aevmos"
+    del_amt = "7000000000000000000aomini"
     validator_addr = cli.validators()[0]["operator_address"]
     tx = cli.delegate_amount(
         validator_addr,

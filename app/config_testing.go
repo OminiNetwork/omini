@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 //go:build test
 // +build test
@@ -12,23 +12,23 @@ import (
 
 	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
-// EvmosOptionsFn defines a function type for setting app options specifically for
-// the Evmos app. The function should receive the chainID and return an error if
+// ominiOptionsFn defines a function type for setting app options specifically for
+// the omini app. The function should receive the chainID and return an error if
 // any.
-type EvmosOptionsFn func(string) error
+type ominiOptionsFn func(string) error
 
-// NoOpEvmosOptions is a no-op function that can be used when the app does not
+// NoOpominiOptions is a no-op function that can be used when the app does not
 // need any specific configuration.
-func NoOpEvmosOptions(_ string) error {
+func NoOpominiOptions(_ string) error {
 	return nil
 }
 
-// EvmosAppOptions allows to setup the global configuration
-// for the Evmos chain.
-func EvmosAppOptions(chainID string) error {
+// ominiAppOptions allows to setup the global configuration
+// for the omini chain.
+func ominiAppOptions(chainID string) error {
 	id := strings.Split(chainID, "-")[0]
 	coinInfo, found := evmtypes.ChainsCoinInfo[id]
 	if !found {
@@ -51,7 +51,7 @@ func EvmosAppOptions(chainID string) error {
 	// reset configuration to set the new one
 	configurator.ResetTestConfig()
 	err = configurator.
-		WithExtendedEips(evmosActivators).
+		WithExtendedEips(ominiActivators).
 		WithChainConfig(ethCfg).
 		WithEVMCoinInfo(baseDenom, uint8(coinInfo.Decimals)).
 		Configure()

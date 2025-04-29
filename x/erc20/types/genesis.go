@@ -1,18 +1,18 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package types
 
 import (
 	"fmt"
 
-	evmostypes "github.com/evmos/evmos/v20/types"
+	ominitypes "github.com/omini/omini/v20/types"
 )
 
 var DefaultTokenPairs = []TokenPair{
 	{
-		Erc20Address:  WEVMOSContractMainnet,
-		Denom:         evmostypes.BaseDenom,
+		Erc20Address:  WominiContractMainnet,
+		Denom:         ominitypes.BaseDenom,
 		Enabled:       true,
 		ContractOwner: OWNER_MODULE,
 	},

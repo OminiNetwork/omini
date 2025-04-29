@@ -48,10 +48,10 @@ func TestCheckUpgradeProposalVersion(t *testing.T) {
 	}
 }
 
-// TestEvmosVersionsLess tests the EvmosVersions type's Less method with
+// TestominiVersionsLess tests the ominiVersions type's Less method with
 // different version strings
-func TestEvmosVersionsLess(t *testing.T) {
-	var version EvmosVersions
+func TestominiVersionsLess(t *testing.T) {
+	var version ominiVersions
 
 	testCases := []struct {
 		Name string
@@ -78,18 +78,18 @@ func TestEvmosVersionsLess(t *testing.T) {
 	}
 }
 
-// TestEvmosVersionsSwap tests the EvmosVersions type's Swap method
-func TestEvmosVersionsSwap(t *testing.T) {
-	var version EvmosVersions
+// TestominiVersionsSwap tests the ominiVersions type's Swap method
+func TestominiVersionsSwap(t *testing.T) {
+	var version ominiVersions
 	value := "v9.1.0"
 	version = []string{value, "v10.0.0"}
 	version.Swap(0, 1)
 	require.Equal(t, value, version[1], "expected: %v, got: %v", value, version[1])
 }
 
-// TestEvmosVersionsLen tests the EvmosVersions type's Len method
-func TestEvmosVersionsLen(t *testing.T) {
-	var version EvmosVersions = []string{"v9.1.0", "v10.0.0"}
+// TestominiVersionsLen tests the ominiVersions type's Len method
+func TestominiVersionsLen(t *testing.T) {
+	var version ominiVersions = []string{"v9.1.0", "v10.0.0"}
 	require.Equal(t, 2, version.Len(), "expected: %v, got: %v", 2, version.Len())
 }
 

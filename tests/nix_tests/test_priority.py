@@ -2,49 +2,49 @@ import sys
 
 import pytest
 
-from .network import setup_evmos, setup_evmos_6dec, setup_evmos_rocksdb
+from .network import setup_omini, setup_omini_6dec, setup_omini_rocksdb
 from .utils import ADDRS, KEYS, eth_to_bech32, sign_transaction, wait_for_new_blocks
 
 PRIORITY_REDUCTION = 1000000
 
 
 @pytest.fixture(scope="module")
-def custom_evmos(tmp_path_factory):
+def custom_omini(tmp_path_factory):
     path = tmp_path_factory.mktemp("priority")
     # run with long timeout commit to ensure all
     # txs are included in the same block
-    yield from setup_evmos(path, 26800, long_timeout_commit=True)
+    yield from setup_omini(path, 26800, long_timeout_commit=True)
 
 
 @pytest.fixture(scope="module")
-def custom_evmos_6dec(tmp_path_factory):
+def custom_omini_6dec(tmp_path_factory):
     path = tmp_path_factory.mktemp("priority-6dec")
     # run with long timeout commit to ensure all
     # txs are included in the same block
-    yield from setup_evmos_6dec(path, 46880, long_timeout_commit=True)
+    yield from setup_omini_6dec(path, 46880, long_timeout_commit=True)
 
 
 @pytest.fixture(scope="module")
-def custom_evmos_rocksdb(tmp_path_factory):
+def custom_omini_rocksdb(tmp_path_factory):
     path = tmp_path_factory.mktemp("priority-rocksdb")
     # run with long timeout commit to ensure all
     # txs are included in the same block
-    yield from setup_evmos_rocksdb(path, 26810, long_timeout_commit=True)
+    yield from setup_omini_rocksdb(path, 26810, long_timeout_commit=True)
 
 
-@pytest.fixture(scope="module", params=["evmos", "evmos-6dec", "evmos-rocksdb"])
-def evmos_cluster(request, custom_evmos, custom_evmos_6dec, custom_evmos_rocksdb):
+@pytest.fixture(scope="module", params=["omini", "omini-6dec", "omini-rocksdb"])
+def omini_cluster(request, custom_omini, custom_omini_6dec, custom_omini_rocksdb):
     """
-    run on evmos and
-    evmos built with rocksdb (memIAVL + versionDB)
+    run on omini and
+    omini built with rocksdb (memIAVL + versionDB)
     """
     provider = request.param
-    if provider == "evmos":
-        yield custom_evmos
-    elif provider == "evmos-6dec":
-        yield custom_evmos_6dec
-    elif provider == "evmos-rocksdb":
-        yield custom_evmos_rocksdb
+    if provider == "omini":
+        yield custom_omini
+    elif provider == "omini-6dec":
+        yield custom_omini_6dec
+    elif provider == "omini-rocksdb":
+        yield custom_omini_rocksdb
     else:
         raise NotImplementedError
 
@@ -70,7 +70,7 @@ def tx_priority(tx, base_fee):
     return (tx["gasPrice"] - base_fee) // PRIORITY_REDUCTION
 
 
-def test_priority(evmos_cluster):
+def test_priority(omini_cluster):
     """
     test priorities of different tx types
 
@@ -80,7 +80,7 @@ def test_priority(evmos_cluster):
     UPDATE: in cometbft v0.37.2, the v1 (priority mempool)
     was deprecated. So txs should be FIFO
     """
-    w3 = evmos_cluster.w3
+    w3 = omini_cluster.w3
     amount = 10000
     base_fee = w3.eth.get_block("latest").baseFeePerGas
 
@@ -161,8 +161,8 @@ def test_priority(evmos_cluster):
     assert all(i1 < i2 for i1, i2 in zip(tx_indexes, tx_indexes[1:]))
 
 
-def test_native_tx_priority(evmos_cluster):
-    cli = evmos_cluster.cosmos_cli()
+def test_native_tx_priority(omini_cluster):
+    cli = omini_cluster.cosmos_cli()
     base_fee = cli.query_base_fee()
     fee_denom = cli.evm_denom()
 
@@ -170,28 +170,28 @@ def test_native_tx_priority(evmos_cluster):
         {
             "from": eth_to_bech32(ADDRS["community"]),
             "to": eth_to_bech32(ADDRS["validator"]),
-            "amount": "1000aevmos",
+            "amount": "1000aomini",
             "gas_prices": f"{base_fee + PRIORITY_REDUCTION * 600000}{fee_denom}",
             "max_priority_price": 0,
         },
         {
             "from": eth_to_bech32(ADDRS["signer1"]),
             "to": eth_to_bech32(ADDRS["signer2"]),
-            "amount": "1000aevmos",
+            "amount": "1000aomini",
             "gas_prices": f"{base_fee + PRIORITY_REDUCTION * 600000}{fee_denom}",
             "max_priority_price": PRIORITY_REDUCTION * 200000,
         },
         {
             "from": eth_to_bech32(ADDRS["signer2"]),
             "to": eth_to_bech32(ADDRS["signer1"]),
-            "amount": "1000aevmos",
+            "amount": "1000aomini",
             "gas_prices": f"{base_fee + PRIORITY_REDUCTION * 400000}{fee_denom}",
             "max_priority_price": PRIORITY_REDUCTION * 400000,
         },
         {
             "from": eth_to_bech32(ADDRS["validator"]),
             "to": eth_to_bech32(ADDRS["community"]),
-            "amount": "1000aevmos",
+            "amount": "1000aomini",
             "gas_prices": f"{base_fee + PRIORITY_REDUCTION * 600000}{fee_denom}",
             "max_priority_price": None,  # no extension, maximum tipFeeCap
         },

@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package debug
 
 import (
@@ -16,7 +16,7 @@ import (
 
 	"github.com/davecgh/go-spew/spew"
 
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 
 	stderrors "github.com/pkg/errors"
 
@@ -28,8 +28,8 @@ import (
 	"github.com/ethereum/go-ethereum/consensus/ethash"
 	"github.com/ethereum/go-ethereum/rlp"
 
-	"github.com/evmos/evmos/v20/rpc/backend"
-	rpctypes "github.com/evmos/evmos/v20/rpc/types"
+	"github.com/omini/omini/v20/rpc/backend"
+	rpctypes "github.com/omini/omini/v20/rpc/types"
 )
 
 // HandlerT keeps track of the cpu profiler and trace execution

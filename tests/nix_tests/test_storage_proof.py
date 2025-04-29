@@ -1,40 +1,40 @@
 import pytest
 
-from .network import setup_evmos, setup_evmos_6dec, setup_evmos_rocksdb
+from .network import setup_omini, setup_omini_6dec, setup_omini_rocksdb
 from .utils import CONTRACTS, deploy_contract, w3_wait_for_new_blocks
 
 
 @pytest.fixture(scope="module")
-def custom_evmos(tmp_path_factory):
+def custom_omini(tmp_path_factory):
     path = tmp_path_factory.mktemp("storage-proof")
-    yield from setup_evmos(path, 26800)
+    yield from setup_omini(path, 26800)
 
 
 @pytest.fixture(scope="module")
-def custom_evmos_6dec(tmp_path_factory):
+def custom_omini_6dec(tmp_path_factory):
     path = tmp_path_factory.mktemp("storage-proof-6dec")
-    yield from setup_evmos_6dec(path, 46910)
+    yield from setup_omini_6dec(path, 46910)
 
 
 @pytest.fixture(scope="module")
-def custom_evmos_rocksdb(tmp_path_factory):
+def custom_omini_rocksdb(tmp_path_factory):
     path = tmp_path_factory.mktemp("storage-proof-rocksdb")
-    yield from setup_evmos_rocksdb(path, 26810)
+    yield from setup_omini_rocksdb(path, 26810)
 
 
-@pytest.fixture(scope="module", params=["evmos", "evmos-6dec", "evmos-rocksdb", "geth"])
-def cluster(request, custom_evmos, custom_evmos_6dec, custom_evmos_rocksdb, geth):
+@pytest.fixture(scope="module", params=["omini", "omini-6dec", "omini-rocksdb", "geth"])
+def cluster(request, custom_omini, custom_omini_6dec, custom_omini_rocksdb, geth):
     """
-    run on both evmos (default build and rocksdb)
+    run on both omini (default build and rocksdb)
     and geth
     """
     provider = request.param
-    if provider == "evmos":
-        yield custom_evmos
-    elif provider == "evmos-6dec":
-        yield custom_evmos_6dec
-    elif provider == "evmos-rocksdb":
-        yield custom_evmos_rocksdb
+    if provider == "omini":
+        yield custom_omini
+    elif provider == "omini-6dec":
+        yield custom_omini_6dec
+    elif provider == "omini-rocksdb":
+        yield custom_omini_rocksdb
     elif provider == "geth":
         yield geth
     else:

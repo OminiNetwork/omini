@@ -11,11 +11,11 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	signingtypes "github.com/cosmos/cosmos-sdk/types/tx/signing"
 
-	"github.com/evmos/evmos/v20/crypto/hd"
-	"github.com/evmos/evmos/v20/encoding"
-	"github.com/evmos/evmos/v20/tests/integration/ledger/mocks"
-	"github.com/evmos/evmos/v20/testutil"
-	utiltx "github.com/evmos/evmos/v20/testutil/tx"
+	"github.com/omini/omini/v20/crypto/hd"
+	"github.com/omini/omini/v20/encoding"
+	"github.com/omini/omini/v20/tests/integration/ledger/mocks"
+	"github.com/omini/omini/v20/testutil"
+	utiltx "github.com/omini/omini/v20/testutil/tx"
 
 	"github.com/spf13/cobra"
 
@@ -56,14 +56,14 @@ var _ = Describe("Ledger CLI and keyring functionality: ", func() {
 	ledgerKey := "ledger_key"
 
 	s.SetupTest()
-	s.SetupEvmosApp()
+	s.SetupominiApp()
 
 	Describe("Adding a key from ledger using the CLI", func() {
 		BeforeEach(func() {
 			krHome = s.T().TempDir()
 			encCfg = encoding.MakeConfig()
 
-			cmd = s.evmosAddKeyCmd()
+			cmd = s.ominiAddKeyCmd()
 
 			mockedIn = sdktestutil.ApplyMockIODiscardOutErr(cmd)
 
@@ -115,7 +115,7 @@ var _ = Describe("Ledger CLI and keyring functionality: ", func() {
 			var err error
 
 			// create add key command
-			cmd = s.evmosAddKeyCmd()
+			cmd = s.ominiAddKeyCmd()
 
 			mockedIn = sdktestutil.ApplyMockIODiscardOutErr(cmd)
 			mocks.MGetAddressPubKeySECP256K1(s.ledger, s.accAddr, s.pubKey)

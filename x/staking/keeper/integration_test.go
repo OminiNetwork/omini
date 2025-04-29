@@ -11,13 +11,13 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/authz"
 	"github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/evmos/evmos/v20/testutil"
-	"github.com/evmos/evmos/v20/testutil/integration/common/factory"
-	evmosfactory "github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	vestingtypes "github.com/evmos/evmos/v20/x/vesting/types"
+	"github.com/omini/omini/v20/testutil"
+	"github.com/omini/omini/v20/testutil/integration/common/factory"
+	ominifactory "github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	"github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	vestingtypes "github.com/omini/omini/v20/x/vesting/types"
 
 	//nolint:revive // dot imports are fine for Ginkgo
 	. "github.com/onsi/ginkgo/v2"
@@ -36,7 +36,7 @@ var _ = Describe("Staking module tests", func() {
 		nw   *network.UnitTestNetwork
 		gh   grpc.Handler
 		keys keyring.Keyring
-		tf   evmosfactory.TxFactory
+		tf   ominifactory.TxFactory
 	)
 
 	Context("using a vesting account", func() {
@@ -63,7 +63,7 @@ var _ = Describe("Staking module tests", func() {
 				network.WithPreFundedAccounts(keys.GetAllAccAddrs()...),
 			)
 			gh = grpc.NewIntegrationHandler(nw)
-			tf = evmosfactory.New(nw, gh)
+			tf = ominifactory.New(nw, gh)
 
 			Expect(nw.NextBlock()).To(BeNil())
 

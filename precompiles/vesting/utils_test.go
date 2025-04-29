@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package vesting_test
 
 import (
@@ -9,15 +9,15 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v20/precompiles/vesting"
-	evmosutil "github.com/evmos/evmos/v20/testutil"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	evmostypes "github.com/evmos/evmos/v20/types"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
-	vestingtypes "github.com/evmos/evmos/v20/x/vesting/types"
+	"github.com/omini/omini/v20/precompiles/vesting"
+	ominiutil "github.com/omini/omini/v20/testutil"
+	"github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	ominitypes "github.com/omini/omini/v20/types"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
+	vestingtypes "github.com/omini/omini/v20/x/vesting/types"
 
-	"github.com/evmos/evmos/v20/precompiles/authorization"
+	"github.com/omini/omini/v20/precompiles/authorization"
 	//nolint:revive // dot imports are fine for Ginkgo
 	. "github.com/onsi/gomega"
 )
@@ -77,7 +77,7 @@ func (s *PrecompileTestSuite) CreateTestClawbackVestingAccount(ctx sdk.Context, 
 	msgArgs := []interface{}{funder, vestingAddr, false}
 	msg, _, _, err := vesting.NewMsgCreateClawbackVestingAccount(msgArgs)
 	s.Require().NoError(err)
-	err = evmosutil.FundAccount(ctx, s.network.App.BankKeeper, vestingAddr.Bytes(), sdk.NewCoins(sdk.NewCoin(evmostypes.BaseDenom, math.NewInt(100))))
+	err = ominiutil.FundAccount(ctx, s.network.App.BankKeeper, vestingAddr.Bytes(), sdk.NewCoins(sdk.NewCoin(ominitypes.BaseDenom, math.NewInt(100))))
 	s.Require().NoError(err)
 	_, err = s.network.App.VestingKeeper.CreateClawbackVestingAccount(ctx, msg)
 	s.Require().NoError(err)

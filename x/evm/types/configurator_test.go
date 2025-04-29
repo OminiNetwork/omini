@@ -1,13 +1,13 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package types_test
 
 import (
 	"testing"
 
-	"github.com/evmos/evmos/v20/x/evm/core/vm"
-	"github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/omini/omini/v20/x/evm/core/vm"
+	"github.com/omini/omini/v20/x/evm/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -44,7 +44,7 @@ func TestExtendedEips(t *testing.T) {
 			"success - new default extra eips without duplication added",
 			func() *types.EVMConfigurator {
 				extendedEIPs := map[string]func(*vm.JumpTable){
-					"evmos_0": func(_ *vm.JumpTable) {},
+					"omini_0": func(_ *vm.JumpTable) {},
 				}
 				ec := types.NewEVMConfigurator().WithExtendedEips(extendedEIPs)
 				return ec

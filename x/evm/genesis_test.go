@@ -7,16 +7,16 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/evmos/evmos/v20/contracts"
-	"github.com/evmos/evmos/v20/crypto/ethsecp256k1"
-	testfactory "github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	testhandler "github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	testnetwork "github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	erc20 "github.com/evmos/evmos/v20/x/erc20/types"
-	"github.com/evmos/evmos/v20/x/evm"
-	"github.com/evmos/evmos/v20/x/evm/statedb"
-	"github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/omini/omini/v20/contracts"
+	"github.com/omini/omini/v20/crypto/ethsecp256k1"
+	testfactory "github.com/omini/omini/v20/testutil/integration/omini/factory"
+	testhandler "github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	testkeyring "github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	testnetwork "github.com/omini/omini/v20/testutil/integration/omini/network"
+	erc20 "github.com/omini/omini/v20/x/erc20/types"
+	"github.com/omini/omini/v20/x/evm"
+	"github.com/omini/omini/v20/x/evm/statedb"
+	"github.com/omini/omini/v20/x/evm/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -235,7 +235,7 @@ func TestExportGenesis(t *testing.T) {
 	require.NoError(t, ts.network.NextBlock(), "failed to advance block")
 
 	genState := evm.ExportGenesis(ts.network.GetContext(), ts.network.App.EvmKeeper)
-	require.Len(t, genState.Accounts, 3, "expected 3 smart contracts in the exported genesis") // NOTE: 2 deployed above + 1 for the aevmos denomination ERC-20 pair
+	require.Len(t, genState.Accounts, 3, "expected 3 smart contracts in the exported genesis") // NOTE: 2 deployed above + 1 for the aomini denomination ERC-20 pair
 
 	genAddresses := make([]string, 0, len(genState.Accounts))
 	for _, acc := range genState.Accounts {
@@ -243,5 +243,5 @@ func TestExportGenesis(t *testing.T) {
 	}
 	require.Contains(t, genAddresses, contractAddr.Hex(), "expected contract 1 address in exported genesis")
 	require.Contains(t, genAddresses, contractAddr2.Hex(), "expected contract 2 address in exported genesis")
-	require.Contains(t, genAddresses, erc20.WEVMOSContractMainnet, "expected mainnet aevmos contract address in exported genesis")
+	require.Contains(t, genAddresses, erc20.WominiContractMainnet, "expected mainnet aomini contract address in exported genesis")
 }

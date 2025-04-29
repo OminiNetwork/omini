@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package contracts
 
@@ -11,15 +11,15 @@ import (
 	abci "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/crypto"
-	evmosapp "github.com/evmos/evmos/v20/app"
-	"github.com/evmos/evmos/v20/crypto/ethsecp256k1"
-	"github.com/evmos/evmos/v20/precompiles/testutil"
-	evmosutil "github.com/evmos/evmos/v20/testutil"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	ominiapp "github.com/omini/omini/v20/app"
+	"github.com/omini/omini/v20/crypto/ethsecp256k1"
+	"github.com/omini/omini/v20/precompiles/testutil"
+	ominiutil "github.com/omini/omini/v20/testutil"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
 // Call is a helper function to call any arbitrary smart contract.
-func Call(ctx sdk.Context, app *evmosapp.Evmos, args CallArgs) (res abci.ExecTxResult, ethRes *evmtypes.MsgEthereumTxResponse, err error) {
+func Call(ctx sdk.Context, app *ominiapp.omini, args CallArgs) (res abci.ExecTxResult, ethRes *evmtypes.MsgEthereumTxResponse, err error) {
 	var (
 		nonce    uint64
 		gasLimit = args.GasLimit
@@ -85,7 +85,7 @@ func Call(ctx sdk.Context, app *evmosapp.Evmos, args CallArgs) (res abci.ExecTxR
 	})
 	msg.From = addr.Hex()
 
-	res, err = evmosutil.DeliverEthTx(app, args.PrivKey, msg)
+	res, err = ominiutil.DeliverEthTx(app, args.PrivKey, msg)
 	if err != nil {
 		return res, nil, fmt.Errorf("error during deliver tx: %s", err)
 	}
@@ -103,7 +103,7 @@ func Call(ctx sdk.Context, app *evmosapp.Evmos, args CallArgs) (res abci.ExecTxR
 
 // CallContractAndCheckLogs is a helper function to call any arbitrary smart contract and check that the logs
 // contain the expected events.
-func CallContractAndCheckLogs(ctx sdk.Context, app *evmosapp.Evmos, cArgs CallArgs, logCheckArgs testutil.LogCheckArgs) (abci.ExecTxResult, *evmtypes.MsgEthereumTxResponse, error) {
+func CallContractAndCheckLogs(ctx sdk.Context, app *ominiapp.omini, cArgs CallArgs, logCheckArgs testutil.LogCheckArgs) (abci.ExecTxResult, *evmtypes.MsgEthereumTxResponse, error) {
 	res, ethRes, err := Call(ctx, app, cArgs)
 	if err != nil {
 		return res, nil, err

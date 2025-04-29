@@ -11,10 +11,10 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
 	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	testutils "github.com/evmos/evmos/v20/testutil/integration/evmos/utils"
-	evmostypes "github.com/evmos/evmos/v20/types"
-	"github.com/evmos/evmos/v20/x/ibc/transfer/keeper"
+	"github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	testutils "github.com/omini/omini/v20/testutil/integration/omini/utils"
+	ominitypes "github.com/omini/omini/v20/types"
+	"github.com/omini/omini/v20/x/ibc/transfer/keeper"
 	"github.com/stretchr/testify/mock"
 )
 
@@ -38,7 +38,7 @@ func (suite *KeeperTestSuite) TestTransfer() {
 		{
 			"pass - no token pair",
 			func() *types.MsgTransfer {
-				transferMsg := types.NewMsgTransfer("transfer", "channel-0", sdk.NewCoin(evmostypes.BaseDenom, math.NewInt(10)), sender.AccAddr.String(), "", timeoutHeight, 0, "")
+				transferMsg := types.NewMsgTransfer("transfer", "channel-0", sdk.NewCoin(ominitypes.BaseDenom, math.NewInt(10)), sender.AccAddr.String(), "", timeoutHeight, 0, "")
 				return transferMsg
 			},
 			true,

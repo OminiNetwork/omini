@@ -20,9 +20,9 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v20/crypto/secp256r1"
-	"github.com/evmos/evmos/v20/x/evm/core/vm"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/omini/omini/v20/crypto/secp256r1"
+	"github.com/omini/omini/v20/x/evm/core/vm"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
 var _ vm.PrecompiledContract = &Precompile{}

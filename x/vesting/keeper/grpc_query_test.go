@@ -8,9 +8,9 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/evmos/evmos/v20/testutil"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	"github.com/evmos/evmos/v20/x/vesting/types"
+	"github.com/omini/omini/v20/testutil"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	"github.com/omini/omini/v20/x/vesting/types"
 )
 
 func TestBalances(t *testing.T) {
@@ -47,7 +47,7 @@ func TestBalances(t *testing.T) {
 			name: "invalid address",
 			malleate: func() {
 				req = &types.QueryBalancesRequest{
-					Address: "evmos1",
+					Address: "omini1",
 				}
 			},
 			expPass:     false,

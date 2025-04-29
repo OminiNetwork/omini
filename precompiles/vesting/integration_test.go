@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package vesting_test
 
 import (
@@ -13,19 +13,19 @@ import (
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/ethereum/go-ethereum/common"
-	cmn "github.com/evmos/evmos/v20/precompiles/common"
-	"github.com/evmos/evmos/v20/precompiles/testutil"
-	"github.com/evmos/evmos/v20/precompiles/testutil/contracts"
-	"github.com/evmos/evmos/v20/precompiles/vesting"
-	"github.com/evmos/evmos/v20/precompiles/vesting/testdata"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
+	cmn "github.com/omini/omini/v20/precompiles/common"
+	"github.com/omini/omini/v20/precompiles/testutil"
+	"github.com/omini/omini/v20/precompiles/testutil/contracts"
+	"github.com/omini/omini/v20/precompiles/vesting"
+	"github.com/omini/omini/v20/precompiles/vesting/testdata"
+	"github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/keyring"
 
-	testutils "github.com/evmos/evmos/v20/testutil/integration/evmos/utils"
+	testutils "github.com/omini/omini/v20/testutil/integration/omini/utils"
 
-	testutiltx "github.com/evmos/evmos/v20/testutil/tx"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
-	vestingtypes "github.com/evmos/evmos/v20/x/vesting/types"
+	testutiltx "github.com/omini/omini/v20/testutil/tx"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
+	vestingtypes "github.com/omini/omini/v20/x/vesting/types"
 
 	//nolint:revive // dot imports are fine for Ginkgo
 	. "github.com/onsi/ginkgo/v2"

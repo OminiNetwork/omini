@@ -1,12 +1,12 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package ante_test
 
 import (
 	storetypes "cosmossdk.io/store/types"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	evmante "github.com/evmos/evmos/v20/x/evm/ante"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	evmante "github.com/omini/omini/v20/x/evm/ante"
 )
 
 func (suite *EvmAnteTestSuite) TestBuildEvmExecutionCtx() {

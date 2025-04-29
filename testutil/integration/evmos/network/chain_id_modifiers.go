@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 //
 // This files contains handler for the testing suite that has to be run to
 // modify the chain configuration depending on the chainID
@@ -10,9 +10,9 @@ import (
 	"strings"
 
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	"github.com/evmos/evmos/v20/utils"
-	erc20types "github.com/evmos/evmos/v20/x/erc20/types"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/omini/omini/v20/utils"
+	erc20types "github.com/omini/omini/v20/x/erc20/types"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
 // updateErc20GenesisStateForChainID modify the default genesis state for the
@@ -29,40 +29,40 @@ func updateBankGenesisStateForChainID(chainID string, bankGenesisState banktypes
 func generateBankGenesisMetadata(chainID string) banktypes.Metadata {
 	if utils.IsTestnet(chainID) {
 		return banktypes.Metadata{
-			Description: "The native EVM, governance and staking token of the Evmos testnet",
-			Base:        "atevmos",
+			Description: "The native EVM, governance and staking token of the omini testnet",
+			Base:        "atomini",
 			DenomUnits: []*banktypes.DenomUnit{
 				{
-					Denom:    "atevmos",
+					Denom:    "atomini",
 					Exponent: 0,
 				},
 				{
-					Denom:    "tevmos",
+					Denom:    "tomini",
 					Exponent: 18,
 				},
 			},
-			Name:    "tEvmos",
-			Symbol:  "tEVMOS",
-			Display: "tevmos",
+			Name:    "tomini",
+			Symbol:  "tomini",
+			Display: "tomini",
 		}
 	}
 
 	return banktypes.Metadata{
-		Description: "The native EVM, governance and staking token of the Evmos mainnet",
-		Base:        "aevmos",
+		Description: "The native EVM, governance and staking token of the omini mainnet",
+		Base:        "aomini",
 		DenomUnits: []*banktypes.DenomUnit{
 			{
-				Denom:    "aevmos",
+				Denom:    "aomini",
 				Exponent: 0,
 			},
 			{
-				Denom:    "evmos",
+				Denom:    "omini",
 				Exponent: 18,
 			},
 		},
-		Name:    "Evmos",
-		Symbol:  "EVMOS",
-		Display: "evmos",
+		Name:    "omini",
+		Symbol:  "omini",
+		Display: "omini",
 	}
 }
 
@@ -80,12 +80,12 @@ func updateErc20GenesisStateForChainID(chainID string, erc20GenesisState erc20ty
 }
 
 // updateErc20Params modifies the erc20 module params to use the correct
-// WEVMOS contract depending on ChainID
+// Womini contract depending on ChainID
 func updateErc20Params(chainID string, params erc20types.Params) erc20types.Params {
-	mainnetAddress := erc20types.GetWEVMOSContractHex(utils.MainnetChainID)
+	mainnetAddress := erc20types.GetWominiContractHex(utils.MainnetChainID)
 
 	cosmosChainID := strings.Split(chainID, "-")[0]
-	testnetAddress := erc20types.GetWEVMOSContractHex(cosmosChainID)
+	testnetAddress := erc20types.GetWominiContractHex(cosmosChainID)
 
 	nativePrecompiles := make([]string, len(params.NativePrecompiles))
 	for i, nativePrecompile := range params.NativePrecompiles {
@@ -100,13 +100,13 @@ func updateErc20Params(chainID string, params erc20types.Params) erc20types.Para
 }
 
 // updateErc20TokenPairs modifies the erc20 token pairs to use the correct
-// WEVMOS depending on ChainID
+// Womini depending on ChainID
 func updateErc20TokenPairs(chainID string, tokenPairs []erc20types.TokenPair) []erc20types.TokenPair {
 	cosmosChainID := strings.Split(chainID, "-")[0]
-	testnetAddress := erc20types.GetWEVMOSContractHex(cosmosChainID)
+	testnetAddress := erc20types.GetWominiContractHex(cosmosChainID)
 	coinInfo := evmtypes.ChainsCoinInfo[cosmosChainID]
 
-	mainnetAddress := erc20types.GetWEVMOSContractHex(utils.MainnetChainID)
+	mainnetAddress := erc20types.GetWominiContractHex(utils.MainnetChainID)
 
 	updatedTokenPairs := make([]erc20types.TokenPair, len(tokenPairs))
 	for i, tokenPair := range tokenPairs {

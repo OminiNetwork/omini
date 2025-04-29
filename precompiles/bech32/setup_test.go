@@ -3,10 +3,10 @@ package bech32_test
 import (
 	"testing"
 
-	"github.com/evmos/evmos/v20/precompiles/bech32"
+	"github.com/omini/omini/v20/precompiles/bech32"
 
-	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
+	testkeyring "github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
 	"github.com/stretchr/testify/suite"
 )
 

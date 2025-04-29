@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 package evm_test
 
 import (
@@ -13,10 +13,10 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 
-	"github.com/evmos/evmos/v20/app/ante/evm"
-	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	"github.com/evmos/evmos/v20/types"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/omini/omini/v20/app/ante/evm"
+	testkeyring "github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	"github.com/omini/omini/v20/types"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 )
 
 type validateMsgParams struct {
@@ -264,7 +264,7 @@ func (suite *EvmAnteTestSuite) TestCheckTxFee() {
 				evmCoinDecimal := evmtypes.GetEVMCoinDecimals()
 				originalAmount = originalAmount.Quo(evmCoinDecimal.ConversionFactor())
 
-				coins := sdktypes.Coins{sdktypes.Coin{Denom: "aevmos", Amount: originalAmount}}
+				coins := sdktypes.Coins{sdktypes.Coin{Denom: "aomini", Amount: originalAmount}}
 
 				// This struct should hold values in the original representation
 				txFeeInfo := &tx.Fee{

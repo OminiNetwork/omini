@@ -5,13 +5,13 @@ import (
 	"testing"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v20/contracts"
-	testfactory "github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	testhandler "github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	testnetwork "github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/utils"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/omini/omini/v20/contracts"
+	testfactory "github.com/omini/omini/v20/testutil/integration/omini/factory"
+	testhandler "github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	testkeyring "github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	testnetwork "github.com/omini/omini/v20/testutil/integration/omini/network"
+	"github.com/omini/omini/v20/testutil/integration/omini/utils"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 	"github.com/stretchr/testify/require"
 )
 

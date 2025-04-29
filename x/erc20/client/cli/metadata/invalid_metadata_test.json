@@ -4,18 +4,18 @@
       "description": 1,
       "denom_units": [
         {
-          "denom": "aevmos",
+          "denom": "aomini",
           "exponent": 0
         },
         {
-          "denom": "evmos",
+          "denom": "omini",
           "exponent": 18
         }
       ],
-      "base": "aevmos",
-      "display": "aevmos",
-      "name": "aevmos",
-      "symbol": "EVMOS"
+      "base": "aomini",
+      "display": "aomini",
+      "name": "aomini",
+      "symbol": "omini"
     }
   ]
 }

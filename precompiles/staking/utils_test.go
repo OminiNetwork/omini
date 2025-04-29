@@ -7,10 +7,10 @@ import (
 	"slices"
 	"time"
 
-	cmnfactory "github.com/evmos/evmos/v20/testutil/integration/common/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
+	cmnfactory "github.com/omini/omini/v20/testutil/integration/common/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	testkeyring "github.com/omini/omini/v20/testutil/integration/omini/keyring"
 
 	//nolint:revive // dot imports are fine for Ginkgo
 	. "github.com/onsi/gomega"
@@ -28,20 +28,20 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 
-	"github.com/evmos/evmos/v20/precompiles/authorization"
-	cmn "github.com/evmos/evmos/v20/precompiles/common"
-	"github.com/evmos/evmos/v20/precompiles/staking"
-	"github.com/evmos/evmos/v20/precompiles/testutil"
-	evmosutil "github.com/evmos/evmos/v20/testutil"
-	evmostypes "github.com/evmos/evmos/v20/types"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
-	stakingkeeper "github.com/evmos/evmos/v20/x/staking/keeper"
-	vestingtypes "github.com/evmos/evmos/v20/x/vesting/types"
+	"github.com/omini/omini/v20/precompiles/authorization"
+	cmn "github.com/omini/omini/v20/precompiles/common"
+	"github.com/omini/omini/v20/precompiles/staking"
+	"github.com/omini/omini/v20/precompiles/testutil"
+	ominiutil "github.com/omini/omini/v20/testutil"
+	ominitypes "github.com/omini/omini/v20/types"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
+	stakingkeeper "github.com/omini/omini/v20/x/staking/keeper"
+	vestingtypes "github.com/omini/omini/v20/x/vesting/types"
 )
 
 // stipend to pay EVM tx fees
 var (
-	bondDenom          = evmostypes.BaseDenom
+	bondDenom          = ominitypes.BaseDenom
 	accountGasCoverage = sdk.NewCoins(sdk.NewCoin(bondDenom, math.NewInt(1e16)))
 	gas                = uint64(200_000)
 	gasPrices          = accountGasCoverage.QuoInt(math.NewIntFromUint64(gas)).AmountOf(bondDenom)
@@ -411,7 +411,7 @@ func (s *PrecompileTestSuite) CheckValidatorOutput(valOut staking.ValidatorInfo)
 // setupVestingAccount is a helper function used in integraiton tests to setup a vesting account
 // using the TestVestingSchedule. Also, funds the account with extra funds to pay for transaction fees
 func (s *PrecompileTestSuite) setupVestingAccount(funder, vestAcc testkeyring.Key) *vestingtypes.ClawbackVestingAccount {
-	vestingAmtTotal := evmosutil.TestVestingSchedule.TotalVestingCoins
+	vestingAmtTotal := ominiutil.TestVestingSchedule.TotalVestingCoins
 	ctx := s.network.GetContext()
 
 	// send some funds to the vesting acccount to pay for fees
@@ -436,8 +436,8 @@ func (s *PrecompileTestSuite) setupVestingAccount(funder, vestAcc testkeyring.Ke
 		funder.AccAddr,
 		vestAcc.AccAddr,
 		vestingStart,
-		evmosutil.TestVestingSchedule.LockupPeriods,
-		evmosutil.TestVestingSchedule.VestingPeriods,
+		ominiutil.TestVestingSchedule.LockupPeriods,
+		ominiutil.TestVestingSchedule.VestingPeriods,
 	)
 	_, err = s.factory.ExecuteCosmosTx(funder.Priv, cmnfactory.CosmosTxArgs{Msgs: []sdk.Msg{fundMsg}})
 	Expect(err).To(BeNil())

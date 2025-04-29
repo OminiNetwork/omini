@@ -1,5 +1,5 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(omini)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/omini/omini/blob/main/LICENSE)
 
 package epochs
 
@@ -22,9 +22,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/evmos/evmos/v20/x/epochs/client/cli"
-	"github.com/evmos/evmos/v20/x/epochs/keeper"
-	"github.com/evmos/evmos/v20/x/epochs/types"
+	"github.com/omini/omini/v20/x/epochs/client/cli"
+	"github.com/omini/omini/v20/x/epochs/keeper"
+	"github.com/omini/omini/v20/x/epochs/types"
 )
 
 // consensusVersion defines the current x/epochs module consensus version.

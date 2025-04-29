@@ -21,7 +21,7 @@ struct Equivocation {
     string consensusAddress;
 }
 
-/// @author The Evmos Core Team
+/// @author The omini Core Team
 /// @title Evidence Precompile Contract
 /// @dev The interface through which solidity contracts will interact with the x/evidence module
 interface IEvidence {

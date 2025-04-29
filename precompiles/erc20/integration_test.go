@@ -14,20 +14,20 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
-	"github.com/evmos/evmos/v20/contracts"
-	auth "github.com/evmos/evmos/v20/precompiles/authorization"
-	"github.com/evmos/evmos/v20/precompiles/erc20"
-	"github.com/evmos/evmos/v20/precompiles/erc20/testdata"
-	"github.com/evmos/evmos/v20/precompiles/testutil"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
-	"github.com/evmos/evmos/v20/testutil/integration/evmos/utils"
-	utiltx "github.com/evmos/evmos/v20/testutil/tx"
-	erc20types "github.com/evmos/evmos/v20/x/erc20/types"
-	"github.com/evmos/evmos/v20/x/evm/core/vm"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/omini/omini/v20/contracts"
+	auth "github.com/omini/omini/v20/precompiles/authorization"
+	"github.com/omini/omini/v20/precompiles/erc20"
+	"github.com/omini/omini/v20/precompiles/erc20/testdata"
+	"github.com/omini/omini/v20/precompiles/testutil"
+	"github.com/omini/omini/v20/testutil/integration/omini/factory"
+	"github.com/omini/omini/v20/testutil/integration/omini/grpc"
+	"github.com/omini/omini/v20/testutil/integration/omini/keyring"
+	"github.com/omini/omini/v20/testutil/integration/omini/network"
+	"github.com/omini/omini/v20/testutil/integration/omini/utils"
+	utiltx "github.com/omini/omini/v20/testutil/tx"
+	erc20types "github.com/omini/omini/v20/x/erc20/types"
+	"github.com/omini/omini/v20/x/evm/core/vm"
+	evmtypes "github.com/omini/omini/v20/x/evm/types"
 
 	//nolint:revive // dot imports are fine for Ginkgo
 	. "github.com/onsi/ginkgo/v2"
@@ -89,7 +89,7 @@ func TestIntegrationSuite(t *testing.T) {
 }
 
 var (
-	wevmosAddress      common.Address
+	wominiAddress      common.Address
 	revertContractAddr common.Address
 	gasLimit           = uint64(5000000)
 	gasPrice           = big.NewInt(800_000_000)
@@ -245,9 +245,9 @@ var _ = Describe("ERC20 Extension -", func() {
 
 		erc20Params := is.network.App.Erc20Keeper.GetParams(is.network.GetContext())
 		Expect(len(erc20Params.NativePrecompiles)).To(Equal(1))
-		Expect(common.HexToAddress(erc20Params.NativePrecompiles[0])).To(Equal(common.HexToAddress(erc20types.WEVMOSContractTestnet)))
+		Expect(common.HexToAddress(erc20Params.NativePrecompiles[0])).To(Equal(common.HexToAddress(erc20types.WominiContractTestnet)))
 
-		wevmosAddress = common.HexToAddress(erc20Params.NativePrecompiles[0])
+		wominiAddress = common.HexToAddress(erc20Params.NativePrecompiles[0])
 		revertContractAddr, err = is.factory.DeployContract(
 			sender.Priv,
 			evmtypes.EvmTxArgs{}, // NOTE: passing empty struct to use default values
@@ -420,7 +420,7 @@ var _ = Describe("ERC20 Extension -", func() {
 			)
 		})
 		When("calling reverter contract", func() {
-			Context("in a direct call to the WEVMOS contract", func() {
+			Context("in a direct call to the Womini contract", func() {
 				var (
 					args   factory.CallArgs
 					txArgs evmtypes.EvmTxArgs
@@ -480,7 +480,7 @@ var _ = Describe("ERC20 Extension -", func() {
 					Expect(senderFinalBalance.Amount).To(Equal(senderInitialBalance.Amount.Sub(denomSpent)))
 				},
 				)
-				DescribeTable("it should revert token transfer from the WEVMOS contract", func(before bool, after bool) {
+				DescribeTable("it should revert token transfer from the Womini contract", func(before bool, after bool) {
 					sender := is.keyring.GetKey(0)
 					receiver := is.keyring.GetAddr(1)
 					amountToSend := big.NewInt(100)
@@ -525,7 +525,7 @@ var _ = Describe("ERC20 Extension -", func() {
 					Entry("revert before", true, false),
 					Entry("revert after", false, true),
 				)
-				It("it should send token transfer and send from WEVMOS contract", func() {
+				It("it should send token transfer and send from Womini contract", func() {
 					sender := is.keyring.GetKey(0)
 					receiver := is.keyring.GetAddr(1)
 					totalToSend := int64(350)
@@ -573,7 +573,7 @@ var _ = Describe("ERC20 Extension -", func() {
 					Expect(senderFinalBalance.Amount).To(Equal(senderInitialBalance.Amount.Sub(denomSpent)))
 				},
 				)
-				DescribeTable("it should revert token transfer and send from WEVMOS contract", func(before bool, after bool) {
+				DescribeTable("it should revert token transfer and send from Womini contract", func(before bool, after bool) {
 					sender := is.keyring.GetKey(0)
 					receiver := is.keyring.GetAddr(1)
 					balRes, err := is.handler.GetBalanceFromBank(receiver.Bytes(), is.bondDenom)
@@ -1226,7 +1226,7 @@ var _ = Describe("ERC20 Extension -", func() {
 				// querying allowance and reducing allowance on a transferFrom transaction is not possible without
 				// changes to the Cosmos SDK.
 				//
-				// For reference see this comment: https://github.com/evmos/evmos/pull/2088#discussion_r1407646217
+				// For reference see this comment: https://github.com/omini/omini/pull/2088#discussion_r1407646217
 				It("should return the maxUint256 value when calling the EVM extension", func() {
 					grantee := is.keyring.GetAddr(0)
 					granter := is.keyring.GetKey(0)
@@ -1570,7 +1570,7 @@ var _ = Describe("ERC20 Extension -", func() {
 					// querying allowance and reducing allowance on a transferFrom transaction is not possible without
 					// changes to the Cosmos SDK.
 					//
-					// For reference see this comment: https://github.com/evmos/evmos/pull/2088#discussion_r1407646217
+					// For reference see this comment: https://github.com/omini/omini/pull/2088#discussion_r1407646217
 					It("should return an error when calling the EVM extension", func() {
 						grantee := is.keyring.GetKey(0)
 						granter := is.keyring.GetKey(0)
@@ -1802,7 +1802,7 @@ var _ = Describe("ERC20 Extension -", func() {
 					// querying allowance and reducing allowance on a transferFrom transaction is not possible without
 					// changes to the Cosmos SDK.
 					//
-					// For reference see this comment: https://github.com/evmos/evmos/pull/2088#discussion_r1407646217
+					// For reference see this comment: https://github.com/omini/omini/pull/2088#discussion_r1407646217
 					It("should return an error when calling the EVM extension", func() {
 						callType := contractCall
 						sender := is.keyring.GetKey(0)
@@ -2078,7 +2078,7 @@ var _ = Describe("ERC20 Extension -", func() {
 			// querying allowance and reducing allowance on a transferFrom transaction is not possible without
 			// changes to the Cosmos SDK.
 			//
-			// For reference see this comment: https://github.com/evmos/evmos/pull/2088#discussion_r1407646217
+			// For reference see this comment: https://github.com/omini/omini/pull/2088#discussion_r1407646217
 			Context("increasing allowance", func() {
 				It("should return an error when calling the EVM extension", func() {
 					granter := is.keyring.GetKey(0)
@@ -2858,8 +2858,8 @@ var _ = Describe("ERC20 Extension migration Flows -", func() {
 		})
 	})
 
-	When("using Evmos (not wEvmos) in smart contracts", func() {
-		It("should be using straight Evmos for sending funds in smart contracts", func() {
+	When("using omini (not womini) in smart contracts", func() {
+		It("should be using straight omini for sending funds in smart contracts", func() {
 			Skip("will be addressed in follow-up PR")
 
 			Expect(true).To(BeFalse(), "not implemented")
